@@ -1,0 +1,12 @@
+.inline-block{
+    width: 100% !important;
+    min-width: 100% !important;
+    .logoutButtonClass,
+    .placeholderLogoutButton{
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    display: flex;
+    justify-content: center;
+}
+}

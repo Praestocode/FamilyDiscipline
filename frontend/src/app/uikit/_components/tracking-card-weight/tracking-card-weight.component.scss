@@ -1,0 +1,113 @@
+.card {
+  color: var(--text-color);
+  transition: background-color 0.3s;
+  border: var(--card-border);
+  p, label {
+    color: var(--text-color);
+  }
+  .text-center {
+    color: var(--text-color);
+  }
+  .inputtexts{
+    color: var(--text-color);
+  }
+}
+
+input {
+  transition: all 0.3s;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  background-color: var(--input-background-color) !important;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input:focus {
+  outline: none;
+  border-color: #9333ea;
+}
+
+.saved {
+  border-color: #9333ea !important;
+  background-color: rgba(129, 17, 189, 0.1) !important;
+}
+
+.savedcurrent {
+  border-color: #10b981 !important;
+  background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+.error-animation {
+  animation: error-shake 0.5s ease;
+  border-color: #dc2626 !important;
+}
+
+.spinner {
+  border-color: rgba(107, 114, 128, 0.2);
+}
+
+.dark .spinner {
+  border-color: rgba(209, 213, 219, 0.2);
+}
+
+@keyframes error-shake {
+  0%, 100% {
+    border-color: #dc2626;
+  }
+  50% {
+    border-color: #f87171;
+  }
+}
+
+@keyframes pulse-check {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-check {
+  animation: pulse-check 0.2s ease-in-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* .card {
+  background-color: #374151;
+  transition: background-color 0.3s;
+}
+
+.light .card {
+  background-color: #ffff;
+}
+
+input {
+  transition: all 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #9333ea;
+} */

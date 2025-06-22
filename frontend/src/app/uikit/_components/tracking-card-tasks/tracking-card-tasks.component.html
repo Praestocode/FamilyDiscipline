@@ -1,0 +1,397 @@
+<!-- Toast Notification -->
+<div *ngIf="showToast" class="fixed top-4 right-4 z-50 max-w-xs toast-wrapper">
+  <div id="tasktoastnotification" class="toast-notification border-2 border-purple-600 text-purple-600 bg-white dark:bg-gray-800 dark:text-purple-400 dark:border-purple-400 px-4 py-3 rounded-lg shadow-lg animate-slide-down">
+    {{ toastMessage }}
+  </div>
+</div>
+
+<!-- Reset Confirmation Modal -->
+<div *ngIf="showResetModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 animate-fade-in">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full max-w-sm mx-4">
+    <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      Conferma Reset
+    </h4>
+    <p class="text-sm text-gray-600 dark:text-gray-300 mb-6">
+      Sei sicuro di voler cancellare tutte le task della card {{ resetCardType === 'weekday' ? 'feriale' : 'festiva' }}? Questa azione è irreversibile.
+    </p>
+    <div class="flex justify-end space-x-2">
+      <button
+        class="px-4 py-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
+        (click)="cancelReset()"
+      >
+        Annulla
+      </button>
+      <button
+        class="px-4 py-2 text-sm text-white bg-purple-600 rounded-lg hover:bg-purple-700"
+        (click)="confirmReset()"
+        [disabled]="isProcessing"
+      >
+        <span *ngIf="!isProcessing">Conferma</span>
+        <span *ngIf="isProcessing" class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Placeholder -->
+<ng-container *ngIf="isLoading; else cardContent">
+  <div class="card rounded-lg shadow-md p-4 w-full max-w-md mx-auto animate-pulse">
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded h-10 mb-4"></div>
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded h-10 mb-4"></div>
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded h-10"></div>
+    <p class="text-center text-sm text-gray-400 dark:text-gray-400 mt-4">Caricamento...</p>
+  </div>
+</ng-container>
+
+<!-- Card Content -->
+<ng-template #cardContent>
+  <!-- Card Feriale (Lun-Ven) -->
+  <div id="weekday-card" *ngIf="isWeekday || showOtherCard" class="card rounded-lg shadow-md p-4 w-full max-w-md mx-auto mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+        {{ isWeekday ? currentDay : 'Card Feriale (Lun-Ven)' }}
+      </h3>
+      <div class="flex items-center space-x-2">
+        <button
+          *ngIf="isWeekday"
+          (click)="scrollToCurrentHour('weekday')"
+          class="scroll-button border border-gray-300 dark:border-gray-600 rounded-md p-1"
+        >
+          <img
+            [src]="downArrowIcon"
+            class="w-4 h-4 inline-block mr-1"
+            alt="Down Arrow Icon"
+          >
+          <img
+            [src]="clockIcon"
+            class="w-4 h-4 inline-block"
+            alt="Clock Icon"
+          >
+        </button>
+        <button
+          *ngIf="!isWeekday"
+          (click)="scrollToToggleButton()"
+          class="scroll-button border border-gray-300 dark:border-gray-600 rounded-md p-1"
+        >
+          <img
+            [src]="downArrowIcon"
+            class="w-4 h-4 inline-block mr-1"
+            alt="Down Arrow Icon"
+          >
+          <img
+            [src]="saveIcon"
+            class="w-4 h-4 inline-block"
+            alt="Save Icon"
+          >
+        </button>
+        <button
+          [disabled]="!hasTasks('weekday')"
+          [class.opacity-70]="!hasTasks('weekday')"
+          [class.cursor-not-allowed]="!hasTasks('weekday')"
+          (click)="openResetModal('weekday')"
+          class="reset-button"
+        >
+          <img
+            [src]="resetIcon"
+            class="w-5 h-5"
+            alt="Reset Icon"
+          >
+        </button>
+      </div>
+    </div>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th class="text-left text-sm font-medium text-gray-700 dark:text-gray-300">Orario</th>
+          <th class="text-left text-sm font-medium text-gray-700 dark:text-gray-300">Tasks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hour of hours; let i = index" class="border-t border-gray-200 dark:border-gray-600">
+          <td id="weekday-hour-{{ i }}" class="py-2 w-20 text-sm text-gray-700 dark:text-gray-300">{{ hour }}</td>
+          <td class="py-2 relative">
+            <ng-container *ngIf="tasksWeekday[i].length > 0">
+              <div *ngIf="tasksWeekday[i].length > 1" class="absolute left-0 top-4 bottom-4 w-px bg-gray-300 dark:bg-gray-600"></div>
+              <div *ngFor="let task of tasksWeekday[i]; let taskIndex = index; trackBy: trackByTask" class="flex items-center mb-2 relative">
+                <div *ngIf="tasksWeekday[i].length > 1" class="absolute left-0 w-4 h-px bg-gray-300 dark:bg-gray-600 top-1/2"></div>
+                <div class="flex items-center w-full ml-6">
+                  <input
+                    *ngIf="!(editingTask && editingTask.index === i && editingTask.taskIndex === taskIndex && editingTask.type === 'weekday')"
+                    type="checkbox"
+                    [(ngModel)]="task.completed"
+                    (change)="toggleTaskCompletion(task, i, taskIndex, 'weekday')"
+                    class="custom-checkbox h-4 w-4 text-purple-600 rounded"
+                    [disabled]="isProcessing || (!isWeekday && !showOtherCard)"
+                  >
+                  <ng-container *ngIf="editingTask && editingTask.index === i && editingTask.taskIndex === taskIndex && editingTask.type === 'weekday'; else taskDisplay">
+                    <div class="flex items-center">
+                      <input
+                        #taskInput
+                        type="text"
+                        [(ngModel)]="newTaskDescription"
+                        (keydown.enter)="saveTask()"
+                        (blur)="onBlur($event)"
+                        class="ml-2 p-1 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 w-full"
+                        placeholder="Descrizione task"
+                      >
+                      <ng-container *ngIf="!isSaving; else savingSpinner">
+                        <span class="save-icon-wrapper">
+                          <img
+                            [src]="saveIcon"
+                            class="ml-2 w-4 h-4 cursor-pointer save-icon"
+                            alt="Save Icon"
+                            (mousedown)="onSaveIconMouseDown()"
+                          >
+                        </span>
+                      </ng-container>
+                      <ng-template #savingSpinner>
+                        <div class="ml-2 task-spinner"></div>
+                      </ng-template>
+                    </div>
+                  </ng-container>
+                  <ng-template #taskDisplay>
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 task-description" [ngClass]="{'line-through text-gray-500 dark:text-gray-400': task.completed}">
+                      {{ task.description | truncate:45 }}
+                    </span>
+                    <img
+                      [src]="editIcon"
+                      class="ml-2 w-4 h-4 cursor-pointer"
+                      alt="Edit Icon"
+                      (click)="editTask(i, taskIndex, 'weekday')"
+                    >
+                    <ng-container *ngIf="task.id && !isDeleting.get(task.id!); else deletingSpinner">
+                      <img
+                        [src]="deleteIcon"
+                        class="ml-2 w-4 h-4 cursor-pointer"
+                        alt="Delete Icon"
+                        (click)="deleteTask(task, i, taskIndex, 'weekday')"
+                      >
+                    </ng-container>
+                    <ng-template #deletingSpinner>
+                      <div class="ml-2 task-spinner"></div>
+                    </ng-template>
+                  </ng-template>
+                </div>
+              </div>
+            </ng-container>
+            <button
+              *ngIf="tasksWeekday[i].length < 3 && !(editingTask && editingTask.index === i && editingTask.type === 'weekday')"
+              class="text-sm text-purple-600 hover:underline"
+              (click)="addTask(i, 'weekday')"
+              [disabled]="isProcessing"
+            >
+              Aggiungi Task
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Punti Guadagnati e Progress Bar (Feriale) -->
+    <div class="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+      <ng-container *ngIf="!isProcessing; else spinner">
+        Punti guadagnati dai tasks: {{ pointsEarnedWeekday }}
+        <span *ngIf="pointsEarnedWeekday > 0" class="block text-xs text-green-600">
+          (+{{ pointsEarnedWeekday }} per compiti completati)
+        </span>
+        <!-- Progress bar -->
+        <div *ngIf="progressPercentageWeekday > 0" class="mt-2">
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="bg-purple-600 h-2.5 rounded-full" [style.width.%]="progressPercentageWeekday"></div>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Progresso: {{ progressPercentageWeekday | number: '1.0-0' }}%</p>
+        </div>
+      </ng-container>
+      <ng-template #spinner>
+        <div class="flex justify-center items-center">
+          <div class="points-spinner"></div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Card Festiva (Sab-Dom) -->
+  <div id="weekend-card" *ngIf="!isWeekday || showOtherCard" class="card rounded-lg shadow-md p-4 w-full max-w-md mx-auto mb-4">
+    <div class="flex justify-between items-center mb-2">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+        {{ !isWeekday ? currentDay : 'Card Festiva (Sab-Dom)' }}
+      </h3>
+      <div class="flex items-center space-x-2">
+        <button
+          *ngIf="!isWeekday"
+          (click)="scrollToCurrentHour('weekend')"
+          class="scroll-button border border-gray-300 dark:border-gray-600 rounded-md p-1"
+        >
+          <img
+            [src]="downArrowIcon"
+            class="w-4 h-4 inline-block mr-1"
+            alt="Down Arrow Icon"
+          >
+          <img
+            [src]="clockIcon"
+            class="w-4 h-4 inline-block"
+            alt="Clock Icon"
+          >
+        </button>
+        <button
+          *ngIf="isWeekday"
+          (click)="scrollToToggleButton()"
+          class="scroll-button border border-gray-300 dark:border-gray-600 rounded-md p-1"
+        >
+          <img
+            [src]="downArrowIcon"
+            class="w-4 h-4 inline-block mr-1"
+            alt="Down Arrow Icon"
+          >
+          <img
+            [src]="saveIcon"
+            class="w-4 h-4 inline-block"
+            alt="Save Icon"
+          >
+        </button>
+        <button
+          [disabled]="!hasTasks('weekend')"
+          [class.opacity-70]="!hasTasks('weekend')"
+          [class.cursor-not-allowed]="!hasTasks('weekend')"
+          (click)="openResetModal('weekend')"
+          class="reset-button"
+        >
+          <img
+            [src]="resetIcon"
+            class="w-5 h-5"
+            alt="Reset Icon"
+          >
+        </button>
+      </div>
+    </div>
+    <table class="w-full">
+      <thead>
+        <tr>
+          <th class="text-left text-sm font-medium text-gray-700 dark:text-gray-300">Orario</th>
+          <th class="text-left text-sm font-medium text-gray-700 dark:text-gray-300">Tasks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hour of hours; let i = index" class="border-t border-gray-200 dark:border-gray-600">
+          <td id="weekend-hour-{{ i }}" class="py-2 w-20 text-sm text-gray-700 dark:text-gray-300">{{ hour }}</td>
+          <td class="py-2 relative">
+            <ng-container *ngIf="tasksWeekend[i].length > 0">
+              <div *ngIf="tasksWeekend[i].length > 1" class="absolute left-0 top-4 bottom-4 w-px bg-gray-300 dark:bg-gray-600"></div>
+              <div *ngFor="let task of tasksWeekend[i]; let taskIndex = index; trackBy: trackByTask" class="flex items-center mb-2 relative">
+                <div *ngIf="tasksWeekend[i].length > 1" class="absolute left-0 w-4 h-px bg-gray-300 dark:bg-gray-600 top-1/2"></div>
+                <div class="flex items-center w-full ml-6">
+                  <input
+                    *ngIf="!(editingTask && editingTask.index === i && editingTask.taskIndex === taskIndex && editingTask.type === 'weekend')"
+                    type="checkbox"
+                    [(ngModel)]="task.completed"
+                    (change)="toggleTaskCompletion(task, i, taskIndex, 'weekend')"
+                    class="custom-checkbox h-4 w-4 text-purple-600 rounded"
+                    [disabled]="isProcessing || (isWeekday && !showOtherCard)"
+                  >
+                  <ng-container *ngIf="editingTask && editingTask.index === i && editingTask.taskIndex === taskIndex && editingTask.type === 'weekend'; else taskDisplay">
+                    <div class="flex items-center">
+                      <input
+                        #taskInput
+                        type="text"
+                        [(ngModel)]="newTaskDescription"
+                        (keydown.enter)="saveTask()"
+                        (blur)="onBlur($event)"
+                        class="ml-2 p-1 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 w-full"
+                        placeholder="Descrizione task"
+                      >
+                      <ng-container *ngIf="!isSaving; else savingSpinner">
+                        <span class="save-icon-wrapper">
+                          <img
+                            [src]="saveIcon"
+                            class="ml-2 w-4 h-4 cursor-pointer save-icon"
+                            alt="Save Icon"
+                            (mousedown)="onSaveIconMouseDown()"
+                          >
+                        </span>
+                      </ng-container>
+                      <ng-template #savingSpinner>
+                        <div class="ml-2 task-spinner"></div>
+                      </ng-template>
+                    </div>
+                  </ng-container>
+                  <ng-template #taskDisplay>
+                    <span class="ml-2 text-sm text-gray-700 dark:text-gray-300 task-description" [ngClass]="{'line-through text-gray-500 dark:text-gray-400': task.completed}">
+                      {{ task.description | truncate:45 }}
+                    </span>
+                    <img
+                      [src]="editIcon"
+                      class="ml-2 w-4 h-4 cursor-pointer"
+                      alt="Edit Icon"
+                      (click)="editTask(i, taskIndex, 'weekend')"
+                    >
+                    <ng-container *ngIf="task.id && !isDeleting.get(task.id!); else deletingSpinner">
+                      <img
+                        [src]="deleteIcon"
+                        class="ml-2 w-4 h-4 cursor-pointer"
+                        alt="Delete Icon"
+                        (click)="deleteTask(task, i, taskIndex, 'weekend')"
+                      >
+                    </ng-container>
+                    <ng-template #deletingSpinner>
+                      <div class="ml-2 task-spinner"></div>
+                    </ng-template>
+                  </ng-template>
+                </div>
+              </div>
+            </ng-container>
+            <button
+              *ngIf="tasksWeekend[i].length < 3 && !(editingTask && editingTask.index === i && editingTask.type === 'weekend')"
+              class="text-sm text-purple-600 hover:underline"
+              (click)="addTask(i, 'weekend')"
+              [disabled]="isProcessing"
+            >
+              Aggiungi Task
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Punti Guadagnati e Progress Bar (Festiva) -->
+    <div class="text-center text-sm text-gray-600 dark:text-gray-300 mt-4">
+      <ng-container *ngIf="!isProcessing; else spinner">
+        Punti guadagnati dai tasks: {{ pointsEarnedWeekend }}
+        <span *ngIf="pointsEarnedWeekend > 0" class="block text-xs text-green-600">
+          (+{{ pointsEarnedWeekend }} per compiti completati)
+        </span>
+        <!-- Progress bar -->
+        <div *ngIf="progressPercentageWeekend > 0" class="mt-2">
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+            <div class="bg-purple-600 h-2.5 rounded-full" [style.width.%]="progressPercentageWeekend"></div>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Progresso: {{ progressPercentageWeekend | number: '1.0-0' }}%</p>
+        </div>
+      </ng-container>
+      <ng-template #spinner>
+        <div class="flex justify-center items-center">
+          <div class="points-spinner"></div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Bottone per mostrare/nascondere l'altra card -->
+  <div class="text-center">
+    <button
+      *ngIf="!showOtherCard"
+      id="toggle-card-button"
+      class="text-sm text-purple-600 hover:underline border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1"
+      (click)="toggleOtherCard()"
+      [disabled]="isProcessing"
+    >
+      Imposta card {{ isWeekday ? 'festiva' : 'feriale' }}
+    </button>
+    <button
+      *ngIf="showOtherCard"
+      id="toggle-card-button"
+      class="text-sm text-purple-600 hover:underline border border-gray-300 dark:border-gray-600 rounded-md px-2 py-1"
+      (click)="saveOtherCard()"
+      [disabled]="isProcessing"
+    >
+      Salva impostazione
+    </button>
+  </div>
+</ng-template>

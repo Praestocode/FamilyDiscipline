@@ -1,0 +1,27 @@
+.card {
+  background: var(--card-background);
+  color: var(--text-color);
+  border: var(--card-border);
+  p {
+    color: var(--text-color);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+
+html.light .card {
+  border: 2px solid #7C3AED !important; /* purple-600 di Tailwind */
+}

@@ -1,0 +1,44 @@
+.infocard{
+    background-color: var(--card-background-color);
+    border: var(--card-border);
+    .sectionButtons{
+        padding: 3px;
+        height: fit-content;
+        min-height: fit-content;
+        display: flex;
+        flex-wrap: wrap;
+        .sectionButton{
+            background-color: var(--button-background-color);
+            border: var(--button-border);
+            color: var(--button-text-color);
+            border-radius: 22px;
+            cursor: pointer;
+            text-decoration: none !important;
+            padding: 7px;
+            width: fit-content;
+            max-width: fit-content;
+            font-size: 12px;
+            margin: 4px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+    }
+    .infocardBody{
+        width: 100% !important;
+        min-width: 100% !important;
+        .legendaSection, .thoughtSection, .pollSection{
+            .legendaSectionTitle, .thoughtSectionTitle, .pollSectionTitle{
+                padding: 0px;
+                margin: 0px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                .smalltitle{
+                    padding: 0px;
+                    margin: 0px;
+                }
+            }
+        }
+}
+}

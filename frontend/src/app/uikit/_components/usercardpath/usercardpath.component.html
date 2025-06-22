@@ -1,0 +1,40 @@
+<div
+  class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg userPathCard"
+  [ngClass]="user && !isLoading ? {
+    'usercardPathNormalCard': user.status_id !== 8 && user.status_id !== 9,
+    'bg-white dark:bg-gray-800 king-card': user.status_id === 8,
+    'bg-gradient-to-br from-purple-900 to-blue-900 dark:from-purple-950 dark:to-blue-950 legend-card': user.status_id === 9
+  } : 'usercardPathPlaceholder'"
+>
+
+    <!-- <div
+    class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg userPathCard"
+    [ngClass]="user && !isLoading ? {
+        'bg-gray-100 dark:bg-gray-700': user.status_id !== 8 && user.status_id !== 9,
+        'bg-white dark:bg-gray-800 king-card': user.status_id === 8,
+        'bg-gradient-to-br from-purple-900 to-blue-900 dark:from-purple-950 dark:to-blue-950 legend-card': user.status_id === 9
+    } : 'bg-white dark:bg-gray-800'"
+    > -->
+
+  <!-- Placeholder per caricamento -->
+  <div *ngIf="isLoading" class="animate-pulse">
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-full">
+        <div class="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-3"></div>
+        <div class="h-5 bg-gray-300 rounded w-3/4 mx-auto mb-2"></div>
+        <div class="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-3"></div>
+        <div class="h-5 bg-gray-300 rounded w-3/4 mx-auto mb-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenuto card quando caricata -->
+  <div *ngIf="!isLoading && user" class="flex flex-col items-center gap-4">
+    <div class="flex items-center gap-2">
+      <img *ngIf="getPathIcon()" [src]="getPathIcon()" alt="Icona percorso" class="w-6 h-6">
+      <h5 class="smalltitle" [ngClass]="{'text-white': isKingOrLegend()}">{{ getPathTitle() }}</h5>
+      <img *ngIf="getPathIcon()" [src]="getPathIcon()" alt="Icona percorso" class="w-6 h-6">
+    </div>
+    <p class="text-sm pathParagraph" [ngClass]="{'text-white': isKingOrLegend()}">{{ getPathText() }}</p>
+  </div>
+</div>

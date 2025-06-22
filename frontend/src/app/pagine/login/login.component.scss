@@ -1,0 +1,111 @@
+/* Sfondo della pagina */
+.min-h-screen {
+  background: var(--background-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenitore del form con glassmorphism */
+.bg-white {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 320px; /* Ottimizzato per smartphone */
+}
+
+/* Titolo */
+.text-2xl {
+  color: var(--text-light);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Etichette */
+.text-sm.font-medium {
+  color: var(--text-light);
+}
+
+/* Input */
+input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+  padding: 0.75rem;
+  border-radius: 8px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+/* Placeholder */
+input::placeholder {
+  color: var(--secondary-purple);
+  opacity: 0.7;
+}
+
+/* Focus sugli input */
+input:focus {
+  border-color: var(--primary-purple);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.3);
+}
+
+/* Messaggio di errore */
+.text-red-500 {
+  color: var(--error-red);
+  margin-bottom: 1rem;
+}
+
+/* Pulsante */
+.bg-indigo-600 {
+  background: linear-gradient(90deg, var(--primary-purple), var(--primary-orange));
+  color: var(--text-light);
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background 0.3s ease;
+  position: relative;
+}
+
+.bg-indigo-600:hover:enabled {
+  background: linear-gradient(90deg, var(--secondary-purple), var(--secondary-orange));
+  transform: scale(1.05);
+}
+
+.bg-indigo-600:focus {
+  box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.5);
+}
+
+.bg-indigo-600:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Contenitore del testo e dello spinner */
+.accessButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* Spazio tra testo e spinner */
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 1rem; /* Dimensione più piccola per stare accanto al testo */
+  height: 1rem;
+  border: 2px solid var(--secondary-purple);
+  border-top: 2px solid var(--primary-orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animazione dello spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

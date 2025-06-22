@@ -1,0 +1,144 @@
+<!-- Skeleton loader -->
+<div *ngIf="isLoading" class="animate-pulse max-w-sm p-6 rounded-lg shadow-sm border"
+     [ngClass]="isDarkTheme ? 'bg-gray-700 border-gray-600' : 'bg-gray-200 border-gray-300'">
+  <div class="h-4 bg-gray-500 rounded w-1/2 mb-4"></div>
+  <div class="space-y-2">
+    <div class="h-3 bg-gray-500 rounded w-3/4"></div>
+    <div class="h-3 bg-gray-500 rounded w-2/3"></div>
+    <div class="h-3 bg-gray-500 rounded w-5/6"></div>
+    <div class="h-3 bg-gray-500 rounded w-1/2"></div>
+  </div>
+</div>
+
+<!-- Infocard reale -->
+<div *ngIf="!isLoading" class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 scroll-smooth infocard">
+    <div class="titleSectionTitle">
+           <h5 class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white smalltitle">Sistema di punteggio</h5>
+    </div>
+    <div class="sectionButtons mb-3">
+        <a class="sectionButton" (click)="scrollTo('capitolo1')"><img [src]="infoImage" class="w-3 h-3 object-contain mr-2" alt="Info Icon">Assegnazione</a>
+        <a class="sectionButton" (click)="scrollTo('capitolo2')"><img [src]="thoughtImage" class="w-3 h-3 object-contain mr-2" alt="Logic Icon">La logica</a>
+        <a class="sectionButton" (click)="scrollTo('capitolo3')"><img [src]="pollImage" class="w-3 h-3 object-contain mr-2" alt="Change Icon">Si può cambiare?</a>
+    </div>
+    <div class="infocardBody">
+        <div class="legendaSection">
+            <div class="legendaSectionTitle" id="capitolo1">
+                <img [src]="infoImage" class="w-5 h-5 object-contain mr-2" alt="Info Icon">
+                <h5 class="mb-2 text-base font-semibold tracking-tight text-gray-900 dark:text-white smalltitle">Assegnazione punti</h5>
+            </div>
+            <p class="mb-2 mt-2 text-sm text-gray-500 dark:text-gray-400">Ci sono solo tre modi per guadagnare punti e scalare gli status, scopriamoli:
+            </p>
+            <ol class="space-y-4 text-gray-500 list-decimal list-inside dark:text-gray-400 text-sm">
+            <li>
+                <span class="smalltitle">Smettere di fumare:</span>
+                <p class="text-xs">Smettere di fumare è davvero un'impresa, per questo cercheremo di farlo gradualmente; rispetta il limite di sigarette assegnato
+                    per 3 settimane consecutive e vedrai il tuo limite scendere in questo circolo virtuoso che ti porterà a smettere completamente.
+                </p>
+                <ul class="ps-5 mt-2 space-y-1 list-disc list-inside">
+                    <li>Alla fine del giorno, se avrai rispettato il tuo limite di sigarette, ti verranno assegnati 50 pt.</li>
+                    <li>Se il limite non viene rispettato non ti verranno sottratti punti, semplicemente non ti verranno assegnati.</li>
+                    <li>Se il limite non viene rispettato le "settimane consecutive" e i "giorni consecutivi" verranno azzerati, facendo ricominciare il <strong>count per abbassare il limite di sigarette</strong> da 0.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <span class="smalltitle">Perdere peso:</span>
+                <p class="text-xs"><cite>"Perdere peso è tutt'altro che facile, ma qui non vogliamo lamentarci e 'accettarci per come siamo'; questo è uno spazio per migliorarci,
+                    non per essere gay...a morte i ciccioni."</cite><br>(Virgilio, portabandiera del bodyshaming, 2025.)
+                </p>
+                <ul class="ps-5 mt-2 space-y-1 list-disc list-inside">
+                    <li>Per ogni kg perso guadagnerai 200 pt.</li>
+                    <li>Al raggiungimento del tuo "Peso ideale" guadagnerai 5000 pt. bonus.</li>
+                    <li>Nel caso in cui ingrassassi (peso attuale > peso iniziale) non perderai punti...essere un fallito ignobile ciambellone è già una punizione sufficiente.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="smalltitle">Rispettare le tasks</span>
+                <p class="text-xs">Forza di volontà e dedizione ti faranno guadagnare una valanga di punti!</p>
+                <ul class="ps-5 mt-2 space-y-1 list-disc list-inside">
+                    <li>Per ogni task assegnata che viene rispettata ti verranno attribuiti 10 pt.</li>
+                    <li>Non rispettando le tasks da te assegnate non perderai punti, semplicemente non ti verrano assegnati.</li>
+                    <li>Esempi:
+                        <ul>
+                            <li><strong>es.n°1: </strong>ti assegni 10 tasks e ne rispetti 10: guadagni 100 pt. (10*10)</li>
+                            <li><strong>es.n°2: </strong>ti assegni 10 tasks e ne rispetti 3: guadagni 30 pt. (10*3)</li>
+                            <li><strong>es.n°3: </strong>ti assegni 3 tasks e ne rispetti 3: guadagni 30 pt. (10*3)</li>
+                            <li><strong>es.n°4: </strong>ti assegni 0 tasks guadagni 0 pt.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            </ol>
+        </div>
+        <hr class="mt-3 mb-3">
+        <div class="thoughtSection">
+            <div class="thoughtSectionTitle" id="capitolo2">
+                <img [src]="thoughtImage" class="w-5 h-5 object-contain mr-2" alt="Thought Icon">
+                <h5 class="mb-2 text-base font-semibold tracking-tight text-gray-900 dark:text-white smalltitle">Logica del sistema</h5>
+            </div>
+                <p class="mb-2 mt-2 text-sm text-gray-500 dark:text-gray-400">In principio avevo pensato ad un <span class="smalltitle">"sistema dinamico"</span> per l'assegnazione del punteggio:
+                    <br>
+                    Il completamento di un'azione (es. rispettare una task) avrebbe visto un'attribuzione dinamica
+                    del numero di punti dipesa dalla quantità degli interessi scelti dall'utente.
+                    <br>
+                    Dopo alcune riflessioni ho scelto di <strong>NON</strong> prendere in considerazione il "sistema dinamico" e di optare invece per un <span class="smalltitle">"sistema statico"</span>; <br>
+                    se ti chiedi il perché o vuoi capire meglio i ragionamenti dietro a questa decisione e le differenze tra i due sistemi prosegui con la lettura.
+                    <br>
+                    <br>
+                    <span class="smalltitle mb-2">1. Il "sistema dinamico" in breve, considerando due utenti:</span>
+                    <br>
+                    <br>
+                    <span class="smalltitle">Utente 'a':</span> ha solo due interessi (smettere di fumare e rispettare le tasks)
+                    <br>
+                    <span class="smalltitle">Utente 'b':</span> ha tutti e tre gli interessi (smettere di fumare, rispettare le tasks e perdere peso)
+                    <br>
+                    <br>
+                    Con questo sistema l'utente 'a', con solo due interessi, guadagna più punti rispettando una task o 
+                    il limite giornaliero di sigarette rispetto all'utente 'b'; <br> quindi se l'utente 'a' e 
+                    l'utente 'b' rispettano lo stesso numero di tasks e il limite di sigarette
+                    per la stessa quantità di giorni avranno un punteggio diverso (maggiore per 'a'). <br>
+                    Questo sistema era stato preso in considerazione inizialmente per rendere l'assegnazione dei punti più 'equa', infatti come possiamo notare da questo esempio
+                    l'utente 'b', avendo un interesse in più, ha
+                    un margine di guadagno punti <strong>potenzialmente</strong> maggiore.
+                    <br>
+                    <br>
+                    <span class="smalltitle mb-2">2. Il "sistema statico" , come funziona e perché è stato scelto:</span>
+                    <br>
+                    <br>
+                    Il "sistema statico", come suggerisce il nome, attribuisce la medesima quantità di punti per un'azione, indipendentemente dal numero di interessi di chi la compie. <br>
+                    E' stato scelto per due motivi:
+                    <br>
+                    <br>
+                    <span class="smalltitle">1.</span> Meno 'sforzo' a livello di codice (fattuale)
+                    <br>
+                    <span class="smalltitle">2.</span> Più meritocratico (opinabile)
+                    <br>
+                    <br>
+                    Questo sistema non è solo di più facile implementazione ma, a mio avviso, garantisce un'assegnazione dei punti più meritocratica: <br>
+                    E' giusto che chi abbia più obiettivi <strong>e li persegua</strong> guadagni più punti, semplice.
+                </p>
+        </div>
+        <hr class="mt-3 mb-3">
+        <div class="pollSection">
+            <div class="pollSectionTitle" id="capitolo3">
+                <img [src]="pollImage" class="w-5 h-5 object-contain mr-2" alt="Info Icon">
+                <h5 class="mb-2 text-base font-semibold tracking-tight text-gray-900 dark:text-white smalltitle">Si può cambiare sistema?</h5>
+            </div>
+            <p class="mb-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
+                Si! si può cambiare.<br>Ovviamente però non è facile come cambiare il colore di un pulsante quindi mi riservo il lusso di prendere in considerazione 
+                tale modifica previa voto favorevole <strong>unanime</strong> nel nostro futuro gruppo whatsapp (che al momento non esiste).
+            </p>
+        </div>
+        <hr class="mt-3 mb-3">
+        <h5 class="mb-2 text-base font-semibold tracking-tight text-gray-900 dark:text-white smalltitle">Se e solo se...</h5>
+        <p class="mb-2 mt-2 text-sm text-gray-500 dark:text-gray-400">
+            Hai avuto lo sbatti di leggerti tutto e sei arrivato fino a qui ti ringrazio per l'attenzione e ti faccio un <strong>in bocca al lupo</strong>
+            per il raggiungimento dei tuoi obiettivi, <strong>forza</strong>!
+            <br>
+            <br>
+            <strong>Virgilio</strong>
+            <br>
+            <strong>Monteprandone, 04/06/2025</strong>
+        </p>
+    </div>
+</div>

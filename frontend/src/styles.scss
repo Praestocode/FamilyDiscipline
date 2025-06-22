@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* pacifico-regular - latin */
+@font-face {
+  font-display: fallback;
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/Pacifico/pacifico-v22-latin-regular.woff2') format('woff2');
+}
+
+/* inter-regular - latin */
+@font-face {
+  font-display: fallback;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/Inter/inter-v18-latin-regular.woff2') format('woff2');
+}
+
+.pacifico-font {
+  font-family: 'Pacifico', cursive;
+  color: var(--title-color); /* Usa variabile per il colore del titolo */
+}
+
+.pacifico-font-title {
+  font-family: 'Pacifico', cursive;
+  line-height: 1.4;
+  padding-bottom: 0.35rem;
+  padding-top: 0.1rem;
+  display: inline-block;
+  color: var(--title-color); /* Usa variabile per il colore del titolo */
+}
+
+/* Variabili per il tema dark (default) */
+:root {
+  --primary-purple: #6B46C1;
+  --secondary-purple: #9F7AEA;
+  --primary-orange: #F6AD55;
+  --secondary-orange: #FBD38D;
+  --background-dark: #1A1A2E;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-blur: blur(10px);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --text-light: #E2E8F0;
+  --error-red: #F56565;
+  --font-family: 'Inter', sans-serif;
+  --background-color: #1A1A2E; /* Sfondo dark */
+  --text-color: #E2E8F0; /* Testo chiaro */
+  --card-background: #374151; /* Sfondo card dark */
+  --title-color: #E2E8F0; /* Colore titolo dark */
+  --border-settings: solid 2px rgb(240, 238, 238);
+  //--card-border: solid 2px rgb(197, 192, 192);
+  --card-border: none;
+  --card-background-color: #364153;
+  //--toast notification style
+  --toast-notification-background: #1A1A2E !important;
+  --input-background-color: #1E2939 !important;
+  //--stile per buttons
+  --button-border: white solid 2px;
+  --button-background-color: none;
+  --button-text-color: white;
+  --user-card-path-backrgound: #354052;
+}
+
+/* Variabili per il tema light */
+.light {
+  --background-color: #F9FAFB; /* Sfondo chiaro */
+  --text-color: #422e72 !important; /* Testo scuro */
+  --card-background: #FFFFFF; /* Sfondo card chiaro */
+  --title-color: #6B46C1; /* Colore titolo light (es. viola principale) */
+  --glass-bg: rgba(0, 0, 0, 0.05); /* Vetro più chiaro */
+  --glass-border: rgba(0, 0, 0, 0.1); /* Bordo vetro chiaro */
+  --border-settings: solid 2px #6B46C1;
+  --card-border: solid 1px #6B46C1;
+  --card-background-color: white;
+  --toast-notification-background: white !important;
+  --input-background-color: white !important;
+    //--stile per buttons
+  --button-border: #6B46C1 solid 1px;
+  --button-background-color: none;
+  --button-text-color: #6B46C1;
+  --user-card-path-backrgound: white;
+}
+
+/* Applica il font e i colori globalmente */
+html, body {
+  font-family: var(--font-family);
+  background: var(--background-color);
+  color: var(--text-color) !important;
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  .smalltitle{
+    color: var(--text-color);
+    font-weight: 600;
+  }
+  .toggle-container{
+    border: var(--border-settings);
+  }
+  .cardusercard{
+    border: var(--card-border);
+    background-color: var(--card-background-color);
+    .normalusercardname{
+    color: var(--text-color);
+  }
+  }
+  #smoketoastnotification{
+  background-color: var(--toast-notification-background) !important;
+  }
+}
+
+/* Stili per le card */
+.grid {
+  .card {
+    background: var(--card-background);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+  }
+}
+
+.glassmorphism {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}

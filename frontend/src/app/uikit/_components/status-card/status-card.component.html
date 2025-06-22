@@ -1,0 +1,26 @@
+<div class="relative rounded-lg shadow-md p-4 w-full max-w-sm mx-auto bg-gray-100 dark:bg-gray-700 transition-all duration-300 hover:shadow-lg"
+     [ngClass]="{
+       'bg-white dark:bg-gray-800 king-card': status.name === 'Re',
+       'bg-gradient-to-br from-purple-900 to-blue-900 dark:from-purple-950 dark:to-blue-950 legend-card': status.name === 'Leggenda',
+       'opacity-50': !isAchieved()
+     }">
+  <div class="flex items-center gap-4">
+    <!-- Icona status -->
+    <img [src]="status.icon" [alt]="'Icona ' + status.name" class="w-12 h-12" />
+    <div class="flex-1">
+      <!-- Nome status -->
+      <h4 class="text-lg font-semibold text-gray-900 dark:text-white">{{ status.name }}</h4>
+      <!-- Punti richiesti -->
+      <p class="text-sm text-gray-600 dark:text-gray-300">
+        {{ status.points_required }} punti richiesti
+      </p>
+      <!-- Punti mancanti -->
+      <p class="text-sm" [ngClass]="{
+            'text-green-600 dark:text-green-400': isAchieved(),
+            'text-red-600 dark:text-red-400': !isAchieved()
+          }">
+        {{ isAchieved() ? 'Raggiunto!' : getPointsMissing() + ' punti mancanti' }}
+      </p>
+    </div>
+  </div>
+</div>

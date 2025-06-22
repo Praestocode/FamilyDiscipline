@@ -1,0 +1,71 @@
+<!-- Toast Notification -->
+<div *ngIf="showToast" class="fixed top-4 right-4 z-50 max-w-xs toast-wrapper">
+  <div id="smoketoastnotification" class="toast-notification border-2 border-red-600 text-red-600 px-4 py-3 rounded-lg shadow-lg animate-slide-down">
+    {{ toastMessage }}
+  </div>
+</div>
+
+<!-- Placeholder -->
+<ng-container *ngIf="isLoading; else cardContent">
+  <div class="card rounded-lg shadow-md p-4 w-full max-w-xs mx-auto animate-pulse">
+    <div class="flex items-center justify-between mb-4">
+      <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+      <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
+      <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+    </div>
+    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+      <div class="bg-gray-300 dark:bg-gray-600 h-2.5 rounded-full" style="width: 50%"></div>
+    </div>
+    <p class="text-center text-sm text-gray-400 dark:text-gray-400 mt-2">Caricamento...</p>
+  </div>
+</ng-container>
+
+<!-- Card Content -->
+<ng-template #cardContent>
+  <div class="card rounded-lg shadow-md p-4 w-full max-w-xs mx-auto">
+    <div class="flex items-center justify-between mb-4">
+      <button
+        (click)="decrement()"
+        [disabled]="isProcessing"
+        class="tracking-button border-2 !border-purple-600 !text-purple-600 dark:border-white dark:text-white rounded-full w-10 h-10 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span *ngIf="!isDecrementing; else decrementSpinner">-</span>
+        <ng-template #decrementSpinner>
+          <svg class="animate-spin h-5 w-5 !text-purple-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V4a8 8 0 00-8 8z"></path>
+          </svg>
+        </ng-template>
+      </button>
+      <img [src]="cigaretteImage" class="w-12 h-12 object-contain" alt="Cigarette Icon">
+      <button
+        (click)="increment()"
+        [disabled]="isProcessing"
+        class="tracking-button border-2 !border-purple-600 !text-purple-600 dark:border-white dark:text-white rounded-full w-10 h-10 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span *ngIf="!isIncrementing; else incrementSpinner">+</span>
+        <ng-template #incrementSpinner>
+          <svg class="animate-spin h-5 w-5 !text-purple-600 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V4a8 8 0 00-8 8z"></path>
+          </svg>
+        </ng-template>
+      </button>
+    </div>
+    <div class="w-full bg-gray-200 dark:bg-white-700 rounded-full h-2.5 overflow-hidden">
+      <div
+        class="h-2.5 rounded-full transition-colors duration-300"
+        [ngClass]="count > limit ? 'bg-red-400' : 'bg-purple-600'"
+        [style.width.%]="progressWidth"
+      ></div>
+    </div>
+    <p class="text-center text-sm mt-2" [ngClass]="count > limit ? 'text-red-400' : ''">
+      {{ count }} / {{ limit }} sigarette
+      <span *ngIf="count > limit" class="block text-red-600 text-xs">Limite superato</span>
+    </p>
+    <hr class="mt-2 mb-2">
+    <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+      Stai rispettando il limite da {{ consecutive_weeks }} {{ consecutive_weeks === 1 ? 'settimana' : 'settimane' }} e {{ consecutive_days }} {{ consecutive_days === 1 ? 'giorno' : 'giorni' }}
+    </p>
+  </div>
+</ng-template>
