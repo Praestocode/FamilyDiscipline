@@ -1,0 +1,18 @@
+<div class="p-4">
+  <div class="titleandtoggle">
+    <h2 class="pacifico-font-title text-3xl font-bold text-gray-900 dark:text-white mb-6">Family Discipline</h2>
+    <app-themetoggle class="mb-6"></app-themetoggle>
+  </div>
+  <!-- Griglia responsive per le card -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
+    <h3 class="smalltitle text-gray-900 dark:text-white mb-1">Classifica</h3>
+    <!-- Placeholder durante il caricamento -->
+    <ng-container *ngIf="isLoading">
+      <app-usercard *ngFor="let i of placeholderArray" [isLoading]="true"></app-usercard>
+    </ng-container>
+    <!-- Card popolate con i dati -->
+    <ng-container *ngIf="!isLoading">
+      <app-usercard *ngFor="let user of users" [user]="user" [isLoading]="false"></app-usercard>
+    </ng-container>
+  </div>
+</div>

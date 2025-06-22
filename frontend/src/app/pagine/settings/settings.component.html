@@ -1,0 +1,16 @@
+<div class="p-4 mb-16">
+    <h1 class="pacifico-font text-2xl font-bold text-gray-900 dark:text-white mb-3 text-start">Settings</h1>
+    <div class="sectionButtons mb-3">
+        <a *ngIf="preferences.int_smoke" class="sectionButton" (click)="scrollTo('sezionefumo')"><img [src]="smokeImage" class="w-3 h-3 object-contain mr-2" alt="Smoke Icon">Fumo</a>
+        <a *ngIf="preferences.int_weight" class="sectionButton" (click)="scrollTo('sezionepeso')"><img [src]="weightImage" class="w-3 h-3 object-contain mr-2" alt="Weight Icon">Peso</a>
+        <a *ngIf="preferences.int_tasks" class="sectionButton" (click)="scrollTo('sezionetasks')"><img [src]="tasksImage" class="w-3 h-3 object-contain mr-2" alt="Tasks Icon">Tasks</a>
+    </div>
+    <div class="grid grid-cols-1 gap-4">
+        <h3 *ngIf="preferences.int_smoke" class="smalltitle text-gray-900 dark:text-white mb-1" id="sezionefumo">Sigarette</h3>
+        <app-tracking-card-smoke *ngIf="preferences.int_smoke"></app-tracking-card-smoke>
+        <h3 *ngIf="preferences.int_weight" class="smalltitle text-gray-900 dark:text-white mb-1" id="sezionepeso">Peso</h3>
+        <app-tracking-card-weight *ngIf="preferences.int_weight"></app-tracking-card-weight>
+        <h3 *ngIf="preferences.int_tasks" class="smalltitle text-gray-900 dark:text-white mb-1" id="sezionetasks">Tasks</h3>
+        <app-tracking-card-tasks *ngIf="preferences.int_tasks"></app-tracking-card-tasks>
+    </div>
+</div>

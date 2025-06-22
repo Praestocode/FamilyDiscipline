@@ -1,0 +1,151 @@
+<!-- Placeholder -->
+<ng-container *ngIf="isLoading; else cardContent">
+  <div class="card rounded-lg shadow-md p-4 w-full max-w-xs mx-auto animate-pulse">
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded h-10 mb-4"></div>
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded h-10 mb-4"></div>
+    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded h-10"></div>
+    <p class="text-center text-sm text-gray-400 dark:text-gray-400 mt-2">Caricamento...</p>
+  </div>
+</ng-container>
+
+<!-- Card Content -->
+<ng-template #cardContent>
+  <div class="card rounded-lg shadow-md p-4 w-full max-w-xs mx-auto">
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Peso Iniziale (kg)
+        <img *ngIf="isStartingWeightSaved" [src]="lockIcon" class="inline w-4 h-4 ml-1" alt="Lock Icon">
+      </label>
+      <input
+        type="number"
+        [(ngModel)]="starting_weight"
+        (blur)="updateStartingWeight(); stopEditingIfEmpty('starting', starting_weight)"
+        (keydown.enter)="updateStartingWeight()"
+        (focus)="startEditing('starting')"
+        (ngModelChange)="stopEditingIfEmpty('starting', starting_weight)"
+        class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 inputtexts"
+        [ngClass]="{'saved': isStartingWeightSaved}"
+        placeholder="Inserisci peso iniziale"
+        [disabled]="isProcessing || !isStartingWeightEditable"
+      >
+      <img
+        *ngIf="isStartingWeightSaved && !isStartingWeightEditable"
+        [src]="editIcon"
+        class="absolute right-2 top-10 w-4 h-4 cursor-pointer"
+        alt="Edit Icon"
+        (click)="enableEdit('starting')"
+      >
+      <ng-container *ngIf="isStartingWeightEditable && isStartingWeightEditing">
+        <div
+          *ngIf="isStartingWeightSaving"
+          class="absolute right-2 top-10 w-4 h-4 border-2 border-t-purple-600 rounded-full animate-spin"
+        ></div>
+        <img
+          *ngIf="!isStartingWeightSaving"
+          [src]="saveIcon"
+          class="absolute right-2 top-10 w-4 h-4 cursor-pointer animate-pulse-check"
+          alt="Save Icon"
+          (click)="updateStartingWeight()"
+        >
+      </ng-container>
+      <p *ngIf="startingWeightError" class="text-xs !text-red-600 mt-1">{{ startingWeightError }}</p>
+    </div>
+    <div class="mb-4 relative" (mousedown)="checkCurrentWeightInteraction()">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Peso Attuale (kg)
+      </label>
+      <input
+        type="number"
+        [(ngModel)]="current_weight"
+        (blur)="updateCurrentWeight(); stopEditingIfEmpty('current', current_weight)"
+        (keydown.enter)="updateCurrentWeight()"
+        (ngModelChange)="stopEditingIfEmpty('current', current_weight)"
+        class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 inputtexts"
+        [ngClass]="{'savedcurrent': isCurrentWeightSaved, 'error-animation': isCurrentWeightErrorAnimation}"
+        placeholder="Inserisci peso attuale"
+        [disabled]="isProcessing || !isCurrentWeightEditable || starting_weight == null || starting_weight <= 0 || ideal_weight == null || ideal_weight <= 0"
+      >
+      <img
+        *ngIf="isCurrentWeightSaved && !isCurrentWeightEditable"
+        [src]="editIcon"
+        class="absolute right-2 top-10 w-4 h-4 cursor-pointer"
+        alt="Edit Icon"
+        (click)="enableEdit('current')"
+      >
+      <ng-container *ngIf="isCurrentWeightEditable && isCurrentWeightEditing">
+        <div
+          *ngIf="isCurrentWeightSaving"
+          class="absolute right-2 top-10 w-4 h-4 border-2 border-t-purple-600 rounded-full animate-spin"
+        ></div>
+        <img
+          *ngIf="!isCurrentWeightSaving"
+          [src]="saveIcon"
+          class="absolute right-2 top-10 w-4 h-4 cursor-pointer animate-pulse-check"
+          alt="Save Icon"
+          (click)="updateCurrentWeight()"
+        >
+      </ng-container>
+      <p *ngIf="currentWeightError" class="text-xs !text-red-600 mt-1">{{ currentWeightError }}</p>
+    </div>
+    <div class="mb-4 relative">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Peso Ideale (kg)
+        <img *ngIf="isIdealWeightSaved" [src]="goalIcon" class="inline w-4 h-4 ml-1" alt="Goal Icon">
+      </label>
+      <input
+        type="number"
+        [(ngModel)]="ideal_weight"
+        (blur)="updateIdealWeight(); stopEditingIfEmpty('ideal', ideal_weight)"
+        (keydown.enter)="updateIdealWeight()"
+        (focus)="startEditing('ideal')"
+        (ngModelChange)="stopEditingIfEmpty('ideal', ideal_weight)"
+        class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 inputtexts"
+        [ngClass]="{'saved': isIdealWeightSaved}"
+        placeholder="Inserisci peso ideale"
+        [disabled]="isProcessing || !isIdealWeightEditable"
+      >
+      <img
+        *ngIf="isIdealWeightSaved && !isIdealWeightEditable"
+        [src]="editIcon"
+        class="absolute right-2 top-10 w-4 h-4 cursor-pointer"
+        alt="Edit Icon"
+        (click)="enableEdit('ideal')"
+      >
+      <ng-container *ngIf="isIdealWeightEditable && isIdealWeightEditing">
+        <div
+          *ngIf="isIdealWeightSaving"
+          class="absolute right-2 top-10 w-4 h-4 border-2 border-t-purple-600 rounded-full animate-spin"
+        ></div>
+        <img
+          *ngIf="!isIdealWeightSaving"
+          [src]="saveIcon"
+          class="absolute right-2 top-10 w-4 h-4 cursor-pointer animate-pulse-check"
+          alt="Save Icon"
+          (click)="updateIdealWeight()"
+        >
+      </ng-container>
+      <p *ngIf="idealWeightError" class="text-xs !text-red-600 mt-1">{{ idealWeightError }}</p>
+    </div>
+    <div class="text-center text-sm text-gray-700 dark:text-gray-300">
+      <ng-container *ngIf="!isProcessing; else spinner">
+        Punti guadagnati dalla perdita di peso: {{ points_earned }}
+        <span *ngIf="points_earned > 0" class="block text-xs text-green-600">
+          (+{{ points_earned }} per perdita peso)
+        </span>
+        <!-- Progress bar -->
+        <div *ngIf="progressPercentage > 0" class="mt-2">
+          <div class="w-full bg-gray-200 dark:bg-white-700 rounded-full h-2.5">
+            <div class="bg-purple-600 h-2.5 rounded-full" [style.width.%]="progressPercentage"></div>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Progresso: {{ progressPercentage }}%</p>
+        </div>
+      </ng-container>
+      <ng-template #spinner>
+        <div class="flex justify-center items-center">
+          <div class="spinner border-4 border-t-purple-600 rounded-full w-6 h-6 animate-spin"></div>
+        </div>
+      </ng-template>
+      <p *ngIf="cardError" class="text-xs !text-red-600 mt-2">{{ cardError }}</p>
+    </div>
+  </div>
+</ng-template>

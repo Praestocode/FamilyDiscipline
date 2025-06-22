@@ -1,0 +1,101 @@
+.navbar-container {
+  background: #1f2937; /* bg-gray-800 */
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: visible; /* Permette all'alone di estendersi oltre i pulsanti */
+  z-index: 50; /* Sopra il contenuto */
+
+  .grid {
+    position: relative;
+
+    button {
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s ease;
+      z-index: 2;
+
+      &.active {
+        background: rgba(107, 70, 193, 0.2);
+
+        &:first-child {
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: calc(-100vw - 100%);
+            width: calc(100% + 100vw);
+            height: 100%;
+            background: rgba(107, 70, 193, 0.2);
+            z-index: -1;
+          }
+        }
+
+        &:last-child {
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: calc(-100vw - 100%);
+            width: calc(100% + 100vw);
+            height: 100%;
+            background: rgba(107, 70, 193, 0.2);
+            z-index: -1;
+          }
+        }
+      }
+
+      &:not(:first-child):not(:last-child).active {
+        &::before {
+          content: none;
+        }
+      }
+
+      svg {
+        transition: transform 0.3s ease, color 0.3s ease;
+        color: var(--primary-purple) !important;
+
+        &.text-text-light {
+          color: var(--text-light) !important;
+        }
+      }
+
+      span {
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+        color: var(--primary-purple) !important;
+
+        &.text-text-light {
+          color: var(--text-light) !important;
+        }
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(107, 70, 193, 0.3) 10%, transparent 10.01%);
+        transform: scale(0);
+        top: 50%;
+        left: 50%;
+        transform-origin: center;
+      }
+
+      &:active::after {
+        animation: ripple 0.4s ease-out;
+      }
+    }
+  }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}

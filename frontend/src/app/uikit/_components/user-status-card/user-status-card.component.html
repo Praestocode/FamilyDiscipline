@@ -1,0 +1,97 @@
+<div
+  class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg"
+  [ngClass]="{
+    'bg-gray-100 dark:bg-gray-700': user.status_id !== 8 && user.status_id !== 9,
+    'bg-gradient-to-br from-yellow-500 to-orange-600 dark:from-yellow-600 dark:to-orange-700 king-card': user.status_id === 8,
+    'bg-gradient-to-br from-purple-900 to-blue-900 dark:from-purple-950 dark:to-blue-950 legend-card': user.status_id === 9
+  }"
+>
+  <div class="flex flex-col items-center gap-4">
+    <!-- Foto profilo e icona status -->
+    <div class="relative w-24 h-24">
+      <img
+        [src]="user.profile_picture || 'https://via.placeholder.com/96'"
+        alt="Foto profilo di {{ user.name }}"
+        class="w-24 h-24 rounded-full object-cover z-10 border-4"
+        [ngClass]="{
+          'border-purple-600': user.status_id !== 8 && user.status_id !== 9,
+          'border-none': user.status_id === 8,
+          'border-blue-400': user.status_id === 9
+        }"
+      />
+      <img
+        [src]="user.status_icon"
+        [alt]="'Icona status ' + user.status_id"
+        class="absolute -top-3 right-0 w-7 h-7 z-20"
+      />
+    </div>
+    <!-- Nome e status -->
+    <div class="text-center">
+      <h3
+        class="text-xl font-bold"
+        [ngClass]="{
+          'text-gray-900 dark:text-white': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-200': user.status_id === 8,
+          'text-blue-200': user.status_id === 9
+        }"
+      >
+        {{ user.name }}
+      </h3>
+      <p
+        class="text-sm"
+        [ngClass]="{
+          'text-gray-600 dark:text-gray-300': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-300': user.status_id === 8,
+          'text-blue-300': user.status_id === 9
+        }"
+      >
+        <span
+          class="text-sm"
+          [ngClass]="{
+            'text-gray-600 dark:text-purple-300': user.status_id !== 8 && user.status_id !== 9,
+            'text-yellow-400': user.status_id === 8,
+            'text-blue-400': user.status_id === 9
+          }"
+        >
+          Lv.{{ user.status_id }} <span class="nomeStatus">{{ user.user_status }}</span>
+        </span>
+      </p>
+      <!-- Punti raccolti -->
+      <p
+        class="text-base font-medium"
+        [ngClass]="{
+          'text-red-600 dark:text-purple-400': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-400': user.status_id === 8,
+          'text-blue-400': user.status_id === 9
+        }"
+      >
+        {{ user.discipline_points }} {{ user.discipline_points === 1 ? 'punto' : 'punti' }} disciplina
+      </p>
+    </div>
+    <!-- Progress bar e prossimo status -->
+    <div class="w-full">
+      <div
+        class="text-sm"
+        [ngClass]="{
+          'text-gray-600 dark:text-gray-300': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-300': user.status_id === 8,
+          'text-blue-300': user.status_id === 9
+        }"
+      >
+        <span *ngIf="getNextStatus()">{{ getPointsToNext() }} pt. per lo status "{{ getNextStatus()?.name }}"</span>
+        <span *ngIf="!getNextStatus()">Sei ormai nei libri di storia...</span>
+      </div>
+      <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+        <div
+          class="h-2.5 rounded-full"
+          [ngClass]="{
+            'bg-purple-600': user.status_id !== 8 && user.status_id !== 9,
+            'bg-yellow-400': user.status_id === 8,
+            'bg-blue-400': user.status_id === 9
+          }"
+          [style.width.%]="getProgressPercentage()"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>

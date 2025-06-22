@@ -1,0 +1,250 @@
+.card {
+  color: var(--text-color);
+  transition: all 0.3s;
+  border: var(--card-border);
+  p,
+  label,
+  th,
+  td {
+    color: var(--text-color);
+  }
+}
+
+table {
+  border-collapse: collapse;
+}
+
+input {
+  transition: all 0.3s;
+  background-color: var(--input-background-color) !important;
+}
+
+input:focus {
+  outline: none;
+  border-color: #9333ea;
+}
+
+.task-description {
+  display: inline-block;
+  max-width: 150px; /* Limita la larghezza del testo */
+  overflow: hidden; /* Nasconde il contenuto che supera il contenitore */
+  text-overflow: ellipsis; /* Aggiunge "..." per il testo troncato */
+  white-space: wrap; /* Impedisce il wrapping del testo */ //NOWRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP
+}
+
+.scroll-button {
+  background: none;
+  padding: 0;
+  line-height: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.scroll-button:hover {
+  opacity: 0.75;
+}
+
+.task-spinner {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px;
+  min-height: 16px;
+  max-width: 16px;
+  max-height: 16px;
+  border: 2px solid rgba(107, 114, 128, 0.2);
+  border-top-color: #9333ea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.dark .task-spinner {
+  border-color: rgba(209, 213, 219, 0.2);
+  border-top-color: #9333ea;
+}
+
+.points-spinner {
+  width: 24px !important;
+  height: 24px !important;
+  border: 4px solid rgba(107, 114, 128, 0.2);
+  border-top-color: #9333ea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.dark .points-spinner {
+  border-color: rgba(209, 213, 219, 0.2);
+  border-top-color: #9333ea;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.custom-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  height: 16px !important;
+  width: 16px !important;
+  min-height: 16px !important;
+  min-width: 16px !important;
+  max-height: 16px !important;
+  max-width: 16px !important;
+}
+
+.custom-checkbox:checked {
+  background-color: #9333ea;
+  border-color: #9333ea;
+}
+
+.custom-checkbox:checked::after {
+  content: '\2713'; //simbolo della "v" spuntata per checkbox
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Light Mode */
+.custom-checkbox {
+  border: 2px solid #9333ea;
+}
+
+/* Dark Mode */
+.dark .custom-checkbox {
+  border: none;
+  background-color: #4b5563;
+}
+
+.dark .custom-checkbox:checked {
+  background-color: #9333ea;
+  border: none;
+}
+
+.save-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Progress Bar */
+.progress-bar {
+  .bg-gray-200 {
+    background-color: #e5e7eb;
+  }
+  .dark .bg-gray-700 {
+    background-color: #374151;
+  }
+  .bg-purple-600 {
+    background-color: #9333ea;
+  }
+}
+
+/* Toast Notification */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-in-out;
+}
+
+.toast-notification {
+  background: var(--card-background);
+  color: var(--text-color);
+}
+
+html.light .toast-notification {
+  background: white;
+  color: #9333ea;
+  border-color: #9333ea;
+}
+
+html.dark .toast-notification {
+  background: #1f2937; /* bg-gray-800 */
+  color: #c084fc; /* purple-400 */
+  border-color: #c084fc;
+}
+
+/* Modal Animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+/* Reset Button */
+.reset-button {
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.reset-button:not(:disabled):hover {
+  opacity: 0.75;
+}
+
+.reset-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animating-pulsation {
+  animation: pulse 0.3s ease-in-out 2; /* Allineato a 2 cicli di 0.3s */
+}
+
+@keyframes highlight-hour {
+  0% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+  50% {
+    transform: scale(1.2);
+    filter: brightness(120%) !important;
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(100%);
+  }
+}
+
+.highlight-hour {
+  animation: highlight-hour 0.9s ease-in-out;
+}

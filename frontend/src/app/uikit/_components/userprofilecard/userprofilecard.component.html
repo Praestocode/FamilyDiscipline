@@ -1,0 +1,93 @@
+<div
+  class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg"
+  [ngClass]="user && !isLoading ? {
+    'bg-gray-100 dark:bg-gray-700': user.status_id !== 8 && user.status_id !== 9,
+    'bg-white dark:bg-gray-800 king-card': user.status_id === 8,
+    'bg-gradient-to-br from-purple-900 to-blue-900 dark:from-purple-950 dark:to-blue-950 legend-card': user.status_id === 9
+  } : 'bg-white dark:bg-gray-800'"
+>
+  <!-- Placeholder per caricamento -->
+  <div *ngIf="isLoading" class="animate-pulse">
+    <div class="flex flex-col items-center gap-4">
+      <div class="w-24 h-24 rounded-full bg-gray-300"></div>
+      <div class="w-full">
+        <div class="h-6 bg-gray-300 rounded w-3/4 mx-auto mb-3"></div>
+        <div class="h-5 bg-gray-300 rounded w-1/2 mx-auto mb-2"></div>
+        <div class="h-5 bg-gray-300 rounded w-1/3 mx-auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenuto card quando caricata -->
+  <div *ngIf="!isLoading && user" class="flex flex-col items-center gap-4">
+    <!-- Foto profilo con icona status in overlay -->
+    <div class="relative w-24 h-24">
+      <img
+        [src]="user.profile_picture || 'https://via.placeholder.com/96'"
+        alt="Foto profilo di {{ user.name }}"
+        class="w-24 h-24 rounded-full object-cover z-10"
+        [style.border]="user.status_id !== 8 && user.status_id !== 9 ? '4px solid #9333ea' : user.status_id === 8 ? 'none' : '4px solid #60a5fa'"
+      />
+      <img
+        [src]="user.status_icon"
+        [alt]="'Icona ' + (user.user_status || 'Sconosciuto')"
+        class="absolute -top-3 right-0 w-7 h-7 z-20"
+      />
+    </div>
+    <div class="text-center">
+      <!-- Nome utente -->
+      <h3
+        class="text-xl font-bold"
+        [ngClass]="{
+          'text-gray-900 dark:text-white': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-200': user.status_id === 8,
+          'text-blue-200': user.status_id === 9
+        }"
+      >
+        {{ user.name }}
+      </h3>
+      <!-- Status -->
+      <p
+        class="text-sm"
+        [ngClass]="{
+          'text-gray-600 dark:text-gray-300': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-300': user.status_id === 8,
+          'text-blue-300': user.status_id === 9
+        }"
+      >
+        <span
+          class="text-sm"
+          [ngClass]="{
+            'text-gray-600 dark:text-purple-300': user.status_id !== 8 && user.status_id !== 9,
+            'text-yellow-400': user.status_id === 8,
+            'text-blue-400': user.status_id === 9
+          }"
+        >
+          Lv.{{ user.status_id }}
+        </span>
+        {{ user.user_status || 'Sconosciuto' }}
+      </p>
+      <!-- Punti disciplina -->
+      <p
+        class="text-base font-medium"
+        [ngClass]="{
+          'text-red-600 dark:text-purple-400': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-400': user.status_id === 8,
+          'text-blue-400': user.status_id === 9
+        }"
+      >
+        {{ user.discipline_points }} {{ user.discipline_points === 1 ? 'punto' : 'punti' }} disciplina
+      </p>
+    </div>
+    <div class="interestsSection" style="display: flex; justify-content: space-around;">
+      <span *ngIf="user.int_tasks" class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-purple-600 rounded-full me-1.5 shrink-0"></span>Tasks</span>
+      <span *ngIf="!user.int_tasks" class="flex items-center text-sm font-medium text-gray-900 dark:text-gray me-3"><span class="flex w-2.5 h-2.5 bg-gray-600 rounded-full me-1.5 shrink-0"></span><p style="color: #4A5565">Tasks</p></span>
+
+      <span *ngIf="user.int_weight" class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-purple-600 rounded-full me-1.5 shrink-0"></span>Peso</span>
+      <span *ngIf="!user.int_weight" class="flex items-center text-sm font-medium text-gray-900 dark:text-gray me-3"><span class="flex w-2.5 h-2.5 bg-gray-600 rounded-full me-1.5 shrink-0"></span><p style="color: #4A5565">Peso</p></span>
+
+      <span *ngIf="user.int_smoke" class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-purple-600 rounded-full me-1.5 shrink-0"></span>Fumo</span>
+      <span *ngIf="!user.int_smoke" class="flex items-center text-sm font-medium text-gray-900 dark:text-gray me-3"><span class="flex w-2.5 h-2.5 bg-gray-600 rounded-full me-1.5 shrink-0"></span><p style="color: #4A5565">Fumo</p></span>
+    </div>
+  </div>
+</div>

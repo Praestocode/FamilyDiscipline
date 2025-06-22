@@ -1,0 +1,49 @@
+.toggle-container {
+  border-radius: 50%;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.toggle-icon {
+  display: block;
+}
+
+/* Animazione per passaggio da dark a light (sole → luna) */
+.animate-to-light {
+  animation: rotateToLight 0.6s ease forwards;
+}
+
+@keyframes rotateToLight {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(12deg);
+  }
+  60% {
+    transform: rotate(-12deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Animazione per passaggio da light a dark (luna → sole) */
+.animate-to-dark {
+  animation: oscillateToDark 0.8s ease forwards;
+}
+
+@keyframes oscillateToDark {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(15deg);
+  }
+  60% {
+    transform: rotate(-15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}

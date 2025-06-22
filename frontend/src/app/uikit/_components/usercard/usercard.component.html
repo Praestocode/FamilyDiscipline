@@ -1,0 +1,100 @@
+<div style="min-width: 100%;"
+  class="relative rounded-lg shadow-md p-4 w-full max-w-xs transition-all duration-300 hover:shadow-lg cardusercard"
+  [ngClass]="{
+    'bg-white dark:bg-gray-800': user?.status_name !== 'Re' && user?.status_name !== 'Leggenda',
+    'bg-gradient-to-br from-yellow-500 to-orange-600 dark:from-yellow-600 dark:to-orange-700 king-card': user?.status_name === 'Re',
+    'bg-gradient-to-br from-purple-900 to-blue-900 dark:from-purple-950 dark:to-blue-950 legend-card': user?.status_name === 'Leggenda'
+  }"
+>
+
+  <!-- Icona medaglietta per i primi tre -->
+  <ng-container *ngIf="!isLoading && user && user.position && user.position <= 3">
+    <img
+      [src]="'/assets/images/medal/' + user.position + '.png'"
+      [alt]="'Medaglia posizione ' + user.position"
+      class="absolute top-2 right-2 w-8 h-8 z-20"
+    />
+  </ng-container>
+
+  <!-- Placeholder per caricamento -->
+  <div *ngIf="isLoading" class="animate-pulse">
+    <div class="flex items-center gap-4">
+      <!-- Placeholder immagine profilo -->
+      <div class="w-14 h-14 rounded-full bg-gray-300"></div>
+      <div class="flex-1">
+        <!-- Placeholder nome -->
+        <div class="h-5 bg-gray-300 rounded w-3/4 mb-2"></div>
+        <!-- Placeholder status e punti -->
+        <div class="h-4 bg-gray-300 rounded w-1/2 mb-1"></div>
+        <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenuto card quando caricata -->
+  <div *ngIf="!isLoading && user" class="flex items-center gap-4">
+    <!-- Foto profilo con icona status in overlay -->
+    <div class="relative">
+      <img
+        [src]="user.profile_picture || 'https://via.placeholder.com/48'"
+        alt="Foto profilo di {{ user.name }}"
+        class="w-14 h-14 rounded-full object-cover z-10"
+        [ngClass]="{
+          'border-2 border-purple-600': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
+          'border-4 border-yellow-400': user.status_name === 'Re',
+          'border-4 border-blue-400': user.status_name === 'Leggenda'
+        }"
+      />
+      <img
+        [src]="user.status_icon"
+        [alt]="'Icona ' + user.status_name"
+        class="absolute -top-3 right-9 left-0 w-7 h-7 z-20"
+      />
+    </div>
+    <div class="flex-1">
+      <!-- Nome utente -->
+      <h3
+        class="text-lg font-semibold"
+        [ngClass]="{
+          'text-gray-900 dark:text-white normalusercardname': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
+          'text-yellow-200': user.status_name === 'Re',
+          'text-blue-200': user.status_name === 'Leggenda'
+        }"
+      >
+        {{ user.name }}
+      </h3>
+      <!-- Status -->
+      <p
+        class="text-sm"
+        [ngClass]="{
+          'text-gray-600 dark:text-gray-300': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
+          'text-yellow-300': user.status_name === 'Re',
+          'text-blue-300': user.status_name === 'Leggenda'
+        }"
+      >
+        <span
+          class="text-sm"
+          [ngClass]="{
+            'text-gray-600 dark:text-purple-300': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
+            'text-yellow-400': user.status_name === 'Re',
+            'text-blue-400': user.status_name === 'Leggenda'
+          }"
+        >
+          Lv.{{ user.status_id }}
+        </span>
+        {{ user.status_name }}
+      </p>
+      <!-- Punti disciplina -->
+      <p
+        class="text-sm font-medium"
+        [ngClass]="{
+          'text-red-600 dark:text-purple-400': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
+          'text-yellow-400': user.status_name === 'Re',
+          'text-blue-400': user.status_name === 'Leggenda'
+        }"
+      >
+        {{ user.discipline_points }} {{ user.discipline_points === 1 ? 'punto' : 'punti' }} disciplina
+      </p>
+    </div>
+  </div>
+</div>
