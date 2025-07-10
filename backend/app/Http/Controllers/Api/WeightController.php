@@ -95,6 +95,21 @@ class WeightController extends Controller
             ], 422);
         }
 
+
+        // Controlla che starting_weight != ideal_weight se entrambi sono impostati
+        if ($weight->starting_weight > 0 && $weight->ideal_weight > 0 && $weight->starting_weight == $weight->ideal_weight) {
+            return response()->json([
+                'error' => 'Il peso ideale non può essere uguale al peso inziale - deve essere almeno 3kg inferiore al peso iniziale.'
+            ], 422);
+        }
+
+        // Controlla che starting_weight !< ideal_weight + 3 (il peso ideale deve essere almeno 3kg inferiore al peso iniziale)
+        if ($weight->starting_weight > 0 && $weight->ideal_weight > 0 && $weight->starting_weight < $weight->ideal_weight+3) {
+            return response()->json([
+                'error' => 'Il peso ideale deve essere almeno 3kg inferiore al peso iniziale.'
+            ], 422);
+        }
+
         // Controlla che ideal_weight >= starting_weight - 40
         if ($weight->starting_weight > 0 && $weight->ideal_weight > 0 && $weight->ideal_weight < $weight->starting_weight - 60) {
             return response()->json([
@@ -118,6 +133,7 @@ class WeightController extends Controller
 
         // Aggiorna discipline_points
         $user->discipline_points = ($user->discipline_points ?? 0) - $oldPointsEarned + $weight->points_earned;
+        $user->total_points_earned_by_weight_so_far = ($user->total_points_earned_by_weight_so_far ?? 0) - $oldPointsEarned + $weight->points_earned;
         $user->save();
 
         return response()->json(['message' => 'Pesi aggiornati']);
@@ -161,6 +177,7 @@ class WeightController extends Controller
 
         // Aggiorna discipline_points
         $user->discipline_points = ($user->discipline_points ?? 0) - $oldPointsEarned + $weight->points_earned;
+        $user->total_points_earned_by_weight_so_far = ($user->total_points_earned_by_weight_so_far ?? 0) - $oldPointsEarned + $weight->points_earned;
         $user->save();
 
         return response()->json([
@@ -192,6 +209,7 @@ class WeightController extends Controller
 
         // Aggiorna discipline_points
         $user->discipline_points = ($user->discipline_points ?? 0) - $oldPointsEarned;
+        $user->total_points_earned_by_weight_so_far = ($user->total_points_earned_by_weight_so_far ?? 0) - $oldPointsEarned;
         $user->save();
 
         return response()->json(['message' => 'Pesi azzerati']);

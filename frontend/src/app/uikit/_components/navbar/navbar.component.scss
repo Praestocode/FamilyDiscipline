@@ -1,5 +1,5 @@
 .navbar-container {
-  background: #1f2937; /* bg-gray-800 */
+  background: var(--background-navbar); /* bg-gray-800 */
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
   position: fixed;

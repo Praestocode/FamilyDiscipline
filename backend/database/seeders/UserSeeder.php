@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -48,7 +49,7 @@ class UserSeeder extends Seeder
                     'int_weight' => false,
                     'int_smoke' => true,
                     'created_at' => now(),
-                    'updated_at' => now(),
+                    'updated_at' => now(), //'updated_at' => Carbon::today()->subDays(4), // Inattivo (4 giorni fa)
                 ],
                 [
                     'name' => 'Lucy',
@@ -63,6 +64,32 @@ class UserSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
+                // [
+                //     'name' => 'Daniele',
+                //     'email' => 'daniele96@gmail.com',
+                //     'password' => Hash::make('daniele96@!'),
+                //     'discipline_points' => 0,
+                //     'status_id' => 1, // coglioncello
+                //     'profile_picture' => 'images/daniele.jpeg',
+                //     'int_tasks' => true,
+                //     'int_weight' => false,
+                //     'int_smoke' => true,
+                //     'created_at' => now(),
+                //     'updated_at' => now(),
+                // ],
+                // [
+                //     'name' => 'Emil',
+                //     'email' => 'emil02@gmail.com',
+                //     'password' => Hash::make('emil02@!'),
+                //     'discipline_points' => 0,
+                //     'status_id' => 1, // coglioncello
+                //     'profile_picture' => 'images/emil.jpeg',
+                //     'int_tasks' => true,
+                //     'int_weight' => false,
+                //     'int_smoke' => true,
+                //     'created_at' => now(),
+                //     'updated_at' => now(),
+                // ],
             ]);
     }
 }

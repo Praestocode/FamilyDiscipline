@@ -67,5 +67,8 @@
     <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-1">
       Stai rispettando il limite da {{ consecutive_weeks }} {{ consecutive_weeks === 1 ? 'settimana' : 'settimane' }} e {{ consecutive_days }} {{ consecutive_days === 1 ? 'giorno' : 'giorni' }}
     </p>
+    <span *ngIf="isAssigning50Points" style="display: flex; align-items: center; justify-content: center !important;"><span><img class="famcoin mr-1" [src]="famcoin" alt=""></span><span class="text-xs">da riscattare a mezzanotte: 50</span></span>
+    <span *ngIf="isAssigning50Points" style="display: flex; align-items: center; justify-content: center !important;"><span class="text-xs counterpointsearned">(+50 per limite sigarette rispettato)</span></span>
+    <span *ngIf="!isAssigning50Points" style="display: flex; align-items: center; justify-content: center !important;"><span><img class="famcoin mr-1" [src]="famcoin" alt=""></span><span class="text-xs">da riscattare a mezzanotte: 0</span></span>
   </div>
 </ng-template>

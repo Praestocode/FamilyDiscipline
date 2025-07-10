@@ -1,10 +1,21 @@
 <div class="p-4">
   <div class="titleandtoggle">
-    <h2 class="pacifico-font-title text-3xl font-bold text-gray-900 dark:text-white mb-6">Family Discipline</h2>
-    <app-themetoggle class="mb-6"></app-themetoggle>
+    <h2 class="pacifico-font-title text-3xl font-bold mb-2" style="font-size: 1.7em;">Family Discipline</h2>
+    <app-themetoggle class="mb-2"></app-themetoggle>
   </div>
+
+
+  <!--test-->
+  <div class="sectionButtons mb-3 text-end">
+    <!-- <a class="sectionButton" (click)="scrollTo('sezioneClassifica')">Classifica</a> -->
+    <a class="sectionButton" (click)="scrollTo('sezioneStats')">Stats</a>
+    <a class="sectionButton" (click)="scrollTo('sezioneConfronti')">Confronti</a>
+  </div>
+  <!--test-->
+
+
   <!-- Griglia responsive per le card -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6" id="sezioneClassifica">
     <h3 class="smalltitle text-gray-900 dark:text-white mb-1">Classifica</h3>
     <!-- Placeholder durante il caricamento -->
     <ng-container *ngIf="isLoading">
@@ -13,6 +24,30 @@
     <!-- Card popolate con i dati -->
     <ng-container *ngIf="!isLoading">
       <app-usercard *ngFor="let user of users" [user]="user" [isLoading]="false"></app-usercard>
+    </ng-container>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6" id="sezioneStats">
+    <h3 class="smalltitle text-gray-900 dark:text-white mb-1">Stats</h3>
+    <ng-container>
+      <app-networthpiechart></app-networthpiechart>
+    </ng-container>
+    <ng-container>
+      <app-userpointshistory></app-userpointshistory>
+    </ng-container>
+  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-16" id="sezioneConfronti">
+     <h3 class="smalltitle text-gray-900 dark:text-white mb-1">Confronti</h3>
+    <!-- <ng-container>
+      <app-comparisonsmoke></app-comparisonsmoke>
+    </ng-container>
+    <ng-container>
+      <app-comparisonweight></app-comparisonweight>
+    </ng-container>
+    <ng-container>
+      <app-comparisontasks></app-comparisontasks>
+    </ng-container> -->
+    <ng-container>
+      <app-comparisonusers></app-comparisonusers>
     </ng-container>
   </div>
 </div>

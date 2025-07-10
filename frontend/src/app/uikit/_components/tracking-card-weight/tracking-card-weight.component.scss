@@ -111,3 +111,68 @@ input:focus {
   outline: none;
   border-color: #9333ea;
 } */
+
+
+/* Toast Notification */
+.toast-notification {
+  background: var(--card-background);
+  color: var(--text-color);
+}
+
+html.light .toast-notification {
+  background: white;
+  color: #9333ea;
+  border-color: #9333ea;
+}
+
+html.dark .toast-notification {
+  background: #1f2937; /* bg-gray-800 */
+  color: #c084fc; /* purple-400 */
+  border-color: #c084fc;
+}
+
+/* Modal Animation */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Reset Button */
+.reset-button {
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.reset-button:not(:disabled):hover {
+  opacity: 0.75;
+}
+
+.reset-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Modal Animation */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

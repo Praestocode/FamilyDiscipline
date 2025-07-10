@@ -1,3 +1,10 @@
+span{
+  color: var(--text-color)
+}
+.userCardLv{
+  color: var(--user-card-lv-color);
+}
+
 .king-card {
   //position: relative; // rimosso per medaglietta
   overflow: hidden;
@@ -5,7 +12,10 @@
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.7); /* Bagliore dorato */
   animation: pulse-king 2s ease-in-out infinite; /* Pulsazione regale */
   background: radial-gradient(circle, rgba(255, 215, 0, 0.2), transparent);
-  background-color: #1E2939; 
+  background-color: #1E2939;
+  span{
+    color: white !important;
+  } 
 
   &::before {
     content: '';
@@ -31,6 +41,9 @@
   border: 2px solid rgba(59, 130, 246, 0.6); /* Bordo blu semitrasparente */
   box-shadow: 0 0 15px rgba(59, 130, 246, 0.7); /* Bagliore blu */
   animation: pulse-legend 3s ease-in-out infinite; /* Pulsazione epica */
+  span{
+    color: white !important;
+  } 
 
   &::before {
     content: '';

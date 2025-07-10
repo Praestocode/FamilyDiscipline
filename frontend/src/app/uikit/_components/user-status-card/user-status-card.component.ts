@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../../../interfaces/user';
 import { Status } from '../../../interfaces/status';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-user-status-card',
@@ -10,11 +11,12 @@ import { Status } from '../../../interfaces/status';
 export class UserStatusCardComponent implements OnInit {
   @Input() user!: User;
   @Input() statuses: Status[] = [];
+  famcoin = environment.famcoin; // Variabile per icona Famcoin
 
   ngOnInit(): void {
-    console.log(this.user.name)
-    console.log(this.user.status_id)
-    console.log(this.user.user_status)
+    if(environment.consolelog)(console.log(this.user.name));
+    if(environment.consolelog)(console.log(this.user.status_id));
+    if(environment.consolelog)(console.log(this.user.user_status));
   }
   
   getNextStatus(): Status | null {

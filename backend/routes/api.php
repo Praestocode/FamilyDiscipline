@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //User
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/user', [UserController::class, 'show']); // Endpoint per l'utente autenticato
+    Route::get('/users/points-history', [UserController::class, 'pointsHistory']); // Nuova rotta per userpointshistory
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/statuses', [StatusController::class, 'index']);
     //Smoke

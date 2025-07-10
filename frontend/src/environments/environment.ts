@@ -1,6 +1,8 @@
 export const environment = {
+  consolelog: false,
   production: false,
-  apiUrl: 'http://localhost:8000/api'
+  apiUrl: 'http://localhost:8000/api',
+  famcoin: '/assets/images/icons/virtuepoints.png', // Percorso dell'immagine
 };
 
 /* //Aggiorna quando vai in produzione

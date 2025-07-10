@@ -80,12 +80,12 @@
             'text-blue-400': user.status_name === 'Leggenda'
           }"
         >
-          Lv.{{ user.status_id }}
+          <span class="userCardLv">Lv.</span>{{ user.status_id }}
         </span>
-        {{ user.status_name }}
+        <span>{{ user.status_name }}</span>
       </p>
       <!-- Punti disciplina -->
-      <p
+      <!-- <p
         class="text-sm font-medium"
         [ngClass]="{
           'text-red-600 dark:text-purple-400': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
@@ -94,7 +94,21 @@
         }"
       >
         {{ user.discipline_points }} {{ user.discipline_points === 1 ? 'punto' : 'punti' }} disciplina
+      </p> -->
+      <!-- Punti disciplina -->
+
+      <!--FAMCOIN-->
+      <p
+        class="text-sm font-medium"
+        [ngClass]="{
+          'text-red-600 dark:text-purple-400': user.status_name !== 'Re' && user.status_name !== 'Leggenda',
+          'text-yellow-400': user.status_name === 'Re',
+          'text-blue-400': user.status_name === 'Leggenda'
+        }"
+      >
+        <span style="display: flex; align-items: center;"> <img class="famcoin mr-1" [src]="famcoin" alt="">{{ user.discipline_points }}</span>
       </p>
+      <!--FAMCOIN-->
     </div>
   </div>
 </div>

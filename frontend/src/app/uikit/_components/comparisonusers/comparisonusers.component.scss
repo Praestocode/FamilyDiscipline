@@ -1,0 +1,107 @@
+#pointsContainer {
+  border: var(--card-border);
+  background-color: var(--card-background);
+  .mainTitleUsers {
+    color: var(--text-color);
+  }
+}
+
+.chart-placeholder {
+  width: 100%;
+  height: 200px;
+  margin: auto;
+  background: linear-gradient(45deg, #e5e7eb 25%, #d1d5db 50%, #e5e7eb 75%);
+  border-radius: 10px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.text-center {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.labelsPointsHistoryP {
+  color: var(--text-color) !important;
+}
+
+////
+.userDataContainer{
+  border: var(--card-border-data-user);
+  padding: 4px !important;
+  border-radius: 10px !important;
+}
+
+.details-container {
+  margin-left: 1rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.toggle-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch; /* Scorrevolezza nativa su iOS */
+  scrollbar-width: none; /* Nasconde scrollbar su Firefox */
+  -ms-overflow-style: none; /* Nasconde scrollbar su IE/Edge */
+  border: var(--card-border-data-user);
+  border-radius: 8px !important;
+  align-items: center !important;
+  padding: 6px !important;
+
+  background-color: var(--stepper-new-color);
+  border: none;
+}
+
+.toggle-container::-webkit-scrollbar {
+  display: none; /* Nasconde scrollbar su Chrome/Safari */
+}
+
+.toggle-button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem; /* Bordi arrotondati per look nativo */
+  background-color: var(--card-background);
+  color: var(--text-color);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* Evita che il testo vada a capo */
+  border: 2px solid transparent;
+  padding: 0.3rem 0.9rem;
+}
+
+// .toggle-button:hover {
+//   background-color: var(--hover-background, #e5e7eb);
+// }
+
+.toggle-button.active {
+  background-color: var(--active-background, #4f46e5);
+  color: white;
+  border-color: var(--active-background, #4f46e5);
+  border:var(--stepper-new-color-border);
+}
+
+.dark .toggle-button:hover {
+  background-color: var(--hover-background, #374151);
+}
+
+.dark .toggle-button.active {
+  background-color: var(--active-background, #1C64F2);
+  border-color: var(--active-background, #1C64F2);
+}

@@ -1,0 +1,43 @@
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari, Edge (moderno) */
+}
+
+.refreshable-main {
+  height: 100vh;
+  overflow-y: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+  will-change: transform;
+  position: relative;
+  -ms-overflow-style: none !important; /* IE e Edge legacy */
+  scrollbar-width: none !important;    /* Firefox */
+}
+
+.refresh-placeholder-static {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 250px; // Deve essere uguale a maxPull
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 15px;
+  color: #444;
+  pointer-events: none;
+  transition: opacity 0.5s ease, color 0.5s ease;
+  opacity: 0;
+  z-index: 10;
+  //transform: translateY(-350px); // lo nasconde sopra la pagina
+}
+.refresh-placeholder-static.ready {
+  color: var(--title-color);
+}
+
+.rotate-icon {
+  transition: transform 0.3s ease;
+  margin-top: 0.5rem;
+}

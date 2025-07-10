@@ -7,10 +7,12 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  private apiUrl = 'http://localhost:8000/api'; // URL del backend
+  //private apiUrl = 'http://localhost:8000/api'; // URL del backend
+  private apiUrl = environment.apiUrl;
 
   constructor(private authService: AuthService) {}
 

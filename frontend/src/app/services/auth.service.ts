@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, tap, BehaviorSubject, forkJoin, catchError } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 interface LoginResponse {
   user: any;
@@ -12,7 +13,8 @@ interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
+  //private apiUrl = 'http://localhost:8000/api';
+  private apiUrl = environment.apiUrl;
   private tokenKey = 'auth_token';
   private userPreferencesKey = 'user_preferences';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
@@ -56,13 +58,29 @@ export class AuthService {
   }
 
   getUser(): Observable<any> {
-    console.log('mi eseguo getuser')
+    if(environment.consolelog)(console.log('mi eseguo getuser'));
     const token = this.getToken();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
 
     return this.http.get(`${this.apiUrl}/user`, { headers });
+  }
+
+
+
+  getUsersPointsHistory(): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<any[]>(`${this.apiUrl}/users/points-history`, { headers }).pipe(
+      tap(response => response), //tap(response => console.log('Storico punti utenti caricato:', response)),
+      catchError(error => {
+        console.error('Errore caricamento storico punti utenti:', error);
+        throw error;
+      })
+    );
   }
 
   //getUser per debug
@@ -107,6 +125,21 @@ export class AuthService {
     return preferences
       ? JSON.parse(preferences)
       : { int_smoke: false, int_weight: false, int_tasks: false };
+  }
+
+
+    getUsers(): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.get<any[]>(`${this.apiUrl}/users`, { headers }).pipe(
+      tap(response => response), //tap(response => console.log('Utenti caricati:', response)),
+      catchError(error => {
+        console.error('Errore caricamento utenti:', error);
+        throw error;
+      })
+    );
   }
 }
 

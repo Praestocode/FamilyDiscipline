@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-userprofilecard',
@@ -18,6 +19,8 @@ export class UserprofilecardComponent implements OnInit {
     int_smoke?: number;
   } | null = null;
   @Input() isLoading: boolean = false;
+
+  famcoin = environment.famcoin; // Variabile per icona Famcoin
 
   ngOnInit() {
 /*     setTimeout(() => {
