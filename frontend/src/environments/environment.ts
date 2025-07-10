@@ -1,6 +1,6 @@
 export const environment = {
   consolelog: false,
-  production: false,
+  production: true,
   apiUrl: 'https://api.familydiscipline.it/api',  
   famcoin: '/assets/images/icons/virtuepoints.png', // Percorso dell'immagine
 };
