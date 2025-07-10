@@ -18,8 +18,12 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie', 'login', 'logout', 'user'],
 
     'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['http://localhost:4200'],
+    
+    'allowed_origins' => [
+    'http://localhost:4200',
+    'https://www.familydiscipline.it',
+    'https://familydiscipline.it',
+    ],
 
     'allowed_origins_patterns' => [],
 
