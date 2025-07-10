@@ -15,6 +15,13 @@ import { TrackingCardTasksComponent } from './_components/tracking-card-tasks/tr
 import { InfocardComponent } from './_components/infocard/infocard.component';
 import { UsercardpathComponent } from './_components/usercardpath/usercardpath.component';
 import { TruncatePipe } from '../pipes/truncate.pipe';
+import { NetworthpiechartComponent } from './_components/networthpiechart/networthpiechart.component';
+import { UserpointshistoryComponent } from './_components/userpointshistory/userpointshistory.component';
+import { ComparisonweightComponent } from './_components/comparisonweight/comparisonweight.component';
+import { ComparisonsmokeComponent } from './_components/comparisonsmoke/comparisonsmoke.component';
+import { ComparisontasksComponent } from './_components/comparisontasks/comparisontasks.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ComparisonusersComponent } from './_components/comparisonusers/comparisonusers.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +38,12 @@ import { TruncatePipe } from '../pipes/truncate.pipe';
     InfocardComponent,
     UsercardpathComponent,
     TruncatePipe,
+    NetworthpiechartComponent,
+    UserpointshistoryComponent,
+    ComparisonweightComponent,
+    ComparisonsmokeComponent,
+    ComparisontasksComponent,
+    ComparisonusersComponent,
   ],
   exports: [
     NavbarComponent,
@@ -45,12 +58,19 @@ import { TruncatePipe } from '../pipes/truncate.pipe';
     TrackingCardTasksComponent,
     InfocardComponent,
     UsercardpathComponent,
+    NetworthpiechartComponent,
+    UserpointshistoryComponent,
+    ComparisonweightComponent,
+    ComparisonsmokeComponent,
+    ComparisontasksComponent,
+    ComparisonusersComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgApexchartsModule
   ]
 })
 export class UikitModule {}

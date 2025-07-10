@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, ViewContainerRef, EmbeddedViewRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -37,10 +37,28 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
   isCurrentWeightErrorAnimation: boolean = false;
   private themeSubscription: Subscription;
 
+
+
+
+  @ViewChild('modalTemplate') modalTemplate!: TemplateRef<any>;
+  modalRef: any;
+
+
+  @ViewChild('toastTemplate') toastTemplate!: TemplateRef<any>;
+  toastRef: EmbeddedViewRef<any> | null = null;
+
+
   // Nuova variabile per la progress bar
   progressPercentage: number = 0;
+  
+  famcoin = environment.famcoin; // Variabile per icona Famcoin
 
-  constructor(private http: HttpClient, private themeService: ThemeService) {
+  showResetModal: boolean = false;
+  showToast: boolean = false;
+  toastMessage: string = '';
+  private toastTimeout: any;
+
+  constructor(private http: HttpClient, private vcr: ViewContainerRef, private themeService: ThemeService) {
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
       this.isDarkTheme = isDark;
     });
@@ -52,6 +70,14 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+
+    if (this.toastRef) {
+    this.toastRef.destroy();
+    this.toastRef = null;
+    }
   }
 
   loadData() {
@@ -70,7 +96,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
         this.isIdealWeightEditable = !this.isIdealWeightSaved;
         this.isLoading = false;
         this.updateProgressPercentage();
-        console.log('Dati caricati:', data);
+        //console.log('Dati caricati:', data);
       },
       error: (err) => {
         console.error('Errore caricamento dati:', err);
@@ -94,13 +120,13 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.starting_weight != null && this.starting_weight > 120) {
-      this.startingWeightError = 'Eh la madonna...'; //(impossibile inserire questo peso)
+      this.startingWeightError = 'Ciao Martina, per recuperare le tue credenziali scrivici a assistenza@ciambelloni.com'; //(impossibile inserire questo peso)
       this.isProcessing = false;
       this.isStartingWeightSaving = false;
       return;
     }
 
-    console.log('Invio updateStartingWeight:', { starting_weight: this.starting_weight || 0 });
+    //console.log('Invio updateStartingWeight:', { starting_weight: this.starting_weight || 0 });
 
     this.http.post(`${environment.apiUrl}/weight/update`, {
       starting_weight: this.starting_weight || 0
@@ -112,7 +138,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
         this.isStartingWeightSaving = false;
         this.isProcessing = false;
         this.loadData();
-        console.log('updateStartingWeight completato');
+        //console.log('updateStartingWeight completato');
       },
       error: (err) => {
         if (err.status === 422 && err.error?.error) {
@@ -152,7 +178,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('Invio updateIdealWeight:', { ideal_weight: this.ideal_weight || 0 });
+    //console.log('Invio updateIdealWeight:', { ideal_weight: this.ideal_weight || 0 });
 
     this.http.post(`${environment.apiUrl}/weight/update`, {
       ideal_weight: this.ideal_weight || 0
@@ -164,7 +190,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
         this.isIdealWeightSaving = false;
         this.isProcessing = false;
         this.loadData();
-        console.log('updateIdealWeight completato');
+        //console.log('updateIdealWeight completato');
       },
       error: (err) => {
         if (err.status === 422 && err.error?.error) {
@@ -201,7 +227,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('Invio updateCurrentWeight:', { current_weight: weightToSend });
+    //console.log('Invio updateCurrentWeight:', { current_weight: weightToSend });
 
     this.http.post(`${environment.apiUrl}/weight/daily`, {
       current_weight: weightToSend
@@ -215,7 +241,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
         this.isCurrentWeightSaving = false;
         this.isProcessing = false;
         this.loadData();
-        console.log('updateCurrentWeight completato:', data);
+        //console.log('updateCurrentWeight completato:', data);
       },
       error: (err) => {
         if (err.status === 422 && err.error?.error) {
@@ -229,6 +255,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
   }
 
   resetWeights() {
+    if (this.isProcessing) return;
     this.isProcessing = true;
     this.http.delete(`${environment.apiUrl}/weight/reset`).subscribe({
       next: () => {
@@ -247,11 +274,15 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
         this.isIdealWeightEditing = false;
         this.isProcessing = false;
         this.loadData();
-        console.log('resetWeights completato');
+        this.showResetModal = false; // Chiude il modal solo dopo il completamento
+        this.showToastMessage('Pesi resettati con successo.');
+        //console.log('resetWeights completato');
+        this.modalRef?.destroy();
       },
       error: (err) => {
         console.error('Errore reset pesi:', err);
         this.isProcessing = false;
+        this.showToastMessage('Errore durante il reset dei pesi.');
       }
     });
   }
@@ -296,7 +327,7 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
   }
 
   stopEditingIfEmpty(field: 'starting' | 'current' | 'ideal', value: number | null) {
-    console.log(`stopEditingIfEmpty chiamato per ${field}:`, { value });
+    //console.log(`stopEditingIfEmpty chiamato per ${field}:`, { value });
     if (field === 'starting') {
       this.isStartingWeightEditing = true; // Mantieni editing durante la digitazione
       if (value == null || value <= 0) {
@@ -321,10 +352,10 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
   }
 
   checkCurrentWeightInteraction() {
-    console.log('checkCurrentWeightInteraction chiamato:', {
-      starting_weight: this.starting_weight,
-      ideal_weight: this.ideal_weight
-    });
+    // console.log('checkCurrentWeightInteraction chiamato:', {
+    //   starting_weight: this.starting_weight,
+    //   ideal_weight: this.ideal_weight
+    // });
     if (this.starting_weight == null || this.starting_weight <= 0 || 
         this.ideal_weight == null || this.ideal_weight <= 0) {
       this.cardError = 'Inserisci prima il peso iniziale e ideale!';
@@ -354,6 +385,87 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
     }
   }
 
+  // openResetModal() {
+  //   this.showResetModal = true;
+  // }
+
+  // cancelReset() {
+  //   this.showResetModal = false;
+  // }
+
+  openResetModal() {
+  this.showResetModal = true;
+  // crea il modal fuori dal <main>
+  this.modalRef = this.vcr.createEmbeddedView(this.modalTemplate);
+  document.body.appendChild(this.modalRef.rootNodes[0]); // sposta nel <body>
+  }
+
+  cancelReset() {
+    this.showResetModal = false;
+
+    this.modalRef?.destroy();
+  }
+
+  confirmReset() {
+    this.resetWeights(); // Avvia il reset, il modal resta aperto grazie a isProcessing
+  }
+
+  // showToastMessage(message: string) {
+  //   this.toastMessage = message;
+  //   this.showToast = true;
+  //   if (this.toastTimeout) {
+  //     clearTimeout(this.toastTimeout);
+  //   }
+  //   this.toastTimeout = setTimeout(() => {
+  //     this.hideToast();
+  //   }, 3000);
+  // }
+
+  // hideToast() {
+  //   this.showToast = false;
+  //   this.toastMessage = '';
+  //   this.toastTimeout = null;
+  // }
+
+  showToastMessage(message: string) {
+  this.toastMessage = message;
+
+  // Rimuove eventuale vecchio toast prima di mostrarne uno nuovo
+  if (this.toastRef) {
+    this.toastRef.destroy();
+  }
+
+  // Crea nuova vista e la aggiunge nel body
+  this.toastRef = this.vcr.createEmbeddedView(this.toastTemplate);
+  document.body.appendChild(this.toastRef.rootNodes[0]);
+
+  if (this.toastTimeout) {
+    clearTimeout(this.toastTimeout);
+  }
+  this.toastTimeout = setTimeout(() => {
+    this.hideToast();
+  }, 3000);
+  }
+
+  hideToast() {
+    if (this.toastRef) {
+      this.toastRef.destroy();
+      this.toastRef = null;
+    }
+    this.toastMessage = '';
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = null;
+    }
+  }
+
+
+  hasWeights(): boolean {
+    return (this.starting_weight != null && this.starting_weight > 0) ||
+           (this.current_weight != null && this.current_weight > 0) ||
+           (this.ideal_weight != null && this.ideal_weight > 0);
+  }
+
   get lockIcon(): string {
     return this.isDarkTheme ? '/assets/images/icons/weightlockwhite.png' : '/assets/images/icons/weightlockpurple.png';
   }
@@ -368,5 +480,9 @@ export class TrackingCardWeightComponent implements OnInit, OnDestroy {
 
   get saveIcon(): string {
     return this.isDarkTheme ? '/assets/images/icons/savewhite.png' : '/assets/images/icons/savepurple.png';
+  }
+
+  get resetIcon(): string {
+  return this.isDarkTheme ? '/assets/images/icons/resetwhite.png' : '/assets/images/icons/resetpurple.png';
   }
 }

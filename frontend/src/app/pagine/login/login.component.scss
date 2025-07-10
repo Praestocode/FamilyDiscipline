@@ -8,9 +8,11 @@
 
 /* Contenitore del form con glassmorphism */
 .bg-white {
-  background: var(--glass-bg);
+  // background: var(--glass-bg);
+  background: var(--background-dark);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  // border: 1px solid var(--glass-border);
+  border: solid rgb(220, 215, 215) 2px !important;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -99,7 +101,7 @@ input:focus {
   width: 1rem; /* Dimensione più piccola per stare accanto al testo */
   height: 1rem;
   border: 2px solid var(--secondary-purple);
-  border-top: 2px solid var(--primary-orange);
+  border-top: 2px solid var(--primary-white-spinner);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -108,4 +110,8 @@ input:focus {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.loginButton{
+  background: var(--login-button-bg-color);
 }

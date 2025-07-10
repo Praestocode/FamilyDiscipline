@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -6,6 +6,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { UikitModule } from './uikit/uikit.module';
 import { ThemeService } from './services/theme.service';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { PullToRefreshDirective } from './shared/directives/pull-to-refresh.directive';
 
 export function initializeTheme(themeService: ThemeService) {
   return () => {
@@ -21,13 +24,21 @@ export function initializeTheme(themeService: ThemeService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PullToRefreshDirective
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    UikitModule
+    UikitModule,
+    NgApexchartsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }) 
   ],
   providers: [
     {

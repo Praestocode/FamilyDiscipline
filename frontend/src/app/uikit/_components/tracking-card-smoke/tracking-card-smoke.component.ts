@@ -21,6 +21,11 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
   showToast: boolean = false;
   toastMessage: string = '';
   isDarkTheme: boolean = true;
+  isAssigning50Points: boolean = false;
+
+  famcoin = environment.famcoin; // Variabile per icona Famcoin
+
+
   private themeSubscription: Subscription;
 
   private toastMessages: string[] = [
@@ -31,7 +36,7 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient, private themeService: ThemeService) {
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
-      console.log('Theme changed, isDark:', isDark); // Debug
+      //console.log('Theme changed, isDark:', isDark); // Debug
       this.isDarkTheme = isDark;
     });
   }
@@ -44,6 +49,11 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
         this.consecutive_days = data.consecutive_days;
         this.consecutive_weeks = data.consecutive_weeks;
         this.isLoading = false;
+        if(this.count>this.limit){
+          this.isAssigning50Points = false;
+        } else {
+          this.isAssigning50Points = true;
+        }
       },
       error: (err) => {
         console.error('Errore caricamento dati:', err);
@@ -73,6 +83,7 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
     this.count++;
     if (previousCount <= this.limit && this.count > this.limit) {
       this.showToastMessage();
+      this.isAssigning50Points = false;
     }
 
     this.http.post(`${environment.apiUrl}/smoke/increment`, {}).subscribe({
@@ -97,6 +108,9 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
 
     const previousCount = this.count;
     this.count--;
+    if (previousCount > this.limit && this.count <= this.limit) {
+      this.isAssigning50Points = true;
+    }
 
     this.http.post(`${environment.apiUrl}/smoke/decrement`, {}).subscribe({
       next: (data: any) => {

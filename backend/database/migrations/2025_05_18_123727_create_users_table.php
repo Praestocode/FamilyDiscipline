@@ -15,6 +15,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('discipline_points')->default(0);
+            $table->integer('total_points_earned_by_smoke_so_far')->default(0);
+            $table->integer('total_points_earned_by_weight_so_far')->default(0);
+            $table->integer('total_points_earned_by_tasks_so_far')->default(0);
             $table->unsignedBigInteger('status_id')->default(1);
             $table->foreign('status_id')->references('id')->on('statuses')->onDelete('restrict');
             $table->string('profile_picture')->nullable();

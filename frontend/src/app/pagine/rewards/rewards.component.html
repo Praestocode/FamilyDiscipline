@@ -1,10 +1,10 @@
 <div class="p-4 mb-16">
-  <h1 class="pacifico-font text-2xl font-bold text-gray-900 dark:text-white mb-3 text-start">Premi e Status</h1>
+  <h1 class="pacifico-font text-2xl font-bold mb-3 text-start">Status</h1>
 
   <!-- Sezione Card Utente -->
   <div class="mb-4">
     <!-- Placeholder per card utente -->
-    <div *ngIf="isLoading" class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto bg-gray-100 dark:bg-gray-700 animate-pulse">
+    <div *ngIf="isLoading" class="card relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto bg-gray-100 dark:bg-gray-700 animate-pulse">
       <div class="flex flex-col items-center gap-4">
         <div class="w-24 h-24 rounded-full bg-gray-300"></div>
         <div class="w-full">
@@ -28,7 +28,7 @@
     <h2 class="smalltitle text-gray-900 dark:text-white mb-1 text-start">Tutti gli Status</h2>
     <!-- Placeholder per card status -->
     <div *ngIf="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div *ngFor="let _ of [1,2,3,4,5,6]" class="relative rounded-lg shadow-md p-4 w-full max-w-sm mx-auto bg-gray-100 dark:bg-gray-700 animate-pulse">
+      <div *ngFor="let _ of [1,2,3,4,5,6]" class="card relative rounded-lg shadow-md p-4 w-full max-w-sm mx-auto bg-gray-100 dark:bg-gray-700 animate-pulse">
         <div class="flex items-center gap-4">
           <div class="w-12 h-12 bg-gray-300 rounded"></div>
           <div class="flex-1">

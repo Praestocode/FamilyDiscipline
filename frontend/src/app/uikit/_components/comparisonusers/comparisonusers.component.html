@@ -1,0 +1,87 @@
+<div class="max-w-sm w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6" id="pointsContainer">
+  <!-- Titolo generale -->
+  <div class="flex items-center mb-4">
+    <h5 class="text-l font-bold leading-none text-gray-900 dark:text-white me-1 mainTitleUsers">Confronto Obiettivi</h5>
+    <span style="display: flex; align-items: center;">
+      <img class="famcoin mr-1" [src]="famcoin" alt="Famcoin">
+    </span>
+  </div>
+
+  <!-- Sezione Fumo -->
+  <div class="mb-6">
+    <h6 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 labelsPointsHistoryP">Fumo</h6>
+    <div *ngIf="isLoading" class="chart-placeholder"></div>
+    <div *ngIf="!isLoading && smokeUsers.length === 0" class="text-center text-gray-500 dark:text-gray-400 text-lg">
+      Nessun dato
+    </div>
+    <div *ngIf="!isLoading && smokeUsers.length > 0" id="smoke-chart"></div>
+    <div class="userDataContainer">
+      <div *ngIf="!isLoading && smokeUsers.length > 0" class="toggle-container mb-2">
+        <button *ngFor="let user of smokeUsers | slice:0:maxUsers"
+                class="toggle-button"
+                [ngClass]="{'active': selectedSmokeUser?.id === user.id}"
+                (click)="selectSmokeUser(user)">
+          {{ user.name }}
+        </button>
+      </div>
+      <div *ngIf="!isLoading && smokeUsers.length > 0 && selectedSmokeUser" class="details-container mb-2">
+        <div class="text-xs text-gray-600 dark:text-gray-400">
+          <p><strong>{{ selectedSmokeUser.name }}</strong> ({{ selectedSmokeUser.total_points_earned_by_smoke_so_far }} punti): Sigarette fumate oggi: {{ selectedSmokeUser.smoke_details.count }}/{{ selectedSmokeUser.smoke_details.limit }}</p>
+          <p>Rispetta il limite di {{selectedSmokeUser.smoke_details.limit}} sigarette da: {{ selectedSmokeUser.smoke_details.consecutive_days }} giorni, {{ selectedSmokeUser.smoke_details.consecutive_weeks }} settimane</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sezione Peso -->
+  <div class="mb-6">
+    <h6 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 labelsPointsHistoryP">Peso</h6>
+    <div *ngIf="isLoading" class="chart-placeholder"></div>
+    <div *ngIf="!isLoading && weightUsers.length === 0" class="text-center text-gray-500 dark:text-gray-400 text-lg">
+      Nessun dato
+    </div>
+    <div *ngIf="!isLoading && weightUsers.length > 0" id="weight-chart"></div>
+    <div class="userDataContainer">
+      <div *ngIf="!isLoading && weightUsers.length > 0" class="toggle-container mb-2">
+        <button *ngFor="let user of weightUsers | slice:0:maxUsers"
+                class="toggle-button"
+                [ngClass]="{'active': selectedWeightUser?.id === user.id}"
+                (click)="selectWeightUser(user)">
+          {{ user.name }}
+        </button>
+      </div>
+      <div *ngIf="!isLoading && weightUsers.length > 0 && selectedWeightUser" class="details-container mb-2">
+        <div class="text-xs text-gray-600 dark:text-gray-400">
+          <p><strong>{{ selectedWeightUser.name }}</strong> ({{ selectedWeightUser.total_points_earned_by_weight_so_far }} punti): Peso attuale: {{ selectedWeightUser.weight_details.current_weight | number:'1.1-1' }} kg</p>
+          <p>Peso ideale: {{ selectedWeightUser.weight_details.ideal_weight | number:'1.1-1' }} kg</p>
+          <p>Mancano: {{ (selectedWeightUser.weight_details.current_weight - selectedWeightUser.weight_details.ideal_weight) | number:'1.1-1' }} kg</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sezione Tasks -->
+  <div class="mb-6">
+    <h6 class="text-sm font-semibold text-gray-900 dark:text-white mb-2 labelsPointsHistoryP">Tasks</h6>
+    <div *ngIf="isLoading" class="chart-placeholder"></div>
+    <div *ngIf="!isLoading && tasksUsers.length === 0" class="text-center text-gray-500 dark:text-gray-400 text-lg">
+      Nessun dato
+    </div>
+    <div *ngIf="!isLoading && tasksUsers.length > 0" id="tasks-chart"></div>
+    <div class="userDataContainer">
+      <div *ngIf="!isLoading && tasksUsers.length > 0" class="toggle-container mb-2">
+        <button *ngFor="let user of tasksUsers | slice:0:maxUsers"
+                class="toggle-button"
+                [ngClass]="{'active': selectedTasksUser?.id === user.id}"
+                (click)="selectTasksUser(user)">
+          {{ user.name }}
+        </button>
+      </div>
+      <div *ngIf="!isLoading && tasksUsers.length > 0 && selectedTasksUser" class="details-container mb-2">
+        <div class="text-xs text-gray-600 dark:text-gray-400">
+          <p><strong>{{ selectedTasksUser.name }}</strong> ({{ selectedTasksUser.total_points_earned_by_tasks_so_far }} punti): Tasks oggi: {{ selectedTasksUser.tasks_details.completed_tasks_today }}/{{ selectedTasksUser.tasks_details.total_tasks_today }} completate</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

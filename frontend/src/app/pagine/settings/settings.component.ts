@@ -19,7 +19,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.preferences = this.authService.getUserPreferences();
     //
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
-    console.log('Theme changed from infocard component:' , isDark); //Debug
+    //console.log('Theme changed from infocard component:' , isDark); //Debug
     this.isDarkTheme = isDark;
     })
   }

@@ -193,6 +193,7 @@ class TasksController extends Controller
 
             $task->points_earned += $newPointsEarned - $oldPointsEarned;
             $user->discipline_points = ($user->discipline_points ?? 0) + ($newPointsEarned - $oldPointsEarned);
+            $user->total_points_earned_by_tasks_so_far = ($user->total_points_earned_by_tasks_so_far ?? 0) + ($newPointsEarned - $oldPointsEarned);
 
             Log::info('Before saving', [
                 'task_points_earned' => $task->points_earned,
@@ -263,6 +264,7 @@ class TasksController extends Controller
         if ($pointsDeducted > 0) {
             $task->points_earned -= $pointsDeducted;
             $user->discipline_points = max(0, ($user->discipline_points ?? 0) - $pointsDeducted);
+            $user->total_points_earned_by_tasks_so_far = max(0, ($user->total_points_earned_by_tasks_so_far ?? 0) - $pointsDeducted);
             $user->save();
         }
 

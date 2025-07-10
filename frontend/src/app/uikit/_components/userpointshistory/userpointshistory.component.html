@@ -1,0 +1,137 @@
+<div class="max-w-sm w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6" id="pointsContainer">
+  <div class="flex justify-between pb-3">
+    <dl>
+      <!-- <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1 labelHistory">Punti totali</dt> -->
+      <div class="flex items-center mb-3">
+        <h5 class="text-l font-bold leading-none text-gray-900 dark:text-white me-1 labelHistory">Analisi punti</h5>
+        <span style="display: flex; align-items: center;"> <img class="famcoin mr-1" [src]="famcoin" alt=""></span>
+      </div>
+      <dd *ngIf="totalPoints > 0"  class="leading-none text-xl font-bold text-gray-900 dark:text-white headTitlePoints pointsTotal">
+        {{ totalPoints | number }} punti
+      </dd>
+    </dl>
+    <!-- <div>
+      <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
+        <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+        </svg>
+        {{ users.length }} utenti
+      </span>
+    </div> -->
+  </div>
+
+  <!-- Pulsanti per scorrere agli utenti -->
+  <div *ngIf="!showNoDataMessage" class="flex flex-wrap gap-2 mb-4 historyUserButtonToScroll">
+    <button *ngFor="let user of displayedUsers"
+            (click)="scrollToUser(user.id)"
+            class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 userHistoryButton"
+            [attr.aria-label]="'Scorri alle statistiche di ' + user.name">
+      {{ user.name }}
+    </button>
+  </div>
+
+  <div class="py-3">
+    <!-- Placeholder -->
+    <div *ngIf="isLoading" class="chart-placeholder"></div>
+    <!-- Messaggio "Nessun dato" -->
+    <div *ngIf="!isLoading && showNoDataMessage" class="text-center text-gray-500 dark:text-gray-400 text-lg">
+      Nessun dato
+    </div>
+    <!-- Lista utenti -->
+    <div *ngIf="!isLoading && !showNoDataMessage">
+      <div *ngFor="let user of displayedUsers" class="mb-4" [id]="'user-' + user.id">
+        <div class="flex items-center mb-2">
+          <h6 class="text-lg font-semibold text-gray-900 dark:text-white labelsPointsHistoryP">{{ user.name }}</h6>
+          <span class="ml-2 text-sm text-gray-500 dark:text-gray-400 labelsPointsHistoryP">({{ user.discipline_points | number }} punti)</span>
+        </div>
+        <!-- Progress bar generale -->
+        <div class="mb-2 progress-container">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">Punti generali</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">{{ user.discipline_points | number }} punti</span>
+          </div>
+          <div class="w-full rounded-full h-2.5 bg-gray-200 dark:bg-white-700">
+            <div class="bg-general h-2.5 rounded-full" [style.width.%]="getProgressPercentage(user.discipline_points, maxPoints)"></div>
+          </div>
+        </div>
+        <!-- Progress bar per interessi attivi -->
+        <div *ngIf="user.int_smoke" class="mb-2 progress-container">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">Fumo</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">{{ user.total_points_earned_by_smoke_so_far | number }} punti</span>
+          </div>
+          <div class="w-full rounded-full h-2.5 bg-gray-200 dark:bg-white-700">
+            <div class="bg-smoke h-2.5 rounded-full" [style.width.%]="getProgressPercentage(user.total_points_earned_by_smoke_so_far, maxPoints)"></div>
+          </div>
+        </div>
+        <div *ngIf="user.int_weight" class="mb-2 progress-container">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">Peso</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">{{ user.total_points_earned_by_weight_so_far | number }} punti</span>
+          </div>
+          <div class="w-full rounded-full h-2.5 bg-gray-200 dark:bg-white-700">
+            <div class="bg-weight h-2.5 rounded-full" [style.width.%]="getProgressPercentage(user.total_points_earned_by_weight_so_far, maxPoints)"></div>
+          </div>
+        </div>
+        <div *ngIf="user.int_tasks" class="mb-2 progress-container">
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">Tasks</span>
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300 labelsPointsHistoryP2">{{ user.total_points_earned_by_tasks_so_far | number }} punti</span>
+          </div>
+          <div class="w-full rounded-full h-2.5 bg-gray-200 dark:bg-white-700">
+            <div class="bg-tasks h-2.5 rounded-full" [style.width.%]="getProgressPercentage(user.total_points_earned_by_tasks_so_far, maxPoints)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+    <div class="flex justify-between items-center pt-5">
+      <button
+        id="dropdownDefaultButton"
+        data-dropdown-toggle="lastDaysdropdown"
+        data-dropdown-placement="bottom"
+        class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+        type="button">
+        Visualizza tutti
+        <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+      </button>
+      <div id="lastDaysdropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ieri</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Oggi</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimi 7 giorni</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimi 30 giorni</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimi 90 giorni</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimi 6 mesi</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimo anno</a>
+          </li>
+        </ul>
+      </div>
+      <a
+        href="#"
+        class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+        Report punti
+        <svg class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+        </svg>
+      </a>
+    </div>
+  </div> -->
+</div>

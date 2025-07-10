@@ -1,5 +1,5 @@
 <div
-  class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg"
+  class="card relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg"
   [ngClass]="user && !isLoading ? {
     'bg-gray-100 dark:bg-gray-700': user.status_id !== 8 && user.status_id !== 9,
     'bg-white dark:bg-gray-800 king-card': user.status_id === 8,
@@ -68,7 +68,7 @@
         {{ user.user_status || 'Sconosciuto' }}
       </p>
       <!-- Punti disciplina -->
-      <p
+      <!-- <p
         class="text-base font-medium"
         [ngClass]="{
           'text-red-600 dark:text-purple-400': user.status_id !== 8 && user.status_id !== 9,
@@ -77,7 +77,20 @@
         }"
       >
         {{ user.discipline_points }} {{ user.discipline_points === 1 ? 'punto' : 'punti' }} disciplina
+      </p> -->
+      <!-- Punti disciplina -->
+      <!-- FAMCOIN -->
+      <p
+        class="text-base font-medium"
+        [ngClass]="{
+          'text-red-600 dark:text-purple-400': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-400': user.status_id === 8,
+          'text-blue-400': user.status_id === 9
+        }"
+      >
+      <span style="display: flex; align-items: center;"> <img class="famcoin mr-1" [src]="famcoin" alt="">{{ user.discipline_points }} <span class="ml-2">(FamPoints)</span></span>
       </p>
+      <!-- FAMCOIN -->
     </div>
     <div class="interestsSection" style="display: flex; justify-content: space-around;">
       <span *ngIf="user.int_tasks" class="flex items-center text-sm font-medium text-gray-900 dark:text-white me-3"><span class="flex w-2.5 h-2.5 bg-purple-600 rounded-full me-1.5 shrink-0"></span>Tasks</span>

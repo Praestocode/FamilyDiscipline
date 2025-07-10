@@ -1,0 +1,131 @@
+#pointsContainer {
+  border: var(--card-border);
+  background-color: var(--card-background);
+  .headTitlePoints {
+    color: var(--text-color);
+  }
+  .labelHistory{
+    color: var(--text-color);
+  }
+  .pointsTotal{
+    color: var(--user-card-lv-color);
+  }
+  // .userHistoryButton{
+  //   background-color: var(--button-background-color);
+  //   border: var(--button-border);
+  //   color: var(--button-text-color);
+  //   border-radius: 22px;
+  //   cursor: pointer;
+  //   text-decoration: none !important;
+  //   padding: 6px;
+  //   width: fit-content;
+  //   max-width: fit-content;
+  //   font-size: 12px;
+  //   margin: 4px;
+  //   display: flex;
+  //   align-items: center;
+  //   text-align: center;
+  //   padding-right: 10px !important;
+  //   padding-left: 10px !important;
+  // }
+  .labelsPointsHistoryP{
+    color: var(--text-color) !important;
+  }
+  .labelsPointsHistoryP2{
+    color: var(--user-history-paragraph-2) !important;
+  }
+
+  .historyUserButtonToScroll{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch; /* Scorrevolezza nativa su iOS */
+    scrollbar-width: none; /* Nasconde scrollbar su Firefox */
+    -ms-overflow-style: none; /* Nasconde scrollbar su IE/Edge */
+    border: var(--card-border-data-user);
+    border-radius: 8px !important;
+    align-items: center !important;
+    padding: 6px !important;
+
+    background-color: var(--stepper-new-color);
+    border: none;
+  }
+  .historyUserButtonToScroll::-webkit-scrollbar {
+  display: none; /* Nasconde scrollbar su Chrome/Safari */
+  }
+  .userHistoryButton{
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--card-border);
+    border-radius: 1.5rem; /* Bordi arrotondati per look nativo */
+    background-color: var(--card-background);
+    color: var(--text-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Evita che il testo vada a capo */
+    border: 2px solid transparent;
+    padding: 0.3rem 0.9rem;
+  }
+  .userHistoryButton:focus {
+  background-color: var(--active-background, #4f46e5);
+  color: white;
+  border-color: var(--active-background, #4f46e5);
+  border:var(--stepper-new-color-border);
+ }
+}
+
+.chart-placeholder {
+  width: 100%;
+  height: 100px;
+  margin: auto;
+  background: linear-gradient(45deg, #e5e7eb 25%, #d1d5db 50%, #e5e7eb 75%);
+  border-radius: 10px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.text-center {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.progress-container {
+  max-width: 95%; /* Margine visivo per non toccare i bordi */
+  margin: 0 auto;
+}
+
+/* Colori personalizzati per le progress bar */
+.bg-general {
+  @apply bg-indigo-500 dark:bg-indigo-400;
+}
+
+.bg-smoke {
+  @apply bg-teal-500 dark:bg-teal-400;
+}
+
+.bg-weight {
+  @apply bg-pink-500 dark:bg-pink-400;
+}
+
+.bg-tasks {
+  @apply bg-amber-500 dark:bg-amber-400;
+}
+
+/* Stili per i pulsanti degli utenti */
+button {
+  transition: background-color 0.2s ease-in-out;
+}

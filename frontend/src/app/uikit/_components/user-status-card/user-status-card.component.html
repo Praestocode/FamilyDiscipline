@@ -1,5 +1,5 @@
 <div
-  class="relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg"
+  class="card relative rounded-lg shadow-md p-6 w-full max-w-md mx-auto transition-all duration-300 hover:shadow-lg"
   [ngClass]="{
     'bg-gray-100 dark:bg-gray-700': user.status_id !== 8 && user.status_id !== 9,
     'bg-gradient-to-br from-yellow-500 to-orange-600 dark:from-yellow-600 dark:to-orange-700 king-card': user.status_id === 8,
@@ -46,7 +46,7 @@
         }"
       >
         <span
-          class="text-sm"
+          class="text-sm disciplinoss"
           [ngClass]="{
             'text-gray-600 dark:text-purple-300': user.status_id !== 8 && user.status_id !== 9,
             'text-yellow-400': user.status_id === 8,
@@ -57,8 +57,8 @@
         </span>
       </p>
       <!-- Punti raccolti -->
-      <p
-        class="text-base font-medium"
+      <!-- <p
+        class="text-base font-medium disciplinoss"
         [ngClass]="{
           'text-red-600 dark:text-purple-400': user.status_id !== 8 && user.status_id !== 9,
           'text-yellow-400': user.status_id === 8,
@@ -66,7 +66,20 @@
         }"
       >
         {{ user.discipline_points }} {{ user.discipline_points === 1 ? 'punto' : 'punti' }} disciplina
+      </p> -->
+      <!--Punti raccolti-->
+      <!--FAMCOIN-->
+      <p
+        class="text-base font-medium disciplinoss"
+        [ngClass]="{
+          'text-red-600 dark:text-purple-400': user.status_id !== 8 && user.status_id !== 9,
+          'text-yellow-400': user.status_id === 8,
+          'text-blue-400': user.status_id === 9
+        }"
+      >
+      <span style="display: flex; align-items: center;"> <img class="famcoin mr-1" [src]="famcoin" alt="">{{ user.discipline_points }}<span class="ml-2">(FamPoints)</span></span>
       </p>
+      <!--FAMCOIN-->
     </div>
     <!-- Progress bar e prossimo status -->
     <div class="w-full">
@@ -78,10 +91,10 @@
           'text-blue-300': user.status_id === 9
         }"
       >
-        <span *ngIf="getNextStatus()">{{ getPointsToNext() }} pt. per lo status "{{ getNextStatus()?.name }}"</span>
-        <span *ngIf="!getNextStatus()">Sei ormai nei libri di storia...</span>
+        <span class="missingPoints text-xs" *ngIf="getNextStatus()">{{ getPointsToNext() }} FamPoints per lo status "{{ getNextStatus()?.name }}"</span>
+        <span class="missingPoints text-xs" *ngIf="!getNextStatus()">Sei ormai nei libri di storia...</span>
       </div>
-      <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
+      <div class="w-full bg-gray-200 dark:bg-white-700  rounded-full h-2.5">
         <div
           class="h-2.5 rounded-full"
           [ngClass]="{

@@ -33,17 +33,17 @@ export class UsercardpathComponent implements OnInit, OnDestroy {
     });
 
     // Debug
-    setTimeout(() => {
-      console.log(
-        'DA PROFIL CARD: ',
-        'user_status:', this.user?.user_status,
-        'status_id:', this.user?.status_id,
-        'nome', this.user?.name,
-        'interesse 1', this.user?.int_tasks,
-        'interesse 2', this.user?.int_weight,
-        'interesse 3', this.user?.int_smoke
-      );
-    }, 2500);
+    // setTimeout(() => {
+    //   console.log(
+    //     'DA PROFIL CARD: ',
+    //     'user_status:', this.user?.user_status,
+    //     'status_id:', this.user?.status_id,
+    //     'nome', this.user?.name,
+    //     'interesse 1', this.user?.int_tasks,
+    //     'interesse 2', this.user?.int_weight,
+    //     'interesse 3', this.user?.int_smoke
+    //   );
+    // }, 2500);
   }
 
   ngOnDestroy(): void {

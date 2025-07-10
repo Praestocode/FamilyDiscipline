@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-homepage',
@@ -10,11 +11,12 @@ export class HomepageComponent implements OnInit {
   users: { name: string, status_id: number, status_name: string, status_icon: string, discipline_points: number, profile_picture?: string }[] = [];
   isLoading: boolean = true;
   placeholderArray: number[] = [1, 2, 3]; // 3 placeholder durante il caricamento
+  private apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.http.get('http://localhost:8000/api/users').subscribe({
+    this.http.get(this.apiUrl+'/users').subscribe({
       next: (data: any) => {
         this.users = data;
         this.sortUsers();
@@ -66,6 +68,13 @@ export class HomepageComponent implements OnInit {
         ...user,
         position: undefined // Nessuna posizione
       }));
+    }
+  }
+
+    scrollTo(elementId: string): void {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 }

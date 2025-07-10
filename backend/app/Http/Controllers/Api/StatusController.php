@@ -11,6 +11,7 @@ class StatusController extends Controller
     public function index()
     {
         $baseUrl = env('APP_URL', 'http://localhost:8000');
+        //$baseUrl = env('APP_URL');
         $statuses = Status::all()->map(function ($status) use ($baseUrl) {
             return [
                 'id' => $status->id,

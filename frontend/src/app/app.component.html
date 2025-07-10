@@ -1,4 +1,200 @@
+<div
+  id="splash-screen"
+  [class.no-animation]="hasShownSplash"
+  *ngIf="showSplash"
+>
+  <h2
+    class="pacifico-font-title text-3xl font-bold mb-2"
+    style="font-size: 1.7em; color: white;"
+  >
+    Family Discipline
+  </h2>
+</div>
+
+<ng-container *ngIf="isMobileDevice; else notSupported">
+  <div class="maxContainer" [class.hidden]="showSplash">
+    <header></header>
+
+    <!-- FEEDBACK PULL FUORI dal contenuto scrollabile -->
+    <div
+      *ngIf="pullFeedbackVisible"
+      class="refresh-placeholder-static"
+      [class.ready]="canRefresh"
+      [style.opacity]="feedbackOpacity"
+    >
+      Rilascia per aggiornare
+      <img
+        [src]="resetIcon"
+        class="w-5 h-5 rotate-icon"
+        alt="Reset Icon"
+        [style.transform]="'rotate(' + rotationAngle + 'deg)'"
+        [style.opacity]="feedbackOpacity"
+      />
+    </div>
+
+    <!-- CONTENUTO SCROLLABILE -->
+    <main
+      *ngIf="isLoggedIn"
+      class="refreshable-main relative overflow-hidden"
+      appPullToRefresh
+      (refresh)="onGlobalRefresh()"
+      (pullProgress)="onPullProgress($event)"
+    >
+      <router-outlet></router-outlet>
+    </main>
+
+    <main *ngIf="!isLoggedIn">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer>
+      <app-navbar *ngIf="isLoggedIn"></app-navbar>
+    </footer>
+  </div>
+</ng-container>
+
+<ng-template #notSupported>
+  <div
+    class="w-screen h-screen flex flex-col items-center justify-center text-center p-6"
+    [class.hidden]="showSplash"
+  >
+    <h1 class="pacifico-font-title text-3xl font-bold mb-2">Family Discipline</h1>
+    <p class="text-base">
+      Questa applicazione è disponibile solo su dispositivi mobili.  
+      Accedi da uno smartphone per utilizzare Family Discipline.
+    </p>
+  </div>
+</ng-template>
+
+
+
+
+
+
+<!-- <ng-container *ngIf="isMobileDevice; else notSupported">
+  <div class="maxContainer">
+    <header></header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    <footer>
+      <app-navbar *ngIf="isLoggedIn"></app-navbar>
+    </footer>
+  </div>
+</ng-container>
+
+<ng-template #notSupported>
+  <div class="w-screen h-screen flex flex-col items-center justify-center text-center p-6">
+    <h1 class="pacifico-font-title text-3xl font-bold mb-2">Family Discipline</h1>
+    <p class="text-base">
+      Questa applicazione è disponibile solo su dispositivi mobili.  
+      Accedi da uno smartphone per utilizzare Family Discipline.
+    </p>
+  </div>
+</ng-template> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- LATEST AND WORKING ONE --> <!-- LATEST AND WORKING ONE --> <!-- LATEST AND WORKING ONE --> <!-- LATEST AND WORKING ONE --> <!-- LATEST AND WORKING ONE -->
+
+<!-- <ng-container *ngIf="isMobileDevice; else notSupported">
 <div class="maxContainer">
+  <header></header>
+
+  <div
+    *ngIf="pullFeedbackVisible"
+    class="refresh-placeholder-static"
+    [class.ready]="canRefresh"
+    [style.opacity]="feedbackOpacity"
+  >
+    Rilascia per aggiornare
+    <img
+      [src]="resetIcon"
+      class="w-5 h-5 rotate-icon"
+      alt="Reset Icon"
+      [style.transform]="'rotate(' + (rotationAngle) + 'deg)'"
+      [style.opacity]="feedbackOpacity"
+    />
+  </div>
+
+  <main
+    *ngIf="isLoggedIn"
+    class="refreshable-main relative overflow-hidden"
+    appPullToRefresh
+    (refresh)="onGlobalRefresh()"
+    (pullProgress)="onPullProgress($event)"
+  >
+    <router-outlet></router-outlet>
+  </main>
+
+  <main *ngIf="!isLoggedIn">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer>
+    <app-navbar *ngIf="isLoggedIn"></app-navbar>
+  </footer>
+</div>
+
+</ng-container>
+
+<ng-template #notSupported>
+  <div class="w-screen h-screen flex flex-col items-center justify-center text-center p-6">
+    <h1 class="pacifico-font-title text-3xl font-bold mb-2">Family Discipline</h1>
+    <p class="text-base">
+      Questa applicazione è disponibile solo su dispositivi mobili.  
+      Accedi da uno smartphone per utilizzare Family Discipline.
+    </p>
+  </div>
+</ng-template> -->
+
+
+
+
+<!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER--> <!--OLDER-->
+
+<!-- <ng-container *ngIf="isMobileDevice; else notSupported">
+  <div class="maxContainer">
+    <header></header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+    <footer>
+      <app-navbar *ngIf="isLoggedIn"></app-navbar>
+    </footer>
+  </div>
+</ng-container>
+
+<ng-template #notSupported>
+  <div class="w-screen h-screen flex flex-col items-center justify-center text-center p-6">
+    <h1 class="pacifico-font-title text-3xl font-bold mb-2">Family Discipline</h1>
+    <p class="text-base">
+      Questa applicazione è disponibile solo su dispositivi mobili.  
+      Accedi da uno smartphone per utilizzare Family Discipline.
+    </p>
+  </div>
+</ng-template> -->
+
+
+
+<!--OLDEST - USELESS--> <!--OLDEST - USELESS--> <!--OLDEST - USELESS--> <!--OLDEST - USELESS--> <!--OLDEST - USELESS--> <!--OLDEST - USELESS--> <!--OLDEST - USELESS--> <!--OLDEST - USELESS-->
+
+<!-- <div class="maxContainer">
   <header></header>
   <main>
     <router-outlet></router-outlet>
@@ -6,4 +202,4 @@
   <footer>
     <app-navbar *ngIf="isLoggedIn"></app-navbar>
   </footer>
-</div>
+</div> -->

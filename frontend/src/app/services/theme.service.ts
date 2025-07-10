@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class ThemeService {
   }
 
   setInitialTheme(isDark: boolean) {
-    console.log('mi eseguo')
+    if(environment.consolelog)(console.log('mi eseguo'));
+    //console.log('mi eseguo')
     this.isDarkTheme.next(isDark);
     document.documentElement.classList.remove('light');
     if (!isDark) {

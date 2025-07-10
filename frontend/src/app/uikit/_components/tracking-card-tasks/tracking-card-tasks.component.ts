@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, TemplateRef, ViewContainerRef, EmbeddedViewRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription, lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -43,11 +43,21 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
   @ViewChild('taskInput') taskInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private http: HttpClient, private themeService: ThemeService) {
+  //Nuovo codice
+
+  @ViewChild('modalTemplate') modalTemplate!: TemplateRef<any>;
+  modalRef: any;
+
+  @ViewChild('toastTemplate') toastTemplate!: TemplateRef<any>;
+  toastRef: EmbeddedViewRef<any> | null = null;
+
+  constructor(private http: HttpClient, private vcr: ViewContainerRef, private themeService: ThemeService) {
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
       this.isDarkTheme = isDark;
     });
   }
+
+  famcoin = environment.famcoin; // Variabile per icona Famcoin
 
   ngOnInit() {
     this.setCurrentDay();
@@ -64,6 +74,11 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
     this.themeSubscription.unsubscribe();
     if (this.toastTimeout) {
       clearTimeout(this.toastTimeout);
+    }
+
+    if (this.toastRef) {
+      this.toastRef.destroy();
+      this.toastRef = null;
     }
   }
 
@@ -109,7 +124,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
         });
 
         this.isLoading = false;
-        console.log('Dati caricati:', data);
+        //console.log('Dati caricati:', data);
       },
       error: (err) => {
         console.error('Errore caricamento dati:', err);
@@ -173,9 +188,9 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   saveTask() {
-    console.log('saveTask called', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
+    //console.log('saveTask called', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
     if (!this.editingTask || !this.newTaskDescription.trim()) {
-      console.log('saveTask exited early', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
+      //console.log('saveTask exited early', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
       this.cancelEdit();
       return;
     }
@@ -192,12 +207,12 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
       id: task.id || null
     };
 
-    console.log('Saving task with payload:', payload);
+    //console.log('Saving task with payload:', payload);
 
     const endpoint = task.id ? `${environment.apiUrl}/tasks/update` : `${environment.apiUrl}/tasks/create`;
     this.http.post(endpoint, payload, { observe: 'response' }).subscribe({
       next: (response: any) => {
-        console.log('Risposta backend:', response);
+        //console.log('Risposta backend:', response);
         const updatedTask: Task = {
           id: response.body.task?.id || task.id,
           description: this.newTaskDescription,
@@ -242,10 +257,10 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
   onBlur(event: Event) {
     const focusEvent = event as FocusEvent;
     const relatedTarget = focusEvent.relatedTarget as HTMLElement | null;
-    console.log('onBlur triggered', {
-      isSaveIconClicked: this.isSaveIconClicked,
-      relatedTarget: relatedTarget instanceof HTMLElement ? relatedTarget.className : 'null or not an HTMLElement'
-    });
+    // console.log('onBlur triggered', {
+    //   isSaveIconClicked: this.isSaveIconClicked,
+    //   relatedTarget: relatedTarget instanceof HTMLElement ? relatedTarget.className : 'null or not an HTMLElement'
+    // });
 
     if (this.isSaveIconClicked || (relatedTarget && (relatedTarget.classList.contains('save-icon') || relatedTarget.closest('.save-icon-wrapper')))) {
       return;
@@ -255,11 +270,11 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
   }
 
   onSaveIconMouseDown() {
-    console.log('onSaveIconMouseDown triggered');
+    //console.log('onSaveIconMouseDown triggered');
     this.isSaveIconClicked = true;
     this.saveTask();
     setTimeout(() => {
-      console.log('isSaveIconClicked reset');
+      //console.log('isSaveIconClicked reset');
       this.isSaveIconClicked = false;
     }, 100);
   }
@@ -326,7 +341,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
       completed: newCompletedState
     }, { observe: 'response' }).subscribe({
       next: (response: any) => {
-        console.log('Risposta backend complete:', response);
+        //console.log('Risposta backend complete:', response);
         if (response.body.message === 'Task aggiornato') {
           targetTasks[hourIndex][taskIndex] = {
             ...task,
@@ -366,11 +381,16 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
   openResetModal(type: 'weekday' | 'weekend') {
     this.resetCardType = type;
     this.showResetModal = true;
+
+    this.modalRef = this.vcr.createEmbeddedView(this.modalTemplate);
+    document.body.appendChild(this.modalRef.rootNodes[0]); // sposta nel <body>
   }
 
   cancelReset() {
     this.showResetModal = false;
     this.resetCardType = null;
+
+    this.modalRef?.destroy();
   }
 
   async confirmReset() {
@@ -396,24 +416,58 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
     this.isProcessing = false;
     this.showResetModal = false;
     this.resetCardType = null;
+    this.modalRef?.destroy();
   }
 
+  // showToastMessage(message: string) {
+  //   this.toastMessage = message;
+  //   this.showToast = true;
+  //   if (this.toastTimeout) {
+  //     clearTimeout(this.toastTimeout);
+  //   }
+  //   this.toastTimeout = setTimeout(() => {
+  //     this.hideToast();
+  //   }, 3000);
+  // }
+
+  // hideToast() {
+  //   this.showToast = false;
+  //   this.toastMessage = '';
+  //   this.toastTimeout = null;
+  // }
+
   showToastMessage(message: string) {
-    this.toastMessage = message;
-    this.showToast = true;
-    if (this.toastTimeout) {
-      clearTimeout(this.toastTimeout);
-    }
-    this.toastTimeout = setTimeout(() => {
-      this.hideToast();
-    }, 3000);
+  this.toastMessage = message;
+
+  // Mostra dinamicamente il toast nel body
+  if (this.toastRef) {
+    this.toastRef.destroy(); // Elimina eventuale vecchio toast
+  }
+
+  this.toastRef = this.vcr.createEmbeddedView(this.toastTemplate);
+  document.body.appendChild(this.toastRef.rootNodes[0]);
+
+  // Timeout per nascondere il toast
+  if (this.toastTimeout) {
+    clearTimeout(this.toastTimeout);
+  }
+  this.toastTimeout = setTimeout(() => {
+    this.hideToast();
+  }, 3000);
   }
 
   hideToast() {
-    this.showToast = false;
+    if (this.toastRef) {
+      this.toastRef.destroy();
+      this.toastRef = null;
+    }
     this.toastMessage = '';
-    this.toastTimeout = null;
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = null;
+    }
   }
+
 
   trackByTask(index: number, task: Task): string {
     return task.id || `${index}`;
@@ -463,6 +517,10 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
   get clockIcon(): string {
     return this.isDarkTheme ? '/assets/images/icons/clockwhite.png' : '/assets/images/icons/clockpurple.png';
+  }
+
+  get calendarIcon() : string {
+    return this.isDarkTheme ? '/assets/images/icons/calendarwhite.png' : '/assets/images/icons/calendarpurple.png';
   }
 
   scrollToCurrentHour(type: 'weekday' | 'weekend') {

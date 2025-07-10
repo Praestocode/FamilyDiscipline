@@ -1,3 +1,18 @@
+.card {
+  background: var(--card-background-color) !important;
+  color: var(--text-color);
+  border: var(--card-border);
+  h4{
+    color: var(--text-color);
+  }
+  .pointsAndMissing{
+    color: var(--text-color);
+  }
+}
+
+
+
+
 .relative {
   overflow: visible;
 }
@@ -5,6 +20,18 @@
 .king-card {
   border: 2px solid rgba(255, 215, 0, 0.6);
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+  background: var(--card-king-background-color) !important;
+}
+
+
+.legend-card{
+  background: linear-gradient(135deg, #3A0864, #182656) !important;
+  h4{
+    color: white !important;
+  }
+  .pointsAndMissing{
+    color: white !important;
+  }
 }
 
 /* .legend-card {

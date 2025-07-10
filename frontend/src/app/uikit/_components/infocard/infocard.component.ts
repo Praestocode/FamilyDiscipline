@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ThemeService } from '../../../services/theme.service';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-infocard',
@@ -11,12 +12,13 @@ import { Subscription } from 'rxjs';
 export class InfocardComponent implements OnInit, OnDestroy {
   isDarkTheme: boolean = true;
   isLoading = true;
+  famcoin = environment.famcoin; // Variabile per icona Famcoin
 
   private themeSubscription: Subscription;
 
   constructor(private http: HttpClient, private themeService: ThemeService){
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
-      console.log('Theme changed from infocard component:' , isDark); //Debug
+      //console.log('Theme changed from infocard component:' , isDark); //Debug
       this.isDarkTheme = isDark;
     })
   }

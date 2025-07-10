@@ -1,0 +1,94 @@
+#wholePieContainer{
+  border: var(--card-border);
+  background-color: var(--card-background);
+  .headTitlePoints{
+    color: var(--text-color);
+  }
+  #wholeStatsPieContainer{
+    .titlePieStats{
+      font-weight: bold !important;
+      color: var(--text-color);
+      .titlePieStatsData{
+        color: var(--text-color);
+        font-weight: normal !important;
+      }
+      .bigDot {
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        background-color: currentColor;
+        border-radius: 50%;
+        margin: 0 6px;
+        transform: translateY(-1px); /* alza leggermente il puntino */
+      }
+    }
+  }
+}
+
+
+#pie-chart {
+  min-height: 300px; // Ripristinato a 300px
+  width: 100%; // Assicura che il contenitore abbia una larghezza definita
+  height: 300px; // Assicura che il contenitore abbia un'altezza definita
+  .apexcharts-canvas {
+    background: transparent !important; // Evita sfondi indesiderati
+  }
+
+  .apexcharts-legend .apexcharts-legend-text {
+    color: #FFFFFF; // Colore di fallback, gestito dinamicamente da TypeScript
+  }
+}
+
+.dark #pie-chart .apexcharts-tooltip {
+  background: #1F2937 !important; // Adatta tooltip in dark mode
+  color: #F9FAFB !important;
+}
+
+.light #pie-chart .apexcharts-tooltip {
+  background: #FFFFFF !important; // Adatta tooltip in light mode
+  color: #1F2937 !important;
+}
+
+.text-center {
+  font-size: 1.125rem; // 18px
+  font-weight: 500;
+}
+
+.chart-placeholder {
+  width: 250px; // Ridotto a 250px
+  height: 250px; // Ridotto a 250px
+  margin: auto;
+  background: linear-gradient(45deg, #e5e7eb 25%, #d1d5db 50%, #e5e7eb 75%); // Grigio sfumato
+  border-radius: 50%; // Forma circolare
+  animation: pulse 1.5s infinite; // Animazione di pulsazione
+  position: relative;
+}
+
+/* Opzionale: testo "Caricamento..." al centro del placeholder */
+/*.chart-placeholder::after {
+  content: 'Caricamento...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #6b7280;
+  font-size: 1rem;
+  font-weight: 500;
+}*/
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.text-center.mt-4 {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-color);
+}
