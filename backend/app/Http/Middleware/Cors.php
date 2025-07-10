@@ -10,6 +10,7 @@ class Cors
 {
     public function handle(Request $request, Closure $next): Response
     {
+        Log::info('CORS middleware called');
         $allowedOrigins = [
             'http://localhost:4200',
             'https://familydiscipline.it',
