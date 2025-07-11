@@ -6,6 +6,8 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "orientation": "portrait",
+  "categories": ["productivity", "utilities"],
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
