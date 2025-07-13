@@ -10,14 +10,18 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        \Log::info('[PROD] Inizio metodo login', ['email' => $request->email]);
+        // Log solo in ambiente non di produzione, se vuoi
+        if (app()->environment('local', 'staging')) {
+            \Log::info('[DEBUG] Inizio metodo login', ['email' => $request->email]);
+        }
         
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        \Log::info('[PROD] Credenziali validate', $credentials);
+        // Log solo l'email, mai la password
+        \Log::info('[PROD] Credenziali validate', ['email' => $credentials['email']]);
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
