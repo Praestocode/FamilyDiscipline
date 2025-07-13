@@ -112,6 +112,7 @@
         </button>
     </div>
     <!--NUOVO CODICE ENDS-->
+    <!--INIZIO CAMPO PESO INIZIALE-->
     <div class="mb-4 relative">
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         Peso Iniziale (kg)
@@ -151,43 +152,8 @@
       </ng-container>
       <p *ngIf="startingWeightError" class="text-xs !text-red-600 mt-1">{{ startingWeightError }}</p>
     </div>
-    <div class="mb-4 relative" (mousedown)="checkCurrentWeightInteraction()">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-        Peso Attuale (kg)
-      </label>
-      <input
-        type="number"
-        [(ngModel)]="current_weight"
-        (blur)="updateCurrentWeight(); stopEditingIfEmpty('current', current_weight)"
-        (keydown.enter)="updateCurrentWeight()"
-        (ngModelChange)="stopEditingIfEmpty('current', current_weight)"
-        class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 inputtexts"
-        [ngClass]="{'savedcurrent': isCurrentWeightSaved, 'error-animation': isCurrentWeightErrorAnimation}"
-        placeholder="Inserisci peso attuale"
-        [disabled]="isProcessing || !isCurrentWeightEditable || starting_weight == null || starting_weight <= 0 || ideal_weight == null || ideal_weight <= 0"
-      >
-      <img
-        *ngIf="isCurrentWeightSaved && !isCurrentWeightEditable"
-        [src]="editIcon"
-        class="absolute right-2 top-10 w-4 h-4 cursor-pointer"
-        alt="Edit Icon"
-        (click)="enableEdit('current')"
-      >
-      <ng-container *ngIf="isCurrentWeightEditable && isCurrentWeightEditing">
-        <div
-          *ngIf="isCurrentWeightSaving"
-          class="absolute right-2 top-10 w-4 h-4 border-2 border-t-purple-600 rounded-full animate-spin"
-        ></div>
-        <img
-          *ngIf="!isCurrentWeightSaving"
-          [src]="saveIcon"
-          class="absolute right-2 top-10 w-4 h-4 cursor-pointer animate-pulse-check"
-          alt="Save Icon"
-          (click)="updateCurrentWeight()"
-        >
-      </ng-container>
-      <p *ngIf="currentWeightError" class="text-xs !text-red-600 mt-1">{{ currentWeightError }}</p>
-    </div>
+    <!--FINE CAMPO PESO INIZIALE-->
+    <!--INIZIO CAMPO PESO IDEALE-->
     <div class="mb-4 relative">
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
         Peso Ideale (kg)
@@ -227,6 +193,46 @@
       </ng-container>
       <p *ngIf="idealWeightError" class="text-xs !text-red-600 mt-1">{{ idealWeightError }}</p>
     </div>
+    <!--FINE CAMPO PESO IDEALE-->
+    <!--INIZIO CAMPO PEZO ATTUALE-->
+    <div class="mb-4 relative" (mousedown)="checkCurrentWeightInteraction()">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Peso Attuale (kg)
+      </label>
+      <input
+        type="number"
+        [(ngModel)]="current_weight"
+        (blur)="updateCurrentWeight(); stopEditingIfEmpty('current', current_weight)"
+        (keydown.enter)="updateCurrentWeight()"
+        (ngModelChange)="stopEditingIfEmpty('current', current_weight)"
+        class="w-full p-2 border rounded-lg dark:bg-gray-800 dark:text-white dark:border-gray-600 inputtexts"
+        [ngClass]="{'savedcurrent': isCurrentWeightSaved, 'error-animation': isCurrentWeightErrorAnimation}"
+        placeholder="Inserisci peso attuale"
+        [disabled]="isProcessing || !isCurrentWeightEditable || starting_weight == null || starting_weight <= 0 || ideal_weight == null || ideal_weight <= 0"
+      >
+      <img
+        *ngIf="isCurrentWeightSaved && !isCurrentWeightEditable"
+        [src]="editIcon"
+        class="absolute right-2 top-10 w-4 h-4 cursor-pointer"
+        alt="Edit Icon"
+        (click)="enableEdit('current')"
+      >
+      <ng-container *ngIf="isCurrentWeightEditable && isCurrentWeightEditing">
+        <div
+          *ngIf="isCurrentWeightSaving"
+          class="absolute right-2 top-10 w-4 h-4 border-2 border-t-purple-600 rounded-full animate-spin"
+        ></div>
+        <img
+          *ngIf="!isCurrentWeightSaving"
+          [src]="saveIcon"
+          class="absolute right-2 top-10 w-4 h-4 cursor-pointer animate-pulse-check"
+          alt="Save Icon"
+          (click)="updateCurrentWeight()"
+        >
+      </ng-container>
+      <p *ngIf="currentWeightError" class="text-xs !text-red-600 mt-1">{{ currentWeightError }}</p>
+    </div>
+    <!--FINE CAMPO PESO ATTUALE-->
     <div class="text-center text-sm text-gray-700 dark:text-gray-300">
       <ng-container *ngIf="!isProcessing; else spinner">
         <!-- Punti guadagnati dalla perdita di peso: {{ points_earned }} -->
