@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, EmbeddedViewRef, ViewContainerRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -22,11 +22,15 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
   toastMessage: string = '';
   isDarkTheme: boolean = true;
   isAssigning50Points: boolean = false;
+  private toastTimeout: any;
 
   famcoin = environment.famcoin; // Variabile per icona Famcoin
 
 
   private themeSubscription: Subscription;
+
+  @ViewChild('toastTemplate') toastTemplate!: TemplateRef<any>;
+  toastRef: EmbeddedViewRef<any> | null = null;
 
   private toastMessages: string[] = [
     'Stiamo esagerando oggi',
@@ -34,7 +38,7 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
     'Mhmm..così non va bene'
   ];
 
-  constructor(private http: HttpClient, private themeService: ThemeService) {
+  constructor(private http: HttpClient, private vcr: ViewContainerRef, private themeService: ThemeService) {
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
       //console.log('Theme changed, isDark:', isDark); // Debug
       this.isDarkTheme = isDark;
@@ -64,6 +68,15 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.themeSubscription.unsubscribe();
+
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+
+    if (this.toastRef) {
+      this.toastRef.destroy();
+      this.toastRef = null;
+    }
   }
 
   get progressWidth(): number {
@@ -127,11 +140,43 @@ export class TrackingCardSmokeComponent implements OnInit, OnDestroy {
     });
   }
 
-  private showToastMessage() {
+  // private showToastMessage() {
+  //   this.toastMessage = this.toastMessages[Math.floor(Math.random() * this.toastMessages.length)];
+  //   this.showToast = true;
+  //   setTimeout(() => {
+  //     this.showToast = false;
+  //   }, 3000);
+  // }
+    showToastMessage() {
+    //this.toastMessage = message;
     this.toastMessage = this.toastMessages[Math.floor(Math.random() * this.toastMessages.length)];
-    this.showToast = true;
-    setTimeout(() => {
-      this.showToast = false;
+
+    // Mostra dinamicamente il toast nel body
+    if (this.toastRef) {
+      this.toastRef.destroy(); // Elimina eventuale vecchio toast
+    }
+
+    this.toastRef = this.vcr.createEmbeddedView(this.toastTemplate);
+    document.body.appendChild(this.toastRef.rootNodes[0]);
+
+    // Timeout per nascondere il toast
+    if (this.toastTimeout) {
+      clearTimeout(this.toastTimeout);
+    }
+    this.toastTimeout = setTimeout(() => {
+      this.hideToast();
     }, 3000);
-  }
+    }
+
+    hideToast() {
+      if (this.toastRef) {
+        this.toastRef.destroy();
+        this.toastRef = null;
+      }
+      this.toastMessage = '';
+      if (this.toastTimeout) {
+        clearTimeout(this.toastTimeout);
+        this.toastTimeout = null;
+      }
+    }
 }
