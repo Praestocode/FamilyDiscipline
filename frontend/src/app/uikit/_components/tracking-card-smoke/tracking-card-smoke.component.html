@@ -1,9 +1,24 @@
 <!-- Toast Notification -->
-<div *ngIf="showToast" class="fixed top-4 right-4 z-50 max-w-xs toast-wrapper">
+<!-- <div *ngIf="showToast" class="fixed top-4 right-4 z-50 max-w-xs toast-wrapper">
   <div id="smoketoastnotification" class="toast-notification border-2 border-red-600 text-red-600 px-4 py-3 rounded-lg shadow-lg animate-slide-down">
     {{ toastMessage }}
   </div>
-</div>
+</div> -->
+
+<!-- toast-template.component.html -->
+<ng-template #toastTemplate>
+  <div
+    class="fixed top-4 right-4 z-50 max-w-xs w-[90vw]"
+    id="toastContainer"
+  >
+    <div
+      id="smoketoastnotification" class="toast-notification border-2 border-red-600 text-red-600 px-4 py-3 rounded-lg shadow-lg animate-slide-down"
+    >
+      {{ toastMessage }}
+    </div>
+  </div>
+</ng-template>
+
 
 <!-- Placeholder -->
 <ng-container *ngIf="isLoading; else cardContent">
