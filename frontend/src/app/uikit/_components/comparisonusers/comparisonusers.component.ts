@@ -176,7 +176,7 @@ export class ComparisonusersComponent implements OnInit, OnDestroy, AfterViewIni
       fill: {
         type: 'gradient',
         gradient: {
-          opacityFrom: 0.15, //0.55
+          opacityFrom: 0.35, //0.55
           opacityTo: 0,
           shade: isDarkTheme ? '#1C64F2' : '#1A56DB',
           gradientToColors: [isDarkTheme ? '#1C64F2' : '#1A56DB']
