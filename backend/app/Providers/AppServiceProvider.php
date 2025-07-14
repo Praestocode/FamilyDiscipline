@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\URL;
 use App\Models\User;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +18,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
         // Registra l'UserObserver
         User::observe(UserObserver::class);
 
