@@ -19,5 +19,3 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
-
-CMD ["php", "artisan", "schedule:run"]
