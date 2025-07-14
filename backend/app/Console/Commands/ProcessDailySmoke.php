@@ -6,6 +6,7 @@ use App\Models\Cigarette;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ProcessDailySmoke extends Command
 {
@@ -14,6 +15,9 @@ class ProcessDailySmoke extends Command
 
     public function handle()
     {
+        Log::info('[Cron] Reset tasks eseguito');
+        $this->info('Daily tasks points and completion status reset completed.');
+        
         $users = User::where('int_smoke', true)->get();
 
         foreach ($users as $user) {
