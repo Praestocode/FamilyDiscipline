@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Task;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ProcessDailyTasks extends Command
 {
@@ -12,6 +13,9 @@ class ProcessDailyTasks extends Command
 
     public function handle()
     {
+        Log::info('[Cron] Reset tasks eseguito');
+        $this->info('Daily tasks points and completion status reset completed.');
+        
         $tasks = Task::all();
 
         foreach ($tasks as $task) {
