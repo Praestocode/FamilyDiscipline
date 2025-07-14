@@ -1,0 +1,29 @@
+services:
+  - type: cron
+    name: laravel-daily-cron
+    env: docker
+    branch: main
+    schedule: "0 22 * * *" # ogni giorno alle 00:00 ora italiana (22:00 UTC)
+    command: php artisan schedule:run
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        sync: false
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        value: <INSERISCI_HOST_DB>
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: <INSERISCI_NOME_DB>
+      - key: DB_USERNAME
+        value: <INSERISCI_UTENTE_DB>
+      - key: DB_PASSWORD
+        sync: false
+      - key: SESSION_DRIVER
+        value: database
+    rootDir: backend
+    plan: starter
+    region: frankfurt
