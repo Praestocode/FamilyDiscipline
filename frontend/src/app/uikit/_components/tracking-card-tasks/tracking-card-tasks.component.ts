@@ -407,7 +407,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
       } else {
         this.pointsEarnedWeekend = 0;
       }
-      this.showToastMessage(`Card ${this.resetCardType === 'weekday' ? 'feriale' : 'festiva'} resettata con successo.`);
+      this.showToastMessage(`Agenda ${this.resetCardType === 'weekday' ? 'feriale' : 'festiva'} resettata con successo.`);
     } catch (err) {
       console.error('Errore durante il reset della card:', err);
       this.showToastMessage('Errore durante il reset della card.');
