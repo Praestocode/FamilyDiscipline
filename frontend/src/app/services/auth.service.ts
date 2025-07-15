@@ -59,6 +59,8 @@ export class AuthService {
 
 
   //Poi va sostituita con quella del file .txt
+  private getUserCounter = 0;
+
   getUser(): Observable<any> {
     this.getUserCounter++;
     console.log('inizio debug - attivato');
