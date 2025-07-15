@@ -16,8 +16,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         \Log::info('Schedule command check at '.now().' timezone: '.config('app.timezone'));
-        $schedule->command('smoke:process-daily')->dailyAt('13:10');
-        $schedule->command('tasks:process-daily')->dailyAt('13:10');
+        $schedule->command('smoke:process-daily')->dailyAt('13:25');
+        $schedule->command('tasks:process-daily')->dailyAt('13:25');
     }
 
     protected function commands()
