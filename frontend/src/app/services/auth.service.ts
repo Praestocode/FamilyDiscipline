@@ -57,22 +57,19 @@ export class AuthService {
     return this.isLoggedInSubject.asObservable();
   }
 
-private getUserCounter = 0;
 
 getUser(): Observable<any> {
   this.getUserCounter++;
   console.log(`[auth.service] getUser() #${this.getUserCounter}`);
+  console.trace(`[auth.service] Stack trace per getUser() #${this.getUserCounter}`);
 
   const token = this.getToken();
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-  });
+  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
   return this.http.get(`${this.apiUrl}/user`, { headers }).pipe(
     tap(() => console.log(`[auth.service] >>> CHIAMATA HTTP /user #${this.getUserCounter}`))
   );
 }
-
 
 
 
