@@ -60,6 +60,7 @@ export class AuthService {
 
 getUser(): Observable<any> {
   this.getUserCounter++;
+  console.log('inizio debug - attivato');
   console.log(`[auth.service] getUser() #${this.getUserCounter}`);
   console.trace(`[auth.service] Stack trace per getUser() #${this.getUserCounter}`);
 
