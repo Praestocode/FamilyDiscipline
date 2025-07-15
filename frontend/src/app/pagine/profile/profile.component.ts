@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
       next: (data: any) => {
         this.http.get<{ id: number, name: string }[]>(this.apiUrl+'/statuses').subscribe({
           next: (statuses) => {
+            console.log('eseguo getUser da profilecomponent.ts');
             const status = statuses.find(s => s.id === data.status_id);
             this.user = {
               name: data.name,
