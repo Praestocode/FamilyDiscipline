@@ -54,13 +54,10 @@ public function show()
     $end = microtime(true);
     $duration = number_format(($end - $start) * 1000, 2); // in ms
 
-    \Log::channel('single')->info("/api/user elaborata in {$duration}ms");
+    \Log::info(">> /api/user elaborata in {$duration}ms");
 
     return response()->json($data);
 }
-
-
-
 
 
 public function pointsHistory()
