@@ -57,16 +57,22 @@ export class AuthService {
     return this.isLoggedInSubject.asObservable();
   }
 
-  getUser(): Observable<any> {
-    if(environment.consolelog)(console.log('mi eseguo getuser'));
-    console.log('eseguo getUser da authservice.ts');
-    const token = this.getToken();
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+private getUserCounter = 0;
 
-    return this.http.get(`${this.apiUrl}/user`, { headers });
-  }
+getUser(): Observable<any> {
+  this.getUserCounter++;
+  console.log(`[auth.service] getUser() #${this.getUserCounter}`);
+
+  const token = this.getToken();
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`,
+  });
+
+  return this.http.get(`${this.apiUrl}/user`, { headers }).pipe(
+    tap(() => console.log(`[auth.service] >>> CHIAMATA HTTP /user #${this.getUserCounter}`))
+  );
+}
+
 
 
 
