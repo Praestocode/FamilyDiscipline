@@ -58,19 +58,20 @@ export class AuthService {
   }
 
 
-getUser(): Observable<any> {
-  this.getUserCounter++;
-  console.log('inizio debug - attivato');
-  console.log(`[auth.service] getUser() #${this.getUserCounter}`);
-  console.trace(`[auth.service] Stack trace per getUser() #${this.getUserCounter}`);
-
-  const token = this.getToken();
-  const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
-  return this.http.get(`${this.apiUrl}/user`, { headers }).pipe(
-    tap(() => console.log(`[auth.service] >>> CHIAMATA HTTP /user #${this.getUserCounter}`))
-  );
-}
+  //Poi va sostituita con quella del file .txt
+  getUser(): Observable<any> {
+    this.getUserCounter++;
+    console.log('inizio debug - attivato');
+    console.log(`[auth.service] getUser() #${this.getUserCounter}`);
+    console.trace(`[auth.service] Stack trace per getUser() #${this.getUserCounter}`);
+  
+    const token = this.getToken();
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  
+    return this.http.get(`${this.apiUrl}/user`, { headers }).pipe(
+      tap(() => console.log(`[auth.service] >>> CHIAMATA HTTP /user #${this.getUserCounter}`))
+    );
+  }
 
 
 
