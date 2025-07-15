@@ -35,7 +35,10 @@ public function index()
 
 public function show()
 {
+    $start = microtime(true);
+
     $user = User::with('status')->find(Auth::id());
+
     $data = [
         'name' => $user->name,
         'status_id' => $user->status_id,
@@ -47,8 +50,15 @@ public function show()
         'int_weight' => $user->int_weight,
         'int_smoke' => $user->int_smoke,
     ];
+
+    $end = microtime(true);
+    $duration = number_format(($end - $start) * 1000, 2); // in ms
+
+    \Log::channel('single')->info("/api/user elaborata in {$duration}ms");
+
     return response()->json($data);
 }
+
 
 
 
