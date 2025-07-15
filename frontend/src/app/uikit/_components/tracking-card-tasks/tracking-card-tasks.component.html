@@ -55,7 +55,7 @@
       Conferma Reset
     </h4>
     <p class="text-sm text-gray-600 dark:text-gray-300 mb-6">
-      Sei sicuro di voler cancellare tutte le task della card {{ resetCardType === 'weekday' ? 'feriale' : 'festiva' }}? Questa azione è irreversibile.
+      Sei sicuro di voler cancellare tutte le task dell'agenda {{ resetCardType === 'weekday' ? 'feriale' : 'festiva' }}? Questa azione è irreversibile.
     </p>
     <div class="flex justify-end space-x-2">
       <button
@@ -93,7 +93,7 @@
   <div id="weekday-card" *ngIf="isWeekday || showOtherCard" class="card rounded-lg shadow-md p-4 w-full max-w-md mx-auto mb-4">
     <div class="flex justify-between items-center mb-2">
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-        {{ isWeekday ? currentDay : 'Card Feriale (Lun-Ven)' }}
+        {{ isWeekday ? currentDay : 'Agenda Feriale (Lun-Ven)' }}
       </h3>
       <div class="flex items-center space-x-2">
         <!--TEST SCROLL TO OTHER CARD BEGINS-->
@@ -276,7 +276,7 @@
   <div id="weekend-card" *ngIf="!isWeekday || showOtherCard" class="card rounded-lg shadow-md p-4 w-full max-w-md mx-auto mb-4">
     <div class="flex justify-between items-center mb-2">
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-        {{ !isWeekday ? currentDay : 'Card Festiva (Sab-Dom)' }}
+        {{ !isWeekday ? currentDay : 'Agenda Festiva (Sab-Dom)' }}
       </h3>
       <div class="flex items-center space-x-2">
         <!--TEST SCROLL TO OTHER CARD BEGINS-->
@@ -464,7 +464,7 @@
       (click)="toggleOtherCard()"
       [disabled]="isProcessing"
     >
-      Imposta card {{ isWeekday ? 'festiva' : 'feriale' }}
+      Imposta agenda {{ isWeekday ? 'festiva' : 'feriale' }}
     </button>
     <button
       *ngIf="showOtherCard"
