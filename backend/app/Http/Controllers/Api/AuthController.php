@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        // Log solo in ambiente non di produzione, se vuoi
+        // Log solo in ambiente non di produzione
         if (app()->environment('local', 'staging')) {
             \Log::info('[DEBUG] Inizio metodo login', ['email' => $request->email]);
         }
