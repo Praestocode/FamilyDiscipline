@@ -60,7 +60,7 @@ export class AuthService {
 
   getUser(): Observable<any> {
       if(environment.consolelog)(console.log('mi eseguo getuser'));
-      console.log('eseguo getUser da authservice.ts');
+      //console.log('eseguo getUser da authservice.ts');
       const token = this.getToken();
       const headers = new HttpHeaders({
         Authorization: `Bearer ${token}`,
