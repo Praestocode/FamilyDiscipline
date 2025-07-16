@@ -296,6 +296,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
     const targetTasks = type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
     this.isDeleting.set(task.id!, true);
+    console.log('eseguo deleteTask da tarckingcardtasks.ts'); // da togliere dopo il debug
     this.http.delete(`${environment.apiUrl}/tasks/delete/${task.id!}`).subscribe({
       next: () => {
         targetTasks[hourIndex] = targetTasks[hourIndex].filter((_, idx) => idx !== taskIndex);
@@ -400,6 +401,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
     try {
       await lastValueFrom(this.http.delete(`${environment.apiUrl}/tasks/reset/${this.resetCardType}`));
+      console.log('eseguo reset tasks da trackingcardtasks.ts');
       this.tasksWeekday = this.resetCardType === 'weekday' ? Array(18).fill([]).map(() => []) : this.tasksWeekday;
       this.tasksWeekend = this.resetCardType === 'weekend' ? Array(18).fill([]).map(() => []) : this.tasksWeekend;
       if (this.resetCardType === 'weekday') {
