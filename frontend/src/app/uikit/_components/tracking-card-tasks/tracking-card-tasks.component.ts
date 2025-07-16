@@ -337,6 +337,8 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
     this.isProcessing = true;
 
+    console.log('eseguo task complete da trackingcardtasks.ts'); //da togliere dopo il debug
+
     this.http.post(`${environment.apiUrl}/tasks/complete`, {
       id: task.id,
       completed: newCompletedState
