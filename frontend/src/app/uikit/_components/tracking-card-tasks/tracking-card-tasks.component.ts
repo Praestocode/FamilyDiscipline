@@ -401,7 +401,6 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
     try {
       await lastValueFrom(this.http.delete(`${environment.apiUrl}/tasks/reset/${this.resetCardType}`));
-      console.log('eseguo reset tasks da trackingcardtasks.ts');
       this.tasksWeekday = this.resetCardType === 'weekday' ? Array(18).fill([]).map(() => []) : this.tasksWeekday;
       this.tasksWeekend = this.resetCardType === 'weekend' ? Array(18).fill([]).map(() => []) : this.tasksWeekend;
       if (this.resetCardType === 'weekday') {
@@ -409,6 +408,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
       } else {
         this.pointsEarnedWeekend = 0;
       }
+      console.log('eseguo reset tasks da trackingcardtasks.ts'); // da togliere dopo il debug
       this.showToastMessage(`Agenda ${this.resetCardType === 'weekday' ? 'feriale' : 'festiva'} resettata con successo.`);
     } catch (err) {
       console.error('Errore durante il reset della card:', err);
