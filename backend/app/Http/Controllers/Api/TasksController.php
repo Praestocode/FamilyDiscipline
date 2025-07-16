@@ -151,6 +151,8 @@ class TasksController extends Controller
         if ($oldPointsEarned > 0) {
             $task->points_earned -= $oldPointsEarned;
             $user->discipline_points = ($user->discipline_points ?? 0) - $oldPointsEarned;
+            // Riga di codice aggiunta per fix
+            $user->total_points_earned_by_tasks_so_far = ($user->total_points_earned_by_tasks_so_far ?? 0) - $oldPointsEarned;
             $user->save();
         }
 
