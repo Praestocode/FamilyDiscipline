@@ -296,7 +296,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
     const targetTasks = type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
     this.isDeleting.set(task.id!, true);
-    console.log('eseguo deleteTask da tarckingcardtasks.ts'); // da togliere dopo il debug
+    //console.log('eseguo deleteTask da tarckingcardtasks.ts'); // da commentare dopo il debug
     this.http.delete(`${environment.apiUrl}/tasks/delete/${task.id!}`).subscribe({
       next: () => {
         targetTasks[hourIndex] = targetTasks[hourIndex].filter((_, idx) => idx !== taskIndex);
@@ -337,7 +337,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
     this.isProcessing = true;
 
-    console.log('eseguo task complete da trackingcardtasks.ts'); //da togliere dopo il debug
+    //console.log('eseguo task complete da trackingcardtasks.ts'); //da commentare dopo il debug
 
     this.http.post(`${environment.apiUrl}/tasks/complete`, {
       id: task.id,
@@ -410,7 +410,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
       } else {
         this.pointsEarnedWeekend = 0;
       }
-      console.log('eseguo reset tasks da trackingcardtasks.ts'); // da togliere dopo il debug
+      //console.log('eseguo reset tasks da trackingcardtasks.ts'); // da commentare dopo il debug
       this.showToastMessage(`Agenda ${this.resetCardType === 'weekday' ? 'feriale' : 'festiva'} resettata con successo.`);
     } catch (err) {
       console.error('Errore durante il reset della card:', err);
