@@ -56,9 +56,14 @@
       </div>
       <div *ngIf="!isLoading && weightUsers.length > 0 && selectedWeightUser" class="details-container mb-2">
         <div class="text-xs text-gray-600 dark:text-gray-400">
-          <p><strong>{{ selectedWeightUser.name }}</strong> ({{ selectedWeightUser.total_points_earned_by_weight_so_far }} punti): Peso attuale: {{ selectedWeightUser.weight_details.current_weight | number:'1.1-1' }} kg</p>
+          <!-- <p><strong>{{ selectedWeightUser.name }}</strong> ({{ selectedWeightUser.total_points_earned_by_weight_so_far }} punti): Peso attuale: {{ selectedWeightUser.weight_details.current_weight | number:'1.1-1' }} kg</p>
           <p>Peso ideale: {{ selectedWeightUser.weight_details.ideal_weight | number:'1.1-1' }} kg</p>
-          <p>Mancano: {{ (selectedWeightUser.weight_details.current_weight - selectedWeightUser.weight_details.ideal_weight) | number:'1.1-1' }} kg</p>
+          <p>Mancano: {{ (selectedWeightUser.weight_details.current_weight - selectedWeightUser.weight_details.ideal_weight) | number:'1.1-1' }} kg</p> -->
+
+          <p><strong><span class="bigDot"></span> Punti totali:</strong> {{ selectedWeightUser.total_points_earned_by_weight_so_far }}</p>
+          <p><strong><span class="bigDot"></span> Peso attuale:</strong> {{ selectedWeightUser.weight_details.current_weight | number:'1.1-1' }} kg</p>
+          <p><strong><span class="bigDot"></span> Peso ideale:</strong> {{ selectedWeightUser.weight_details.ideal_weight | number:'1.1-1' }} kg</p>
+          <p><strong><span class="bigDot"></span> Mancano:</strong> {{ (selectedWeightUser.weight_details.current_weight - selectedWeightUser.weight_details.ideal_weight) | number:'1.1-1' }} kg</p>
         </div>
       </div>
     </div>
@@ -83,7 +88,10 @@
       </div>
       <div *ngIf="!isLoading && tasksUsers.length > 0 && selectedTasksUser" class="details-container mb-2">
         <div class="text-xs text-gray-600 dark:text-gray-400">
-          <p><strong>{{ selectedTasksUser.name }}</strong> ({{ selectedTasksUser.total_points_earned_by_tasks_so_far }} punti): Tasks oggi: {{ selectedTasksUser.tasks_details.completed_tasks_today }}/{{ selectedTasksUser.tasks_details.total_tasks_today }} completate</p>
+          <!-- <p><strong>{{ selectedTasksUser.name }}</strong> ({{ selectedTasksUser.total_points_earned_by_tasks_so_far }} punti): Tasks oggi: {{ selectedTasksUser.tasks_details.completed_tasks_today }}/{{ selectedTasksUser.tasks_details.total_tasks_today }} completate</p> -->
+
+          <p><strong><span class="bigDot"></span> Punti totali:</strong> {{ selectedTasksUser.total_points_earned_by_tasks_so_far }}</p>
+          <p><strong><span class="bigDot"></span> Tasks oggi:</strong> {{ selectedTasksUser.tasks_details.completed_tasks_today }}/{{ selectedTasksUser.tasks_details.total_tasks_today }} completate</p>
         </div>
       </div>
     </div>
