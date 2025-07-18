@@ -47,6 +47,16 @@
   margin-left: 1rem;
   line-height: 1.4;
   margin-bottom: 1rem;
+  //Nuovo codice .bigDot
+      .bigDot {
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        background-color: currentColor;
+        border-radius: 50%;
+        margin: 0 6px;
+        transform: translateY(-1px); /* alza leggermente il puntino */
+    }
 }
 
 .toggle-container {
