@@ -29,9 +29,9 @@
           <!-- <p><strong>{{ selectedSmokeUser.name }}</strong> ({{ selectedSmokeUser.total_points_earned_by_smoke_so_far }} punti): Sigarette fumate oggi: {{ selectedSmokeUser.smoke_details.count }}/{{ selectedSmokeUser.smoke_details.limit }}</p>
           <p>Rispetta il limite di {{selectedSmokeUser.smoke_details.limit}} sigarette da: {{ selectedSmokeUser.smoke_details.consecutive_days }} giorni, {{ selectedSmokeUser.smoke_details.consecutive_weeks }} settimane</p> -->
 
-          <p><strong>Punti totali:</strong>{{selectedSmokeUser.total_points_earned_by_smoke_so_far}}</p>
-          <p><strong>Sigarette fumate oggi:</strong>{{selectedSmokeUser.smoke_details.count}}/{{selectedSmokeUser.smoke_details.limit}}</p>
-          <p><strong>Rispetta il limite di {{selectedSmokeUser.smoke_details.smoke_details.limit}} sigarette da: </strong>{{ selectedSmokeUser.smoke_details.consecutive_days }} giorni, {{ selectedSmokeUser.smoke_details.consecutive_weeks }} settimane</p>
+          <p><strong>Punti totali:</strong> {{selectedSmokeUser.total_points_earned_by_smoke_so_far}}</p>
+          <p><strong>Sigarette fumate oggi:</strong> {{selectedSmokeUser.smoke_details.count}}/{{selectedSmokeUser.smoke_details.limit}}</p>
+          <p><strong>Rispetta il limite di {{selectedSmokeUser.smoke_details.smoke_details.limit}} sigarette da:</strong> {{ selectedSmokeUser.smoke_details.consecutive_days }} giorni, {{ selectedSmokeUser.smoke_details.consecutive_weeks }} settimane</p>
         </div>
       </div>
     </div>
