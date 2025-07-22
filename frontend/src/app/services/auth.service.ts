@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap, BehaviorSubject, forkJoin, catchError } from 'rxjs';
+import { Observable, tap, BehaviorSubject, forkJoin, catchError, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { CryptoService } from './crypto.service.ts.service';
 
 interface LoginResponse {
   user: any;
@@ -19,7 +20,9 @@ export class AuthService {
   private userPreferencesKey = 'user_preferences';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private cryptoService: CryptoService, private router: Router) {
+    this.cryptoService.loadKeyFromStorage();
+  }
 
   login(email: string, password: string): Observable<LoginResponse> {
     return this.http
@@ -27,6 +30,10 @@ export class AuthService {
       .pipe(
         tap((response) => {
           localStorage.setItem(this.tokenKey, response.token);
+
+          // Salva anche l'email per usi futuri (come la derivazione della chiave)
+          //localStorage.setItem('user_email', email);
+
           this.isLoggedInSubject.next(true);
           // Dopo il login, ottieni i dati utente
           this.fetchUserPreferences();
@@ -39,6 +46,8 @@ export class AuthService {
       tap(() => {
         localStorage.removeItem(this.tokenKey);
         localStorage.removeItem(this.userPreferencesKey);
+        localStorage.removeItem('enc_key');
+        //localStorage.removeItem('user_email');
         this.isLoggedInSubject.next(false);
         this.router.navigate(['/login']);
       })
@@ -143,67 +152,34 @@ export class AuthService {
       })
     );
   }
-}
 
-
-/* import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, tap, BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
-
-interface LoginResponse {
-  user: any;
-  token: string;
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
-  private tokenKey = 'auth_token';
-  private isLoggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
-
-  constructor(private http: HttpClient, private router: Router) {}
-
-  login(email: string, password: string): Observable<LoginResponse> {
-    return this.http
-      .post<LoginResponse>(`${this.apiUrl}/login`, { email, password })
-      .pipe(
-        tap((response) => {
-          localStorage.setItem(this.tokenKey, response.token);
-          this.isLoggedInSubject.next(true);
-        })
-      );
+  //Nuovo
+  changePassword(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/user/change-password`, data);
   }
 
-  logout(): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
-      tap(() => {
-        localStorage.removeItem(this.tokenKey);
-        this.isLoggedInSubject.next(false);
-        this.router.navigate(['/login']);
+  //Nuovo
+  getUserTasks(): Observable<any[]> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.get<{ tasks: any[] }>(`${this.apiUrl}/tasks`, { headers }).pipe(
+      map(response => response.tasks || []),
+      catchError(error => {
+        console.error('Errore caricamento tasks:', error);
+        throw error;
       })
     );
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
-  }
 
-  getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+  //Nuovo
+  updateAllTasks(tasks: { id: number, description: string }[]): Observable<any> {
+    const token = this.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.post(`${this.apiUrl}/tasks/update-all`, { tasks }, { headers });
   }
-
-  isLoggedIn$(): Observable<boolean> {
-    return this.isLoggedInSubject.asObservable();
-  }
-
-  getUser(): Observable<any> {
-  const token = this.getToken();
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`,
-  });
-    return this.http.get(`${this.apiUrl}/user`, { headers });
-  }
-} */
+}

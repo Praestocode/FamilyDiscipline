@@ -38,19 +38,19 @@ class UserSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
-                // [
-                //     'name' => 'Luca',
-                //     'email' => 'lucadeangelis98@gmail.com',
-                //     'password' => Hash::make('luca98@!FDMultiTask?@&RT'),
-                //     'discipline_points' => 0,
-                //     'status_id' => 1, // coglioncello
-                //     'profile_picture' => 'images/lucapp.webp',
-                //     'int_tasks' => true,
-                //     'int_weight' => false,
-                //     'int_smoke' => true,
-                //     'created_at' => now(),
-                //     'updated_at' => now(), //'updated_at' => Carbon::today()->subDays(4), // Inattivo (4 giorni fa)
-                // ],
+                [
+                    'name' => 'Luca',
+                    'email' => 'lucadeangelis98@gmail.com',
+                    'password' => Hash::make('luca98@!FDMultiTask?@&RT'),
+                    'discipline_points' => 0,
+                    'status_id' => 1, // coglioncello
+                    'profile_picture' => 'images/lucapp.webp',
+                    'int_tasks' => true,
+                    'int_weight' => false,
+                    'int_smoke' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(), //'updated_at' => Carbon::today()->subDays(4), // Inattivo (4 giorni fa)
+                ],
                 [
                     'name' => 'Lucy',
                     'email' => 'lucia.dngls@gmail.com',
@@ -64,32 +64,32 @@ class UserSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ],
-                // [
-                //     'name' => 'Anna',
-                //     'email' => 'annapalmisio04@gmail.com',
-                //     'password' => Hash::make('anna04@!PalmisiottiFD88$$@!'),
-                //     'discipline_points' => 0,
-                //     'status_id' => 1, // coglioncello
-                //     'profile_picture' => 'images/anna.webp',
-                //     'int_tasks' => true,
-                //     'int_weight' => false,
-                //     'int_smoke' => true,
-                //     'created_at' => now(),
-                //     'updated_at' => now(),
-                // ],
-                // [
-                //     'name' => 'Daniele',
-                //     'email' => 'daniele96@gmail.com',
-                //     'password' => Hash::make('daniele96@!Weight7899@??$$'),
-                //     'discipline_points' => 0,
-                //     'status_id' => 1, // coglioncello
-                //     'profile_picture' => 'images/daniele.webp',
-                //     'int_tasks' => true,
-                //     'int_weight' => false,
-                //     'int_smoke' => true,
-                //     'created_at' => now(),
-                //     'updated_at' => now(),
-                // ],
+                [
+                    'name' => 'Anna',
+                    'email' => 'annapalmisio04@gmail.com',
+                    'password' => Hash::make('anna04@!PalmisiottiFD88$$@!'),
+                    'discipline_points' => 0,
+                    'status_id' => 1, // coglioncello
+                    'profile_picture' => 'images/anna.webp',
+                    'int_tasks' => true,
+                    'int_weight' => false,
+                    'int_smoke' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'name' => 'Daniele',
+                    'email' => 'daniele96@gmail.com',
+                    'password' => Hash::make('daniele96@!Weight7899@??$$'),
+                    'discipline_points' => 0,
+                    'status_id' => 1, // coglioncello
+                    'profile_picture' => 'images/daniele.webp',
+                    'int_tasks' => true,
+                    'int_weight' => false,
+                    'int_smoke' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
                 // [
                 //     'name' => 'Emil',
                 //     'email' => 'emil02@gmail.com',

@@ -1,0 +1,111 @@
+<!-- Skeleton loader -->
+<div *ngIf="isLoading" class="animate-pulse max-w-sm p-6 rounded-lg shadow-sm border"
+     [ngClass]="isDarkTheme ? 'bg-gray-700 border-gray-600' : 'bg-gray-200 border-gray-300'">
+  <div class="h-4 bg-gray-500 rounded w-1/2 mb-4"></div>
+  <div class="space-y-2">
+    <div class="h-3 bg-gray-500 rounded w-3/4"></div>
+    <div class="h-3 bg-gray-500 rounded w-2/3"></div>
+    <div class="h-3 bg-gray-500 rounded w-5/6"></div>
+    <div class="h-3 bg-gray-500 rounded w-1/2"></div>
+  </div>
+</div>
+
+<!-- Infocard reale -->
+<div *ngIf="!isLoading" class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 scroll-smooth infocard">
+    <div class="titleSectionTitle">
+        <h5 class="mb-2 text-lg font-semibold tracking-tight text-gray-900 dark:text-white smalltitle">Sicurezza e privacy</h5>
+    </div>
+    <div class="infocardBody">
+        <div class="legendaSection">
+            <div class="legendaSectionTitle" id="capitolo1">
+            </div>
+            <ol class="space-y-4 text-gray-500 list-decimal list-inside dark:text-gray-400 text-sm">
+                <li>
+                    <span class="smalltitle">Misure adottate:</span>
+                    <p class="text-xs">
+                        Sebbene questo sia un progetto amatoriale la privacy e la sicurezza sono le priorità assolute. La comprensione dei sistemi utilizzati è la base indispensabile per garantire protezione.
+                        <br>
+                        <br>
+                        <strong>Quali sistemi vengono utilizzati in Family Discipline?</strong>
+                        <br>
+                        <br>
+                        <span>
+                            <ul>
+                                <li><strong>Password: </strong>Le password non vengono mai salvate in chiaro. Sono sottoposte a hashing sicuro lato backend prima di essere memorizzate. Non sono recuperabili neanche da chi gestisce il server.</li>
+                                <br>
+                                <li><strong>Tasks: </strong>I dati delle task sono cifrati lato client con AES-256-GCM utilizzando una chiave derivata in modo sicuro (Argon2id). La chiave di cifratura non viene mai inviata al server.</li>
+                            </ul>
+                        </span>
+                    </p>
+                </li>
+                <li class="mt-6">
+                <span class="smalltitle">NO sugarcoating</span>
+                    <p class="text-xs">
+                        Nessun sistema è perfetto e invulnerabile, anche questa app ha delle criticità.
+                        <br><br>
+                        <strong>Vulnerabilità potenziali:</strong>
+                        <span style="font-size: 1em;">
+                        <ul class="list-disc list-inside mt-2">
+                        <li>
+                            Se il dispositivo viene compromesso (malware, spyware, estensioni malevole), anche una cifratura forte può essere aggirata, poiché la chiave è presente in memoria temporanea per permettere l'uso dell'app.
+                        </li>
+                        <li>
+                            Le chiavi di cifratura vengono derivate da credenziali utente: se queste sono deboli (es. password facili da indovinare), la sicurezza complessiva si riduce.
+                        </li>
+                        <!-- <li>
+                            L’app non è open-source, quindi il codice non è stato sottoposto ad audit esterni. Tuttavia, questo riduce anche la probabilità di exploit pubblici mirati.
+                        </li> -->
+                        </ul>
+                            <br>
+                            <strong>Perché comunque ti puoi sentire al sicuro:</strong>
+                            <ul class="list-disc list-inside mt-2">
+                            <li>L’app è chiusa: non esiste un sistema di registrazione, e solo gli utenti autorizzati possono accedervi.</li>
+                            <li>I campi di input sono pochi e tutti sottoposti a escaping per prevenire attacchi XSS.</li>
+                            <li>La superficie d’attacco è ridotta e il valore dei dati limitato, rendendo l’app un target poco interessante per attori malevoli.</li>
+                            </ul>
+                    </span>
+                </li>
+
+                <li>
+                    <span class="smalltitle">Best practice:</span>
+                    <p class="text-xs">
+                        <!-- Per proteggere al meglio i tuoi dati, utilizza una password robusta, lunga e unica per questa app, diversa da quelle che usi su altri siti o servizi. 
+                        Effettua regolarmente il logout per rimuovere le chiavi sensibili dal browser e evita di utilizzare dispositivi condivisi o non sicuri per accedere all’app. -->
+                        <span>
+                            <strong>(Buone pratiche consigliate)</strong>
+                            <ul class="list-disc list-inside mt-2">
+                            <li>Utilizza una password forte e unica per l’app, diversa da quelle che usi su altri siti o servizi.</li>
+                            <li>Evita di usare l'app su dispositivi non sicuri o compromessi</li> <!-- o rootati.-->
+                            <li>Non condividere mai le tue credenziali e proteggi l’accesso fisico al dispositivo.</li>
+                            <li>Chiudi la sessione (logout) quando non usi l’app, soprattutto su dispositivi condivisi per rimuovere le chiavi sensibili dal browser</li>
+                        </ul>
+                        </span>
+                    </p>
+                </li>
+                <li>
+                    <span class="smalltitle">Utilizzo dei tuoi dati:</span>
+                    <p class="text-xs">
+                        Nessun dato degli utenti viene raccolto o utilizzato per scopi di marketing, pubblicità o profilazione — <strong>e non lo sarà mai.</strong> 
+                        <br><br>
+                        Sono considerati <strong>pubblici</strong> soltanto i dati strettamente necessari al funzionamento dell’app, come il numero di sigarette e il peso, (per es. per la sezione 'confronti'). 
+                        <br>
+                        Le task e ogni informazione sensibile sono invece trattate come <strong>private</strong> e protette tramite <strong>funzioni di hash (one way)</strong> o <strong>client side encryption</strong>.
+                    </p>
+                </li>
+                <li>
+                    <span class="smalltitle">Aumentare sicurezza e privacy:</span>
+                    <p class="text-xs">
+                        Vuoi aumentare ulteriormente la sicurezza all'interno dell'app o capire di più sui sistemi adottati in <strong class="text-sm">Family Discipline &trade;</strong> ? Non esitare a chiedere nel nostro gruppo Whatsapp.
+                    </p>
+                </li>
+            </ol>
+        </div>
+        <hr class="mt-3 mb-3" style="margin-bottom: 3px !important;">
+        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+            <br>
+            <strong>Virgilio</strong>
+            <br>
+            <strong>Centobrooklyn, 22/07/2025</strong>
+        </p>
+    </div>
+</div>

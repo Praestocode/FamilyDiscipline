@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
@@ -38,6 +41,7 @@ public function show()
     $user = User::with('status')->find(Auth::id());
     $data = [
         'name' => $user->name,
+        'email' => $user->email,
         'status_id' => $user->status_id,
         'status' => $user->status->name,
         'status_icon' => url($user->status->icon_path),
@@ -152,4 +156,36 @@ public function pointsHistory()
 
     return response()->json($users);
 }
+
+    //Nuovo metodo
+    public function changePassword(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Errore di validazione.',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!Hash::check($request->input('old_password'), $user->password)) {
+            return response()->json([
+                'message' => 'La vecchia password non è corretta.'
+            ], 403);
+        }
+
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return response()->json([
+            'message' => 'Password aggiornata con successo.'
+        ]);
+    }
 }

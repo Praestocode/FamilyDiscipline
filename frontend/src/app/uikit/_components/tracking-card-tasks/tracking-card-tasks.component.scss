@@ -14,6 +14,20 @@
   .counterpointsearned{
     color: #1B924A;
   }
+  hr{
+    border-color: var(--text-color) !important;
+  }
+  .encryptionDiv{
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 18px !important;
+    span,
+    img{
+      padding: 0px !important;
+      margin: 2px !important;
+    }
+  }
 }
 
 table {

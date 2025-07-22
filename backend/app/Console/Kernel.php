@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\ProcessDailySmoke::class,
         Commands\ProcessDailyTasks::class,
+        Commands\CreateNewUser::class,
     ];
 
     protected function schedule(Schedule $schedule)
