@@ -17,8 +17,7 @@ class CreateNewUser extends Command
                             {password} 
                             {--tasks=0} 
                             {--smoke=0} 
-                            {--weight=0}
-                            {--picture=}';
+                            {--weight=0}';
 
     protected $description = 'Crea un nuovo utente con record associati per tasks, cigarettes e weights';
 
@@ -27,7 +26,6 @@ class CreateNewUser extends Command
         $name = $this->argument('name');
         $email = $this->argument('email');
         $password = $this->argument('password');
-        $picture = $this->option('picture') ?? null;
 
         $int_tasks = $this->option('tasks') == '1';
         $int_smoke = $this->option('smoke') == '1';
@@ -50,7 +48,6 @@ class CreateNewUser extends Command
             'email' => $email,
             'password' => Hash::make($password),
             'status_id' => 1,
-            'profile_picture' => $picture,
             'int_tasks' => $int_tasks,
             'int_smoke' => $int_smoke,
             'int_weight' => $int_weight,
