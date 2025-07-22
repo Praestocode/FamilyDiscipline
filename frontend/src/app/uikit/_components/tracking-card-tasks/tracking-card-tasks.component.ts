@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription, lastValueFrom } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ThemeService } from '../../../services/theme.service';
+import { CryptoService } from '../../../services/crypto.service.ts.service';
 
 interface Task {
   id?: string;
@@ -51,7 +52,7 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
   @ViewChild('toastTemplate') toastTemplate!: TemplateRef<any>;
   toastRef: EmbeddedViewRef<any> | null = null;
 
-  constructor(private http: HttpClient, private vcr: ViewContainerRef, private themeService: ThemeService) {
+  constructor(private http: HttpClient, private vcr: ViewContainerRef, private cryptoService: CryptoService, private themeService: ThemeService) {
     this.themeSubscription = this.themeService.isDarkTheme$.subscribe(isDark => {
       this.isDarkTheme = isDark;
     });
@@ -89,49 +90,104 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
     this.isWeekday = day >= 1 && day <= 5;
   }
 
-  loadData() {
-    this.isLoading = true;
-    this.http.get(`${environment.apiUrl}/tasks`).subscribe({
-      next: (data: any) => {
-        this.tasksWeekday = Array(18).fill([]).map(() => []);
-        this.tasksWeekend = Array(18).fill([]).map(() => []);
-        this.pointsEarnedWeekday = 0;
-        this.pointsEarnedWeekend = 0;
+  // loadData() {
+  //   this.isLoading = true;
+  //   this.http.get(`${environment.apiUrl}/tasks`).subscribe({
+  //     next: (data: any) => {
+  //       this.tasksWeekday = Array(18).fill([]).map(() => []);
+  //       this.tasksWeekend = Array(18).fill([]).map(() => []);
+  //       this.pointsEarnedWeekday = 0;
+  //       this.pointsEarnedWeekend = 0;
 
-        data.tasks.forEach((task: any) => {
-          const timeParts = task.time.split(':');
-          const normalizedTime = `${parseInt(timeParts[0], 10)}:${timeParts[1]}`;
-          const hourIndex = parseInt(timeParts[0], 10) - 5;
+  //       data.tasks.forEach((task: any) => {
+  //         const timeParts = task.time.split(':');
+  //         const normalizedTime = `${parseInt(timeParts[0], 10)}:${timeParts[1]}`;
+  //         const hourIndex = parseInt(timeParts[0], 10) - 5;
 
-          if (hourIndex >= 0 && hourIndex < 18) {
-            const targetTasks = task.type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
-            const newTask: Task = {
-              id: task.id,
-              description: task.description,
-              time: normalizedTime,
-              completed: task.completed,
-              points_earned: task.points_earned
-            };
-            targetTasks[hourIndex] = [...(targetTasks[hourIndex] || []), newTask];
-            if (task.completed) {
-              if (task.type === 'weekday') {
-                this.pointsEarnedWeekday += task.points_earned;
-              } else {
-                this.pointsEarnedWeekend += task.points_earned;
-              }
+  //         if (hourIndex >= 0 && hourIndex < 18) {
+  //           const targetTasks = task.type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
+  //           const newTask: Task = {
+  //             id: task.id,
+  //             description: task.description,
+  //             time: normalizedTime,
+  //             completed: task.completed,
+  //             points_earned: task.points_earned
+  //           };
+  //           targetTasks[hourIndex] = [...(targetTasks[hourIndex] || []), newTask];
+  //           if (task.completed) {
+  //             if (task.type === 'weekday') {
+  //               this.pointsEarnedWeekday += task.points_earned;
+  //             } else {
+  //               this.pointsEarnedWeekend += task.points_earned;
+  //             }
+  //           }
+  //         }
+  //       });
+
+  //       this.isLoading = false;
+  //       //console.log('Dati caricati:', data);
+  //     },
+  //     error: (err) => {
+  //       console.error('Errore caricamento dati:', err);
+  //       this.isLoading = false;
+  //     }
+  //   });
+  // }
+  async loadData() {
+  this.isLoading = true;
+  this.tasksWeekday = Array(18).fill([]).map(() => []);
+  this.tasksWeekend = Array(18).fill([]).map(() => []);
+  this.pointsEarnedWeekday = 0;
+  this.pointsEarnedWeekend = 0;
+
+  this.http.get(`${environment.apiUrl}/tasks`).subscribe({
+    next: async (data: any) => {
+      for (const task of data.tasks) {
+        const timeParts = task.time.split(':');
+        const normalizedTime = `${parseInt(timeParts[0], 10)}:${timeParts[1]}`;
+        const hourIndex = parseInt(timeParts[0], 10) - 5;
+
+        if (hourIndex >= 0 && hourIndex < 18) {
+          let descriptionDecrypted = task.description;
+
+          try {
+            // Se la descrizione è criptata (stringa con formato iv:ciphertext)
+            if (typeof task.description === 'string' && task.description.includes(':')) {
+              descriptionDecrypted = await this.cryptoService.decryptTask(task.description);
+            }
+          } catch (e) {
+            console.error('Errore decriptazione task:', e);
+            descriptionDecrypted = task.description; // fallback a testo in chiaro
+          }
+
+          const targetTasks = task.type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
+          const newTask: Task = {
+            id: task.id,
+            description: descriptionDecrypted,
+            time: normalizedTime,
+            completed: task.completed,
+            points_earned: task.points_earned
+          };
+          targetTasks[hourIndex] = [...(targetTasks[hourIndex] || []), newTask];
+
+          if (task.completed) {
+            if (task.type === 'weekday') {
+              this.pointsEarnedWeekday += task.points_earned;
+            } else {
+              this.pointsEarnedWeekend += task.points_earned;
             }
           }
-        });
-
-        this.isLoading = false;
-        //console.log('Dati caricati:', data);
-      },
-      error: (err) => {
-        console.error('Errore caricamento dati:', err);
-        this.isLoading = false;
+        }
       }
-    });
-  }
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Errore caricamento dati:', err);
+      this.isLoading = false;
+    }
+  });
+}
+
 
   hasTasks(type: 'weekday' | 'weekend'): boolean {
     const targetTasks = type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
@@ -187,53 +243,97 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
     }, 0);
   }
 
-  saveTask() {
-    //console.log('saveTask called', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
-    if (!this.editingTask || !this.newTaskDescription.trim()) {
-      //console.log('saveTask exited early', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
-      this.cancelEdit();
-      return;
-    }
+  // saveTask() {
+  //   //console.log('saveTask called', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
+  //   if (!this.editingTask || !this.newTaskDescription.trim()) {
+  //     //console.log('saveTask exited early', { editingTask: this.editingTask, newTaskDescription: this.newTaskDescription });
+  //     this.cancelEdit();
+  //     return;
+  //   }
 
-    const { index, taskIndex, type } = this.editingTask;
-    const targetTasks = type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
-    const task = targetTasks[index][taskIndex];
+  //   const { index, taskIndex, type } = this.editingTask;
+  //   const targetTasks = type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
+  //   const task = targetTasks[index][taskIndex];
 
-    this.isSaving = true;
+  //   this.isSaving = true;
+  //   const payload = {
+  //     description: this.newTaskDescription,
+  //     time: this.hours[index],
+  //     type,
+  //     id: task.id || null
+  //   };
+
+  //   //console.log('Saving task with payload:', payload);
+
+  //   const endpoint = task.id ? `${environment.apiUrl}/tasks/update` : `${environment.apiUrl}/tasks/create`;
+  //   this.http.post(endpoint, payload, { observe: 'response' }).subscribe({
+  //     next: (response: any) => {
+  //       //console.log('Risposta backend:', response);
+  //       const updatedTask: Task = {
+  //         id: response.body.task?.id || task.id,
+  //         description: this.newTaskDescription,
+  //         time: this.hours[index],
+  //         completed: task.completed,
+  //         points_earned: task.points_earned
+  //       };
+  //       targetTasks[index][taskIndex] = updatedTask;
+  //       this.editingTask = null;
+  //       this.newTaskDescription = '';
+  //       this.isSaving = false;
+  //       this.isSaveIconClicked = false;
+  //     },
+  //     error: (err) => {
+  //       console.error('Errore salvataggio task:', err);
+  //       this.isSaving = false;
+  //       this.isSaveIconClicked = false;
+  //       this.showToastMessage('Errore durante il salvataggio del compito.');
+  //     }
+  //   });
+  // }
+
+  async saveTask() {
+  if (!this.editingTask || !this.newTaskDescription.trim()) {
+    this.cancelEdit();
+    return;
+  }
+
+  const { index, taskIndex, type } = this.editingTask;
+  const targetTasks = type === 'weekday' ? this.tasksWeekday : this.tasksWeekend;
+  const task = targetTasks[index][taskIndex];
+
+  this.isSaving = true;
+
+  try {
+    const encryptedDescription = await this.cryptoService.encryptTask(this.newTaskDescription);
+
     const payload = {
-      description: this.newTaskDescription,
+      description: encryptedDescription,  // manda la descrizione criptata
       time: this.hours[index],
       type,
       id: task.id || null
     };
 
-    //console.log('Saving task with payload:', payload);
-
     const endpoint = task.id ? `${environment.apiUrl}/tasks/update` : `${environment.apiUrl}/tasks/create`;
-    this.http.post(endpoint, payload, { observe: 'response' }).subscribe({
-      next: (response: any) => {
-        //console.log('Risposta backend:', response);
-        const updatedTask: Task = {
-          id: response.body.task?.id || task.id,
-          description: this.newTaskDescription,
-          time: this.hours[index],
-          completed: task.completed,
-          points_earned: task.points_earned
-        };
-        targetTasks[index][taskIndex] = updatedTask;
-        this.editingTask = null;
-        this.newTaskDescription = '';
-        this.isSaving = false;
-        this.isSaveIconClicked = false;
-      },
-      error: (err) => {
-        console.error('Errore salvataggio task:', err);
-        this.isSaving = false;
-        this.isSaveIconClicked = false;
-        this.showToastMessage('Errore durante il salvataggio del compito.');
-      }
-    });
+    const response: any = await lastValueFrom(this.http.post(endpoint, payload, { observe: 'response' }));
+
+    const updatedTask: Task = {
+      id: response.body.task?.id || task.id,
+      description: this.newTaskDescription, // mostra testo in chiaro nell’interfaccia
+      time: this.hours[index],
+      completed: task.completed,
+      points_earned: task.points_earned
+    };
+    targetTasks[index][taskIndex] = updatedTask;
+    this.editingTask = null;
+    this.newTaskDescription = '';
+  } catch (err) {
+    console.error('Errore salvataggio task:', err);
+    this.showToastMessage('Errore durante il salvataggio del compito.');
+  } finally {
+    this.isSaving = false;
   }
+}
+
 
   cancelEdit() {
     if (!this.editingTask) return;
@@ -525,6 +625,10 @@ export class TrackingCardTasksComponent implements OnInit, OnDestroy, AfterViewI
 
   get calendarIcon() : string {
     return this.isDarkTheme ? '/assets/images/icons/calendarwhite.png' : '/assets/images/icons/calendarpurple.png';
+  }
+
+  get encryptionIcon() : string {
+  return this.isDarkTheme ? '/assets/images/icons/encryptionwhite.png' : '/assets/images/icons/encryptionpurple.png';
   }
 
   scrollToCurrentHour(type: 'weekday' | 'weekend') {

@@ -22,6 +22,8 @@ import { ComparisonsmokeComponent } from './_components/comparisonsmoke/comparis
 import { ComparisontasksComponent } from './_components/comparisontasks/comparisontasks.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ComparisonusersComponent } from './_components/comparisonusers/comparisonusers.component';
+import { ChangePasswordComponent } from './_components/change-password/change-password.component';
+import { InfosecuritycardComponent } from './_components/infosecuritycard/infosecuritycard.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { ComparisonusersComponent } from './_components/comparisonusers/comparis
     ComparisonsmokeComponent,
     ComparisontasksComponent,
     ComparisonusersComponent,
+    ChangePasswordComponent,
+    InfosecuritycardComponent,
   ],
   exports: [
     NavbarComponent,
@@ -64,6 +68,8 @@ import { ComparisonusersComponent } from './_components/comparisonusers/comparis
     ComparisonsmokeComponent,
     ComparisontasksComponent,
     ComparisonusersComponent,
+    ChangePasswordComponent,
+    InfosecuritycardComponent,
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class TasksController extends Controller
 {
@@ -273,4 +274,50 @@ class TasksController extends Controller
         $task->save();
         return response()->json(['message' => 'Tutte le task di tipo ' . $type . ' resettate']);
     }
+
+    //Nuovo metodo per aggiornare tasks nel cambio password che ottiene con KDF una nuova chiave derivata per crittare e decrittare tasks
+
+
+    public function updateAllTasks(Request $request)
+    {
+        $request->validate([
+            'tasks' => 'required|array',
+            'tasks.*.id' => 'required|string', // es. weekday_5_task_1
+            'tasks.*.description' => 'required|string|max:3000', // adatto ai tuoi ciphertext
+        ]);
+
+        /** @var User $user */
+        $user = Auth::user();
+
+        try {
+            DB::transaction(function () use ($request, $user) {
+                $taskRecord = Task::where('user_id', $user->id)->first();
+
+                if (!$taskRecord) {
+                    throw new \Exception('Record task non trovato per l’utente.');
+                }
+
+                foreach ($request->tasks as $taskData) {
+                    $column = $taskData['id'];
+
+                    // Verifica che il campo esista nella tabella
+                    if (!\Schema::hasColumn('tasks', $column)) {
+                        \Log::warning("Campo '{$column}' non esiste nella tabella tasks.");
+                        continue;
+                    }
+
+                    $taskRecord->{$column} = $taskData['description'];
+                }
+
+                $taskRecord->save();
+            });
+
+            return response()->json(['message' => 'Tutte le task sono state aggiornate correttamente'], 200);
+        } catch (\Throwable $e) {
+            \Log::error('Errore durante l’aggiornamento delle tasks: ' . $e->getMessage());
+            return response()->json(['error' => 'Errore durante l’aggiornamento delle tasks'], 500);
+        }
+    }
+
+
 }

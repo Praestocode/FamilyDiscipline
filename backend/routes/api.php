@@ -14,10 +14,11 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     //User
     Route::get('/users', [UserController::class, 'index']);
-    Route::get('/user', [UserController::class, 'show']); // Endpoint per l'utente autenticato
-    Route::get('/users/points-history', [UserController::class, 'pointsHistory']); // Nuova rotta per userpointshistory
+    Route::get('/user', [UserController::class, 'show']);
+    Route::get('/users/points-history', [UserController::class, 'pointsHistory']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/statuses', [StatusController::class, 'index']);
+    Route::post('/user/change-password', [UserController::class, 'changePassword']); //Nuova rotta
     //Smoke
     Route::get('/smoke', [SmokeController::class, 'getStatus']);
     Route::post('/smoke/increment', [SmokeController::class, 'increment']);
@@ -34,5 +35,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/tasks/update', [TasksController::class, 'updateTask']);
     Route::delete('/tasks/delete/{id}', [TasksController::class, 'deleteTask']);
     Route::post('/tasks/complete', [TasksController::class, 'completeTask']);
-    Route::delete('/tasks/reset/{type}', [TasksController::class, 'resetTasks']); // Nuova rotta
+    Route::delete('/tasks/reset/{type}', [TasksController::class, 'resetTasks']);
+    Route::post('/tasks/update-all', [TasksController::class, 'updateAllTasks']); //Nuova rotta
 });
