@@ -17,9 +17,10 @@ class CreateNewUser extends Command
                             {password} 
                             {--tasks=0} 
                             {--smoke=0} 
-                            {--weight=0}';
+                            {--weight=0}
+                            {--image=images/default.webp}';  // aggiunta opzione image
 
-    protected $description = 'Crea un nuovo utente con record associati per tasks, cigarettes e weights';
+    protected $description = 'Crea un nuovo utente con record associati per tasks, cigarettes e weights e immagine profilo';
 
     public function handle()
     {
@@ -30,6 +31,8 @@ class CreateNewUser extends Command
         $int_tasks = $this->option('tasks') == '1';
         $int_smoke = $this->option('smoke') == '1';
         $int_weight = $this->option('weight') == '1';
+
+        $image = $this->option('image');
 
 
         if (!($int_tasks || $int_smoke || $int_weight)) {
@@ -51,6 +54,7 @@ class CreateNewUser extends Command
             'int_tasks' => $int_tasks,
             'int_smoke' => $int_smoke,
             'int_weight' => $int_weight,
+            'profile_image' => $image,  // salvo percorso relativo all'immagine
         ]);
 
         $this->info("Utente creato con ID: {$user->id}");
