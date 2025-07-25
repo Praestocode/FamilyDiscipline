@@ -33,8 +33,10 @@
 
 [ Angular PWA ] ←→ [ Laravel API ] ←→ [ MySQL DB ]
 
+---
 
-📦 Deploy online
+📦 Deploy online:
+
 🌐 Frontend: https://familydiscipline.it
 
 🧠 Backend API: Render.com - Laravel API (privato)
