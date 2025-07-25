@@ -45,17 +45,21 @@
 
 🔑 Dominio: familydiscipline.it (OVH)
 
+---
+
 🧪 Sicurezza: 
 
-AES-256-GCM con derivazione via Argon2id
+- AES-256-GCM con derivazione via Argon2id
 
-Validazione e sanificazione input lato Angular e Laravel
+- Validazione e sanificazione input lato Angular e Laravel
 
-Nessuna esecuzione JavaScript da input utente (anti-XSS)
+- Nessuna esecuzione JavaScript da input utente (anti-XSS)
 
-Nessuna esposizione di credenziali
+- Nessuna esposizione di credenziali
 
-Logout sicuro: tutte le chiavi temporanee vengono rimosse
+- Logout sicuro: tutte le chiavi temporanee vengono rimosse
+
+---
 
 🧑‍💻 Autore
 
@@ -69,11 +73,3 @@ Esperienza concreta in:
 - Deploy (Netlify, Render, Railway)
 - Sicurezza Web
 - Sviluppo PWA
-
-yaml
-Copia
-Modifica
-
----
-
-Fammi sapere se vuoi che il link alla demo punti al dominio reale (`https://familydi
