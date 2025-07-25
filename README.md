@@ -5,7 +5,7 @@
 
 ---
 
-## 🔧 Stack Tecnologico
+##  Stack Tecnologico
 
 | Componente | Tecnologie utilizzate |
 |-----------|------------------------|
@@ -17,7 +17,7 @@
 
 ---
 
-## 📱 Caratteristiche principali
+##  Caratteristiche principali
 
 - ✅ **Login sicuro** (senza registrazione pubblica)
 - ✅ **Crittografia client-side** di tutti i dati utente
@@ -29,25 +29,25 @@
 
 ---
 
-## 🧠 Architettura
+##  Architettura
 
 [ Angular PWA ] ←→ [ Laravel API ] ←→ [ MySQL DB ]
 
 ---
 
-📦 Deploy online:
+## Deploy online:
 
-🌐 Frontend: https://familydiscipline.it
+- Frontend: https://familydiscipline.it
 
-🧠 Backend API: Render.com - Laravel API (privato)
+- Backend API: Render.com - Laravel API (privato)
 
-🗃️ Database: Railway (privato)
+- Database: Railway (privato)
 
-🔑 Dominio: familydiscipline.it (OVH)
+- Dominio: familydiscipline.it (OVH)
 
 ---
 
-🧪 Sicurezza: 
+## Sicurezza: 
 
 - AES-256-GCM con derivazione via Argon2id
 
@@ -61,7 +61,7 @@
 
 ---
 
-🧑‍💻 Autore
+## Autore
 
 Virgilio Polini – Full stack web developer
 
