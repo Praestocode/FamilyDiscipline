@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'Virgilio',
                     'email' => 'virgiliopolini97@gmail.com',
-                    'password' => Hash::make('Nonmiinteressa1422@!FD'),
+                    'password' => Hash::make('password123'),
                     'discipline_points' => 0,
                     'status_id' => 1, // coglioncello
                     'profile_picture' => 'images/virgipp.webp',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'Riccardo',
                     'email' => 'riccardogiordano97@gmail.com',
-                    'password' => Hash::make('riccardo97@!FDRichieRich!?'),
+                    'password' => Hash::make('password123'),
                     'discipline_points' => 0,
                     'status_id' => 1, // coglioncello
                     'profile_picture' => 'images/richpp.webp',
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'Luca',
                     'email' => 'lucadeangelis98@gmail.com',
-                    'password' => Hash::make('luca98@!FDMultiTask?@&RT'),
+                    'password' => Hash::make('password123'),
                     'discipline_points' => 0,
                     'status_id' => 1, // coglioncello
                     'profile_picture' => 'images/lucapp.webp',
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'Lucy',
                     'email' => 'lucia.dngls@gmail.com',
-                    'password' => Hash::make('lucy72@!FDMammaPrimaEuropa?!@!'),
+                    'password' => Hash::make('password123'),
                     'discipline_points' => 0,
                     'status_id' => 1, // coglioncello
                     'profile_picture' => 'images/lucypp.webp',
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'Anna',
                     'email' => 'annapalmisio04@gmail.com',
-                    'password' => Hash::make('anna04@!PalmisiottiFD88$$@!'),
+                    'password' => Hash::make('password123'),
                     'discipline_points' => 0,
                     'status_id' => 1, // coglioncello
                     'profile_picture' => 'images/anna.webp',
@@ -80,7 +80,7 @@ class UserSeeder extends Seeder
                 [
                     'name' => 'Daniele',
                     'email' => 'daniele96@gmail.com',
-                    'password' => Hash::make('daniele96@!Weight7899@??$$'),
+                    'password' => Hash::make('password123'),
                     'discipline_points' => 0,
                     'status_id' => 1, // coglioncello
                     'profile_picture' => 'images/daniele.webp',
@@ -93,7 +93,7 @@ class UserSeeder extends Seeder
                 // [
                 //     'name' => 'Emil',
                 //     'email' => 'emil02@gmail.com',
-                //     'password' => Hash::make('emil02@!Zurich99@@7899'),
+                //     'password' => Hash::make('password123'),
                 //     'discipline_points' => 0,
                 //     'status_id' => 1, // coglioncello
                 //     'profile_picture' => 'images/emil.webp',
