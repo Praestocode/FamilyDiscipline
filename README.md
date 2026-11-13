@@ -1,75 +1,69 @@
-# Family Discipline ™
+# Family Discipline
 
-**Family Discipline** è una web app PWA full stack progettata per aiutare utenti e nuclei familiari a raggiungere obiettivi personali attraverso un sistema di tracciamento, premi e disciplina condivisa.
-È pensata per sostenere obiettivi come smettere di fumare, perdere peso o rispettare task quotidiani, in un contesto motivazionale.
+Full stack PWA that helps a household track shared personal goals (quitting smoking, losing weight, keeping daily tasks) through a points and status system.
 
----
+## Stack
 
-##  Stack Tecnologico
+| Layer | Technology |
+|---|---|
+| Frontend | Angular 17, Tailwind CSS, service worker (PWA) |
+| Backend | Laravel 12, PHP 8.2, REST API |
+| Auth | Laravel Sanctum (token based) |
+| Database | MySQL (Railway) |
+| Deploy | Netlify (frontend), Render (backend) |
 
-| Componente | Tecnologie utilizzate |
-|-----------|------------------------|
-| **Frontend** | Angular 17, PWA, SCSS |
-| **Backend** | Laravel 10 (API REST) |
-| **Database** | MySQL (Railway) |
-| **Deploy** | Netlify (frontend), Render (backend) |
-| **Sicurezza** | AES-256-GCM, Argon2id |
+## Features
 
----
+- Login only, no public registration: accounts are provisioned manually
+- Three trackers (cigarettes, weight and daily tasks), each feeding a shared points balance
+- Status levels unlocked by accumulated points
+- Daily dashboard with self-assessment and points history
+- Dark and light theme
+- Installable PWA with offline support
+- Responsive layout, designed mobile first
 
-##  Caratteristiche principali
+## Architecture
 
-- ✅ **Login sicuro** (senza registrazione pubblica)
-- ✅ **Crittografia client-side** di tutti i dati utente
-- ✅ **Sistema a punti e status** per ciascun obiettivo (fumo, peso, task)
-- ✅ **Dashboard giornaliera** per il monitoraggio e l’auto-valutazione
-- ✅ **Dark/light mode**
-- ✅ **Responsive design** per uso mobile
-- ✅ **PWA** con supporto offline, splash screen e installazione su dispositivi
+```
+Angular PWA  <-->  Laravel API  <-->  MySQL
+```
 
----
+The API is stateless and token authenticated. Sensitive user data is encrypted in the browser before being sent, so the backend stores ciphertext.
 
-##  Architettura
+## Security
 
-[ Angular PWA ] ←→ [ Laravel API ] ←→ [ MySQL DB ]
+- Key derivation with Argon2id (`@noble/hashes`), from the user password and a salt derived from the email
+- Payload encryption with AES-256-GCM via the Web Crypto API
+- Input validation and sanitisation on both the Angular and the Laravel side
+- No rendering of user input as HTML or script
+- On logout every temporary key is cleared
 
----
+## Repository layout
 
-## Deploy online:
+```
+backend/    Laravel API
+frontend/   Angular PWA
+```
 
-- Frontend: https://familydiscipline.it
+## Local setup
 
-- Backend API: Render.com - Laravel API (privato)
+Backend:
 
-- Database: Railway (privato)
+```bash
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+```
 
-- Dominio: familydiscipline.it (OVH)
+Frontend:
 
----
+```bash
+cd frontend
+npm install
+ng serve
+```
 
-## Sicurezza: 
-
-- AES-256-GCM con derivazione via Argon2id
-
-- Validazione e sanificazione input lato Angular e Laravel
-
-- Nessuna esecuzione JavaScript da input utente (anti-XSS)
-
-- Nessuna esposizione di credenziali
-
-- Logout sicuro: tutte le chiavi temporanee vengono rimosse
-
----
-
-## Autore
-
-Virgilio Polini – Full stack web developer
-
-Esperienza concreta in:
-
-- Angular
-- Laravel / PHP
-- Docker
-- Deploy (Netlify, Render, Railway)
-- Sicurezza Web
-- Sviluppo PWA
+Point the frontend to the local API through the environment configuration before starting it.
